@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SKFS – hodnocení</title>
+    <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+</head>
+<body>
+<div id="udajeHeader">
+    <img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/>
+    <div>
+        <label th:text="${clen.jmeno + ' ' + clen.prijmeni}" ></label>
+        <label th:text="${'ID: ' + clen.idFacr}"></label>
+        <label th:text="${'Role: ' + clen.role}"></label>
+    </div>
+    <img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/>
+</div>
+<div class="profilWrapper">
+    <div class="profilPolozka" th:if="${clen.role == 'Delegát'}">
+        <a th:href="@{/nova_zprava}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/create_icon.jpg}"/>
+                <label>Nová zpráva</label>
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka">
+        <a th:href="@{/posudky}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/list_icon.png}"/>
+                <label>Moje posudky</label>
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka">
+        <a th:href="@{/profil}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/profil_icon.png}"/>
+                <label>Profil</label>
+
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka">
+        <a th:href="@{/odhlasit}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/logout_icon.png}"/>
+                <label>Odhlásit</label>
+            </div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

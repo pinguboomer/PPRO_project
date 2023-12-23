@@ -1,0 +1,138 @@
+h1 {
+    color: red;
+}
+
+body {
+    background: #22222C;
+    color: white;
+}
+
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: content-box;
+}
+
+label {
+    width: 150px;
+    margin: auto;
+    display: block;
+    font-family: "Helvetica Neue", sans-serif;
+}
+
+/*----------------------*/
+.centeredContentWrapper {
+    margin: auto auto 50px auto;
+    color: white;
+    width: 500px;
+    text-align: center;
+}
+
+.formLogin {
+    text-align: center;
+    justify-content: center;
+}
+
+
+.radek {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.radioRadekLogin label {
+    justify-content: center;
+    text-align: center;
+}
+
+/* Styl pro radio buttony a labely */
+.radio-group {
+    display: flex;
+    flex-direction: column; /* Uspořádání pod sebou */
+}
+
+.radio-group label {
+    margin-bottom: 8px; /* Odstup mezi labely */
+}
+
+/* Styl pro radio buttony */
+.radio-group input[type="radio"] {
+    margin-right: 4px; /* Odstup mezi radio buttony */
+}
+
+#radioRadekLoginRow {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+/*----------------------*/
+.profilWrapper {
+    margin: auto auto 50px auto;
+    color: white;
+    width: 500px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.profilPolozka {
+    margin: 25px;
+    width: auto;
+}
+
+.profilPolozka label:hover{
+    cursor: pointer;
+}
+
+/*----------------------*/
+#udajeHeader {
+    margin: auto;
+    width: 500px;
+    text-align: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    display: flex;
+}
+
+.logoutHeader {
+    width: auto;
+}
+
+.logoutHeader label {
+    width: auto;
+}
+
+.logoutHeader label:hover{
+    cursor: pointer;
+}
+
+/*----------------------*/
+.infoProfilWrapper {
+    margin: 20px auto 50px auto;
+    width: 500px;
+}
+
+.infoProfilPolozka {
+    width: 500px;
+    justify-content: space-between;
+    /*border: 1px solid yellow;*/
+    text-align: left;
+    flex-wrap: nowrap;
+    display: flex;
+    margin: 10px;
+}
+
+
+.infoProfilPolozka label {
+    width: 200px;
+}

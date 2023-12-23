@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SKFS – hodnocení</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}" />
+</head>
+<body>
+<div class="centeredContentWrapper">
+  <img height="102" width="79" th:src="@{/css/img/logo-skfs.png}"/>
+  <h1>Přihlášení</h1>
+  <div class="formLogin">
+    <form method="POST" th:action="@{/login}" th:object="${clen}">
+      <div class="radek">
+        <label th:for="id_Facr">ID FAČR:</label>
+        <input name="idFacr" th:type="text" th:id="id_Facr" th:field="*{idFacr}" >
+
+      </div>
+      <div class="radek">
+        <label>Heslo:</label>
+        <input name="password" type="password" th:field="*{heslo}">
+      </div>
+      <span th:if="${#fields.hasErrors('idFacr')}" th:errors="*{idFacr}" style="color: white;"></span>
+      <div id="radioRadekLoginRow">
+        <div class="radioRadekLogin" th:each="g: ${roles}" th:field="*{role}">
+          <input type="radio" th:name="role" th:value="${g}" th:id="${'radio_' + g}" th:checked="${g == roles[0]}">
+          <label th:for="${'radio_' + g}" id="${'radio_' + g}" th:text="${g}"></label>
+        </div>
+      </div>
+      <div class="radek">
+        <input name="submit" type="submit" value="Přihlásit">
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
