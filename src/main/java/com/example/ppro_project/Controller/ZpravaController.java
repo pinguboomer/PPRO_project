@@ -63,7 +63,8 @@ public class ZpravaController {
         vlastnostiListFyzicka = vlastnostService.getVlastnostiByKategorie(KATEGORIE_FYZICKA);
         vlastnostiListSpoluprace = vlastnostService.getVlastnostiByKategorie(KATEGORIE_SPOLUPRACE);
         vlastnostiListKomentar = vlastnostService.getVlastnostiByKategorie(KATEGORIE_KOMENTAR);
-        vlastnostiListAR = vlastnostService.getVlastnostiByKategorie(KATEGORIE_AR);
+        vlastnostiListARPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPF);
+        vlastnostiListARPohyb = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPOHYB);
         model.addAttribute("clen", prihlasenyUzivatel);
         model.addAttribute("utkani", noveUtkani);
         model.addAttribute("novaZprava", novaZprava);
@@ -72,6 +73,13 @@ public class ZpravaController {
         model.addAttribute("hodnoceniAR2", hodnoceniAR2);
         model.addAttribute("rozhodciList", rozhodciList);
         model.addAttribute("delegatiList", delegatiList);
+        model.addAttribute("vlastnostiListPF", vlastnostiListPF);
+        model.addAttribute("vlastnostiListOT", vlastnostiListOT);
+        model.addAttribute("vlastnostiListFyzicka", vlastnostiListFyzicka);
+        model.addAttribute("vlastnostiListSpoluprace", vlastnostiListSpoluprace);
+        model.addAttribute("vlastnostiListKomentar", vlastnostiListKomentar);
+        model.addAttribute("vlastnostiListARPF", vlastnostiListARPF);
+        model.addAttribute("vlastnostiListARPohyb", vlastnostiListARPohyb);
         return "nova_zprava";
     }
 

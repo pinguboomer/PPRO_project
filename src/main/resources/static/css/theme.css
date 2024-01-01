@@ -136,12 +136,74 @@ label {
     width: auto;
 }
 
+.vlastnosti {
+    text-align: center;
+    width: 100%;
+}
+
+.vlastnosti select {
+    width: 90%;
+    text-overflow: ellipsis; /* Zobrazení elipsy pro přebytečný text */
+}
+
+.kladyZapory {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 18px 10px 10px;
+}
+
+.vlastnosti option {
+    white-space: normal;
+    text-overflow: ellipsis;
+    text-align: left;
+    width: 50%;
+}
+
+.custom-btn {
+    width: 130px;
+    height: 20px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    background: transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+
+.btn-1 {
+    background: rgb(6,14,131);
+    background: linear-gradient(0deg, rgba(6,14,131,1) 0%, rgba(12,25,180,1) 100%);
+    border: none;
+}
+
+.btn-1:hover {
+    background: rgb(0,3,255);
+    background: linear-gradient(0deg, rgb(0, 17, 255) 0%, rgba(2,126,251,1) 100%);
+}
+
 .listaDiv {
     margin-right: 10px;
     margin-left: 10px;
+    position: sticky;
 }
 
 .sipkaDiv{
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+}
+
+.sipkaDivHlavni{
+    width: 20px;
+    height: 20px;
+}
+
+.sipkaDivHlavni img{
     width: 20px;
     height: 20px;
 }
@@ -192,6 +254,23 @@ label {
 
 .infoProfilPolozka label {
     width: 200px;
+}
+
+
+.sticky-element {
+    position: sticky;
+    padding: 5px;
+    z-index:1000;
+    background: #22222C;
+    top: 0;
+    font-size: 25px;
+}
+
+.sticky-element_rozhodci {
+    position: sticky;
+    z-index:9999;
+    background: #22222C;
+    padding-top: 5px;
 }
 
 /*----------------------*/
@@ -270,6 +349,9 @@ input:disabled {
 table select{
     width: 75px;
 }
+
+
+
 
 /* CSS */
 .button-48 {
