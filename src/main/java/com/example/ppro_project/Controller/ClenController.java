@@ -16,10 +16,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+import static com.example.ppro_project.Constants.Constants.DELEGAT;
+import static com.example.ppro_project.Constants.Constants.ROZHODCI;
+
 @Controller
 public class ClenController {
 
-    private static ClenService clenService;
+    public static ClenService clenService;
     public static Clen prihlasenyUzivatel;
 
     @Value("Delegát, Rozhodčí")
@@ -31,12 +34,6 @@ public class ClenController {
     @Autowired
     public ClenController(ClenService clenService) {
         this.clenService = clenService;
-    }
-
-    @GetMapping("/clen/{id}")
-    @ResponseBody
-    public String clenDetail(@PathVariable int id){
-        return "";
     }
 
     //  @ResponseBody

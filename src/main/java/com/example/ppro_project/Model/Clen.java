@@ -96,7 +96,6 @@ public class Clen {
     @Column(name = "mesto")
     public String mesto;
 
-
     @Column(name = "psc")
     public String psc;
 

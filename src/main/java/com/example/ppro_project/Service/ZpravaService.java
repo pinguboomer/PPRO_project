@@ -15,4 +15,6 @@ public class ZpravaService {
     public ZpravaService(ZpravaRepository zpravaRepository) {
         this.zpravaRepository = zpravaRepository;
     }
+
+
 }

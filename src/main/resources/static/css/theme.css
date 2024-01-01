@@ -5,6 +5,7 @@ h1 {
 body {
     background: #22222C;
     color: white;
+    font-family: "Helvetica Neue", sans-serif;
 }
 
 
@@ -23,7 +24,7 @@ label {
     width: 150px;
     margin: auto;
     display: block;
-    font-family: "Helvetica Neue", sans-serif;
+
 }
 
 /*----------------------*/
@@ -90,8 +91,64 @@ label {
     width: auto;
 }
 
-.profilPolozka label:hover{
+.profilPolozka label:hover {
     cursor: pointer;
+}
+
+.radekNovaZprava {
+    display: flex;
+    margin: 0 10px 0 10px;
+}
+
+.radekVysledekNovaZprava {
+    display: flex;
+    margin: 0 10px 0 10px;
+}
+
+.radekVysledekNovaZprava input {
+    width: 40px;
+}
+
+.radekNovaZprava input {
+    height: auto;
+    width: 10%;
+}
+
+.invalid-input {
+    background: #CC0202;
+    color:white;
+}
+
+.radekKategorie {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.radekKategorie label {
+    width: auto;
+    margin: auto;
+    text-align: left;
+}
+
+.radekKategorie select {
+    margin-right: 10px;
+    width: auto;
+}
+
+.listaDiv {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.sipkaDiv{
+    width: 20px;
+    height: 20px;
+}
+
+.sipkaDiv img{
+    width: 20px;
+    height: 20px;
 }
 
 /*----------------------*/
@@ -112,7 +169,7 @@ label {
     width: auto;
 }
 
-.logoutHeader label:hover{
+.logoutHeader label:hover {
     cursor: pointer;
 }
 
@@ -135,4 +192,141 @@ label {
 
 .infoProfilPolozka label {
     width: 200px;
+}
+
+/*----------------------*/
+.novaZpravaWrapper {
+    margin: 20px auto 50px auto;
+    width: 500px;
+    border: 1px solid yellow;
+}
+
+.novaZprava {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.novaZprava input {
+    text-align: center;
+    width: 30%;
+    padding: 10px;
+    box-sizing: content-box;
+}
+
+.radekNovaZpravaRozhodci {
+    display: flex;
+    margin: 0 10px 0 10px;
+}
+
+.radekNovaZpravaRozhodci label{
+    margin-right: 15px;
+}
+
+.radekNovaZpravaRozhodci input {
+    text-align: left;
+    width: 70%;
+    padding: 10px;
+    box-sizing: content-box;
+    margin-right: 35px;
+}
+
+.utkaniNovaZprava {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.utkaniNovaZprava label {
+    width: auto;
+}
+
+.style_description {
+    text-align: justify;
+    border-top: 7px solid;
+    border-image-slice: 0.5;
+    border-image-source: radial-gradient(white 75%, #22222C 85%);
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+table input {
+    width: 140px;
+}
+
+table input[type="number"]{
+    width: 40px;
+}
+
+input:disabled {
+    background-color: white;
+    color: black;
+}
+
+table select{
+    width: 75px;
+}
+
+/* CSS */
+.button-48 {
+    appearance: none;
+    background-color: #FFFFFF;
+    border-width: 0;
+    box-sizing: border-box;
+    color: #000000;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Clarkson, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1em;
+    margin-left: 20px;
+    opacity: 1;
+    outline: 0;
+    padding: 0.6em 1.5em;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    text-rendering: geometricprecision;
+    text-transform: uppercase;
+    transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1), background-color 100ms cubic-bezier(.694, 0, 0.335, 1), color 100ms cubic-bezier(.694, 0, 0.335, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    white-space: nowrap;
+}
+
+.button-48:before {
+    animation: opacityFallbackOut .5s step-end forwards;
+    backface-visibility: hidden;
+    background-color: #EBEBEB;
+    clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translateZ(0);
+    transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+    width: 100%;
+}
+
+.button-48:hover:before {
+    animation: opacityFallbackIn 0s step-start forwards;
+    clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.button-48:after {
+    background-color: #FFFFFF;
+}
+
+.button-48 span {
+    z-index: 1;
+    position: relative;
 }

@@ -7,8 +7,8 @@
 </head>
 <body>
 <div id="udajeHeader">
-    <img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/>
-    <img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/>
+    <a th:href="@{/menu}"><img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/></a>
+    <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
     <div class="logoutHeader">
         <a th:href="@{/odhlasit}">
             <div>
@@ -20,8 +20,8 @@
 </div>
 <div class="infoProfilWrapper">
     <div class="infoProfilPolozka">
-            <label>Jméno:</label>
-            <label th:text="${clen.jmeno}"></label>
+        <label>Jméno:</label>
+        <label th:text="${clen.jmeno}"></label>
     </div>
     <div class="infoProfilPolozka">
         <label>Přijmení:</label>
@@ -29,17 +29,27 @@
     </div>
     <div class="infoProfilPolozka">
         <label>Email:</label>
-        <label th:text="${clen.email}"></label>
+        <label th:text="${clen.email} ?: ''"></label>
     </div>
     <div class="infoProfilPolozka">
         <label>Telefon:</label>
-        <label th:text="${clen.telefon}"></label>
+        <label th:text="${clen.telefon} ?: ''"></label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Jednotka:</label>
+        <label th:text="${clen.jednotka} ?: '-'"></label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Adresa:</label>
+        <label th:text="${(clen.ulice ?: '') + ' ' + (clen.mesto ?: '') + ' ' + (clen.psc ?: '')}"></label>
     </div>
     <div class="infoProfilPolozka" style="margin-top: 40px">
         <label>Počet zpráv:</label>
         <label>0</label>
     </div>
-    <a th:href="@{/menu}"><button method="post" >Zpět</button></a>
+    <a th:href="@{/menu}">
+        <button method="post">Zpět</button>
+    </a>
 </div>
 </div>
 </body>
