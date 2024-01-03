@@ -1,5 +1,6 @@
 package com.example.ppro_project.Controller;
 
+import com.example.ppro_project.Model.Soutez;
 import com.example.ppro_project.Service.SoutezService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Controller;
 public class SoutezController {
 
     public static SoutezService soutezService;
+
+    public static Soutez novaSoutez;
     @Autowired
     public SoutezController(SoutezService soutezService) {
         this.soutezService = soutezService;

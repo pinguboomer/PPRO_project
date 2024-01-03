@@ -1,5 +1,7 @@
 package com.example.ppro_project.Service;
 
+import com.example.ppro_project.Model.Soutez;
+import com.example.ppro_project.Model.Utkani;
 import com.example.ppro_project.Repository.SoutezRepository;
 import com.example.ppro_project.Repository.UtkaniRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,5 +15,9 @@ public class SoutezService {
     @Autowired
     public SoutezService(SoutezRepository soutezRepository) {
         this.soutezRepository = soutezRepository;
+    }
+
+    public Soutez getSoutezByZkratka(String zkratka) {
+        return soutezRepository.findByZkratka(zkratka);
     }
 }

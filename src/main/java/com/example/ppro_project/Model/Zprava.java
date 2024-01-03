@@ -21,10 +21,10 @@ public class Zprava {
     @Column(name = "idTD")
     public int idTD;
 
-    @Column(name = "dobaHryPrvniPolocas")
+    @Column(name = "dobahryprvnipolocas")
     public String dobaHryPrvniPolocas;
 
-    @Column(name = "dobaHryDruhyPolocas")
+    @Column(name = "dobahrydruhypolocas")
     public String dobaHryDruhyPolocas;
 
     public int nastaveniPrvniPolocas = 0;

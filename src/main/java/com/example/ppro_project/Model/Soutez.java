@@ -9,8 +9,6 @@ import java.util.Date;
 public class Soutez {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "zkratka")
     public String zkratka;
 
@@ -19,14 +17,6 @@ public class Soutez {
 
     @Column(name = "kategorie")
     public String kategorie;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getZkratka() {
         return zkratka;

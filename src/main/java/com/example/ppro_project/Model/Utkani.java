@@ -1,6 +1,7 @@
 package com.example.ppro_project.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Date;
 
@@ -9,8 +10,6 @@ import java.util.Date;
 public class Utkani {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "idUtkani")
     public String idUtkani;
 
@@ -22,6 +21,43 @@ public class Utkani {
 
     @Column(name = "hoste")
     public String hoste;
+
+    @Column(name = "stadion")
+    public String stadion;
+
+
+    public void dekodujKoloZIDUtkani(String idUtkani) {
+        if (idUtkani.length() > 4) {
+            String koloStr = idUtkani.substring(idUtkani.length() - 4, idUtkani.length() - 2);
+            try {
+                kolo = Integer.parseInt(koloStr);
+            } catch (NumberFormatException ignored) {
+            }
+        }
+    }
+
+    public String minutyDvojciferne(){
+        return String.format("%02d", datum.getMinutes());
+    }
+
+    @Transient
+    public int kolo;
+
+    public int getKolo() {
+        return kolo;
+    }
+
+    public void setKolo(int kolo) {
+        this.kolo = kolo;
+    }
+
+    public String getStadion() {
+        return stadion;
+    }
+
+    public void setStadion(String stadion) {
+        this.stadion = stadion;
+    }
 
     public String getIdUtkani() {
         return idUtkani;
@@ -55,11 +91,4 @@ public class Utkani {
         this.hoste = hoste;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

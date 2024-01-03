@@ -16,14 +16,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-import static com.example.ppro_project.Constants.Constants.DELEGAT;
-import static com.example.ppro_project.Constants.Constants.ROZHODCI;
+import static com.example.ppro_project.Constants.Constants.*;
+import static com.example.ppro_project.Controller.VlastnostController.*;
+import static com.example.ppro_project.Controller.VlastnostController.vlastnostService;
 
 @Controller
 public class ClenController {
 
     public static ClenService clenService;
     public static Clen prihlasenyUzivatel;
+
+    public static List<Clen> rozhodciList;
+    public static List<Clen> delegatiList;
 
     @Value("Delegát, Rozhodčí")
     private List<String> roles;
@@ -95,6 +99,15 @@ public class ClenController {
                     return "index";
                 }
                 prihlasenyUzivatel = authenticatedUser;
+                rozhodciList = clenService.getRozhodci();
+                delegatiList = clenService.getDelegati();
+                vlastnostiListPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_APLIKACE_PF);
+                vlastnostiListOT = vlastnostService.getVlastnostiByKategorie(KATEGORIE_OT);
+                vlastnostiListFyzicka = vlastnostService.getVlastnostiByKategorie(KATEGORIE_FYZICKA);
+                vlastnostiListSpoluprace = vlastnostService.getVlastnostiByKategorie(KATEGORIE_SPOLUPRACE);
+                vlastnostiListKomentar = vlastnostService.getVlastnostiByKategorie(KATEGORIE_KOMENTAR);
+                vlastnostiListARPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPF);
+                vlastnostiListARPohyb = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPOHYB);
                 return "redirect:menu";
             } else {
                 br.rejectValue("idFacr", "error.user", "Chybné údaje");
