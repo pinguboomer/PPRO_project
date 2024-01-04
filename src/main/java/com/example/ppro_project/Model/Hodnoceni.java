@@ -6,6 +6,15 @@ import jakarta.persistence.*;
 @Table(name = "Hodnoceni")
 public class Hodnoceni {
 
+    public Hodnoceni(){
+
+    }
+
+    public Hodnoceni(String roleR, int idZprava){
+        this.roleR = roleR;
+        this.idZprava = idZprava;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -17,6 +26,17 @@ public class Hodnoceni {
 
     @Column(name = "znamka")
     public String znamka = "8.3";
+
+    @Column(name = "znamka2")
+    public String znamka2;
+
+    public String getZnamka2() {
+        return znamka2;
+    }
+
+    public void setZnamka2(String znamka2) {
+        this.znamka2 = znamka2;
+    }
 
     public String getZnamkaHCH() {
         return znamkaHCH;

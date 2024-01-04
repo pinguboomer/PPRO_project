@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ClenRepository extends JpaRepository<Clen, Long> {
+public interface ClenRepository extends JpaRepository<Clen, Integer> {
     Clen findByIdFacrAndHeslo(String idFacr, String heslo);
 
     Clen save(Clen clen);
 
     List<Clen> findByRole(String role);
+    Clen findById(int id);
 }

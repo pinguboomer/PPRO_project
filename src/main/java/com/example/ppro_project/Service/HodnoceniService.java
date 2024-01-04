@@ -7,6 +7,8 @@ import com.example.ppro_project.Repository.SoutezRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HodnoceniService {
 
@@ -16,7 +18,7 @@ public class HodnoceniService {
     public HodnoceniService(HodnoceniRepository hodnoceniRepository) {
         this.hodnoceniRepository = hodnoceniRepository;
     }
-    public Hodnoceni getZpravaByIdZprava(int idZprava) {
+    public List<Hodnoceni> getHodnoceniByIdZprava(int idZprava) {
         return hodnoceniRepository.findByIdZprava(idZprava);
     }
 }

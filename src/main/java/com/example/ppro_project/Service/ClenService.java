@@ -31,4 +31,8 @@ public class ClenService {
     public List<Clen> getDelegati() {
         return clenRepository.findByRole(DELEGAT);
     }
+
+    public Clen getClenById(int idClen) {
+        return clenRepository.findById(idClen);
+    }
 }
