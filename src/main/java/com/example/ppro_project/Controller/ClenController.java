@@ -1,6 +1,7 @@
 package com.example.ppro_project.Controller;
 
 import com.example.ppro_project.Model.Clen;
+import com.example.ppro_project.Model.Zprava;
 import com.example.ppro_project.Repository.ClenRepository;
 import com.example.ppro_project.Service.ClenService;
 import jakarta.validation.Valid;
@@ -19,6 +20,7 @@ import java.util.List;
 import static com.example.ppro_project.Constants.Constants.*;
 import static com.example.ppro_project.Controller.VlastnostController.*;
 import static com.example.ppro_project.Controller.VlastnostController.vlastnostService;
+import static com.example.ppro_project.Controller.ZpravaController.zpravaService;
 
 @Controller
 public class ClenController {
@@ -29,12 +31,17 @@ public class ClenController {
     public static List<Clen> rozhodciList;
     public static List<Clen> delegatiList;
 
+    public static boolean maRozpracovane;
+
+    public static List<Zprava> zpravyClena;
+
     @Value("Delegát, Rozhodčí")
     private List<String> roles;
 
-    public static boolean jePrihlasenUzivatel(){
+    public static boolean jePrihlasenUzivatel() {
         return prihlasenyUzivatel != null;
     }
+
     @Autowired
     public ClenController(ClenService clenService) {
         this.clenService = clenService;
@@ -42,8 +49,8 @@ public class ClenController {
 
     //  @ResponseBody
     @GetMapping("/")
-    public String index(Model model){
-        if(jePrihlasenUzivatel()){
+    public String index(Model model) {
+        if (jePrihlasenUzivatel()) {
             return "redirect:menu";
         }
         if (!model.containsAttribute("clen")) {
@@ -54,8 +61,8 @@ public class ClenController {
     }
 
     @GetMapping("/menu")
-    public String menu(Model model){
-        if(!jePrihlasenUzivatel()){
+    public String menu(Model model) {
+        if (!jePrihlasenUzivatel()) {
             return "redirect:/";
         }
         model.addAttribute("clen", prihlasenyUzivatel);
@@ -63,8 +70,8 @@ public class ClenController {
     }
 
     @GetMapping("/profil")
-    public String profil(Model model){
-        if(!jePrihlasenUzivatel()){
+    public String profil(Model model) {
+        if (!jePrihlasenUzivatel()) {
             return "redirect:/";
         }
         model.addAttribute("clen", prihlasenyUzivatel);
@@ -72,19 +79,19 @@ public class ClenController {
     }
 
     @GetMapping("/odhlasit")
-    public String odhlasit(Model model){
+    public String odhlasit(Model model) {
         prihlasenyUzivatel = null;
         return "redirect:/";
     }
 
     @PostMapping("/login")
-    public String processLogin(@Valid @ModelAttribute("clen") Clen clen, BindingResult br, Model model){
+    public String processLogin(@Valid @ModelAttribute("clen") Clen clen, BindingResult br, Model model) {
         if (br.hasErrors()) {
             model.addAttribute("roles", roles);
             return "index";
         } else {
-            if(clen.getIdFacr() == null  || clen.getHeslo() == null
-                    || clen.getIdFacr().isEmpty() || clen.getHeslo().isEmpty() || clen.getIdFacr().length() > 10){
+            if (clen.getIdFacr() == null || clen.getHeslo() == null
+                    || clen.getIdFacr().isEmpty() || clen.getHeslo().isEmpty() || clen.getIdFacr().length() > 10) {
                 br.rejectValue("idFacr", "error.user", "Chybné údaje");
                 model.addAttribute("roles", roles);
                 return "index";
@@ -92,22 +99,14 @@ public class ClenController {
             Clen authenticatedUser =
                     clenService.getClenByIdFacrAndHeslo(clen.getIdFacr(), clen.getHeslo());
             if (authenticatedUser != null) {
-                if(!clen.getRole().equals(authenticatedUser.getRole())){
+                if (!clen.getRole().equals(authenticatedUser.getRole())) {
                     br.rejectValue("idFacr", "error.user",
                             "Člen není klasifikován jako " + clen.getRole().toLowerCase());
                     model.addAttribute("roles", roles);
                     return "index";
                 }
                 prihlasenyUzivatel = authenticatedUser;
-                rozhodciList = clenService.getRozhodci();
-                delegatiList = clenService.getDelegati();
-                vlastnostiListPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_APLIKACE_PF);
-                vlastnostiListOT = vlastnostService.getVlastnostiByKategorie(KATEGORIE_OT);
-                vlastnostiListFyzicka = vlastnostService.getVlastnostiByKategorie(KATEGORIE_FYZICKA);
-                vlastnostiListSpoluprace = vlastnostService.getVlastnostiByKategorie(KATEGORIE_SPOLUPRACE);
-                vlastnostiListKomentar = vlastnostService.getVlastnostiByKategorie(KATEGORIE_KOMENTAR);
-                vlastnostiListARPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPF);
-                vlastnostiListARPohyb = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPOHYB);
+                naplnAtributyClena();
                 return "redirect:menu";
             } else {
                 br.rejectValue("idFacr", "error.user", "Chybné údaje");
@@ -117,8 +116,32 @@ public class ClenController {
         }
     }
 
+    private void naplnAtributyClena() {
+        rozhodciList = clenService.getRozhodci();
+        delegatiList = clenService.getDelegati();
+        maRozpracovane = false;
+        if (prihlasenyUzivatel.getRole() == DELEGAT) {
+            zpravyClena = zpravaService.getZpravyByIdDFA(prihlasenyUzivatel.getId());
+        } else {
+            zpravyClena = zpravaService.getZpravyByIdRozhodci(prihlasenyUzivatel.getId());
+        }
+        for (Zprava zprava : zpravyClena) {
+            if (zprava.stav == 0) {
+                maRozpracovane = true;
+                break;
+            }
+        }
+        vlastnostiListPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_APLIKACE_PF);
+        vlastnostiListOT = vlastnostService.getVlastnostiByKategorie(KATEGORIE_OT);
+        vlastnostiListFyzicka = vlastnostService.getVlastnostiByKategorie(KATEGORIE_FYZICKA);
+        vlastnostiListSpoluprace = vlastnostService.getVlastnostiByKategorie(KATEGORIE_SPOLUPRACE);
+        vlastnostiListKomentar = vlastnostService.getVlastnostiByKategorie(KATEGORIE_KOMENTAR);
+        vlastnostiListARPF = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPF);
+        vlastnostiListARPohyb = vlastnostService.getVlastnostiByKategorie(KATEGORIE_ARPOHYB);
+    }
+
     @InitBinder
-    public void initBinder(WebDataBinder db){
+    public void initBinder(WebDataBinder db) {
         StringTrimmerEditor e = new StringTrimmerEditor(true);
         db.registerCustomEditor(String.class, e);
     }

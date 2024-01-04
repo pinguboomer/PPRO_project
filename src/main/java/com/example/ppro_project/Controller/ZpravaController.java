@@ -37,31 +37,31 @@ public class ZpravaController {
 
 
     @GetMapping("/nova_zprava")
-    public String novaZprava(Model model){
-        if(!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI){
+    public String novaZprava(Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
             noveUtkani = null;
             return "redirect:/";
         }
-        if(noveUtkani == null){
-            noveUtkani = new Utkani();
-        }
-        if(novaZprava == null){
-            novaZprava = new Zprava();
-        }
-        if(novaSoutez == null){
-            novaSoutez = new Soutez();
-        }
-        if(hodnoceniR == null){
-            hodnoceniR = new Hodnoceni();
-        }
-        if(hodnoceniAR1 == null){
-            hodnoceniAR1 = new Hodnoceni();
-        }
-        if(hodnoceniAR2 == null){
-            hodnoceniAR2 = new Hodnoceni();
+
+        if (noveUtkani == null) {
+            vynulujParametryZpravy();
         }
 
+        pridejAtributyDoModelu(model);
 
+        return "nova_zprava";
+    }
+
+    private void vynulujParametryZpravy() {
+        noveUtkani = new Utkani();
+        novaZprava = new Zprava();
+        novaSoutez = new Soutez();
+        hodnoceniR = new Hodnoceni();
+        hodnoceniAR1 = new Hodnoceni();
+        hodnoceniAR2 = new Hodnoceni();
+    }
+
+    private void pridejAtributyDoModelu(Model model) {
         model.addAttribute("clen", prihlasenyUzivatel);
         model.addAttribute("utkani", noveUtkani);
         model.addAttribute("soutez", novaSoutez);
@@ -78,55 +78,36 @@ public class ZpravaController {
         model.addAttribute("vlastnostiListKomentar", vlastnostiListKomentar);
         model.addAttribute("vlastnostiListARPF", vlastnostiListARPF);
         model.addAttribute("vlastnostiListARPohyb", vlastnostiListARPohyb);
-        return "nova_zprava";
     }
 
     @PostMapping("/nova_zprava/vyhledejUtkani")
     public String vyhledejUtkani(@Valid @ModelAttribute("utkani") Utkani utkani,
-                                 BindingResult br, Model model){
-        if(!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI){
+                                 BindingResult br, Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
             noveUtkani = null;
             return "redirect:/";
         }
-        if(noveUtkani == null){
-            noveUtkani = new Utkani();
-        }
-        if(novaZprava == null){
-            novaZprava = new Zprava();
-        }
-        if(hodnoceniR == null){
-            hodnoceniR = new Hodnoceni();
-        }
-        if(hodnoceniAR1 == null){
-            hodnoceniAR1 = new Hodnoceni();
-        }
-        if(hodnoceniAR2 == null){
-            hodnoceniAR2 = new Hodnoceni();
-        }
 
-        model.addAttribute("clen", prihlasenyUzivatel);
-        model.addAttribute("novaZprava", novaZprava);
-        model.addAttribute("hodnoceniR", hodnoceniR);
-        model.addAttribute("hodnoceniAR1", hodnoceniAR1);
-        model.addAttribute("hodnoceniAR2", hodnoceniAR2);
-        model.addAttribute("rozhodciList", rozhodciList);
-        model.addAttribute("delegatiList", delegatiList);
-        model.addAttribute("vlastnostiListPF", vlastnostiListPF);
-        model.addAttribute("vlastnostiListOT", vlastnostiListOT);
-        model.addAttribute("vlastnostiListFyzicka", vlastnostiListFyzicka);
-        model.addAttribute("vlastnostiListSpoluprace", vlastnostiListSpoluprace);
-        model.addAttribute("vlastnostiListKomentar", vlastnostiListKomentar);
-        model.addAttribute("vlastnostiListARPF", vlastnostiListARPF);
-        model.addAttribute("vlastnostiListARPohyb", vlastnostiListARPohyb);
-
-        if(utkani == null || utkani.idUtkani == null || utkani.idUtkani.isEmpty()){
+        pridejAtributyDoModelu(model);
+        if (utkani == null || utkani.idUtkani == null || utkani.idUtkani.isEmpty()) {
             br.rejectValue("idUtkani", "error.user", "Chybné údaje");
             return "nova_zprava";
         }
         Utkani utkaniNalezene = utkaniService.getUtkaniByIdUtkani(utkani.idUtkani);
-        if(utkaniNalezene == null){
+        if (utkaniNalezene == null) {
             br.rejectValue("idUtkani", "error.user", "Zpráva nenalezena");
             return "nova_zprava";
+        }
+        Zprava zprava = zpravaService.getZpravaByIdUtkani(utkani.idUtkani);
+        if (zprava != null && zprava.idDFA != prihlasenyUzivatel.getId()) {
+            br.rejectValue("idUtkani", "error.user",
+                    "Na toto utkání již napsal/píše zprávu jiný delegát");
+            return "nova_zprava";
+        }
+        if (zprava == null) {
+            novaZprava = new Zprava();
+            novaZprava.idDFA = prihlasenyUzivatel.getId();
+            novaZprava.idUtkani = utkani.idUtkani;
         }
         Soutez soutezNalezena = soutezService.getSoutezByZkratka(utkani.idUtkani);
         utkaniNalezene.dekodujKoloZIDUtkani(utkaniNalezene.idUtkani);
@@ -134,8 +115,27 @@ public class ZpravaController {
         novaSoutez = soutezNalezena;
         model.addAttribute("utkani", utkaniNalezene);
         model.addAttribute("soutez", soutezNalezena);
+        model.addAttribute("novaZprava", novaZprava);
         return "nova_zprava";
     }
 
+    @GetMapping("/nova_zprava/ulozit")
+    public String ulozZpravu(@Valid @ModelAttribute("novaZprava") Zprava zprava,
+                             @Valid @ModelAttribute("hodnoceniR") Hodnoceni hodnoceniRModel,
+                             @Valid @ModelAttribute("hodnoceniAR1") Hodnoceni hodnoceniAR1Model,
+                             @Valid @ModelAttribute("hodnoceniAR2") Hodnoceni hodnoceniAR2Model,
+                             BindingResult br, Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+            noveUtkani = null;
+            return "redirect:/";
+        }
+        if (zprava == null){
+            return "nova_zprava";
+        }
+        novaZprava = zprava;
+        novaZprava = zpravaService.save(novaZprava);
+        pridejAtributyDoModelu(model);
+        return "nova_zprava";
+    }
 
 }

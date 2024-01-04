@@ -8,18 +8,22 @@ public class Zprava {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "idUtkani")
-    public int idUtkani;
-    @Column(name = "idR")
+    public String idUtkani;
+    @Column(name = "id_R")
     public int idR;
-    @Column(name = "idAR1")
+    @Column(name = "idAr1")
     public int idAR1;
-    @Column(name = "idAR2")
+    @Column(name = "idAr2")
     public int idAR2;
-    @Column(name = "idTD")
+    @Column(name = "idDfa")
+    public int idDFA;
+    @Column(name = "idTd")
     public int idTD;
+    @Column(name = "stav")
+    public int stav;
 
     @Column(name = "dobahryprvnipolocas")
     public String dobaHryPrvniPolocas;
@@ -27,9 +31,47 @@ public class Zprava {
     @Column(name = "dobahrydruhypolocas")
     public String dobaHryDruhyPolocas;
 
+    @Transient
     public int nastaveniPrvniPolocas = 0;
 
+    @Transient
     public int nastaveniDruhyPolocas = 0;
+
+    public void nastavDobuHry() {
+        dobaHryPrvniPolocas = "45+" + nastaveniPrvniPolocas;
+        dobaHryDruhyPolocas = "45+" + nastaveniDruhyPolocas;
+    }
+
+    public void dekodujNastaveni() {
+        nastaveniPrvniPolocas = 0;
+        nastaveniDruhyPolocas = 0;
+        String[] casti = dobaHryPrvniPolocas.split("\\+");
+        if(casti.length > 1){
+            String hodnotaPoPlusu = casti[1];
+            nastaveniPrvniPolocas = Integer.parseInt(hodnotaPoPlusu);
+        }
+        String[] casti2 = dobaHryDruhyPolocas.split("\\+");
+        if(casti2.length > 1){
+            String hodnotaPoPlusu = casti2[1];
+            nastaveniDruhyPolocas = Integer.parseInt(hodnotaPoPlusu);
+        }
+    }
+
+    public int getIdDFA() {
+        return idDFA;
+    }
+
+    public void setIdDFA(int idDFA) {
+        this.idDFA = idDFA;
+    }
+
+    public int getStav() {
+        return stav;
+    }
+
+    public void setStav(int stav) {
+        this.stav = stav;
+    }
 
     public void setIdAR1(int idAR1) {
         this.idAR1 = idAR1;
@@ -58,11 +100,11 @@ public class Zprava {
     @Column(name = "polocas")
     public String polocas = "0:0";
 
-    public int getIdUtkani() {
+    public String getIdUtkani() {
         return idUtkani;
     }
 
-    public void setIdUtkani(int idUtkani) {
+    public void setIdUtkani(String idUtkani) {
         this.idUtkani = idUtkani;
     }
 
@@ -130,11 +172,11 @@ public class Zprava {
         this.dobaHryDruhyPolocas = dobaHryDruhyPolocas;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 }

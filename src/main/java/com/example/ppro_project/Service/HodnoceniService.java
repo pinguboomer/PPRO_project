@@ -1,5 +1,7 @@
 package com.example.ppro_project.Service;
 
+import com.example.ppro_project.Model.Hodnoceni;
+import com.example.ppro_project.Model.Zprava;
 import com.example.ppro_project.Repository.HodnoceniRepository;
 import com.example.ppro_project.Repository.SoutezRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,5 +15,8 @@ public class HodnoceniService {
     @Autowired
     public HodnoceniService(HodnoceniRepository hodnoceniRepository) {
         this.hodnoceniRepository = hodnoceniRepository;
+    }
+    public Hodnoceni getZpravaByIdZprava(int idZprava) {
+        return hodnoceniRepository.findByIdZprava(idZprava);
     }
 }

@@ -8,11 +8,11 @@ public class Hodnoceni {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(name = "idZprava")
     public int idZprava;
 
-    @Column(name = "roleR")
+    @Column(name = "roler")
     public String roleR;
 
     @Column(name = "znamka")
@@ -31,11 +31,11 @@ public class Hodnoceni {
     @Column(name = "obtiznost")
     public String obtiznost = "Normální";
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
