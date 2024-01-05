@@ -31,11 +31,21 @@ public class Zprava {
     @Column(name = "dobahrydruhypolocas")
     public String dobaHryDruhyPolocas;
 
+
+    @Column(name = "vysledek")
+    public String vysledek = "0:0";
+
+    @Column(name = "polocas")
+    public String polocas = "0:0";
+
+
     @Transient
     public int nastaveniPrvniPolocas = 0;
 
     @Transient
     public int nastaveniDruhyPolocas = 0;
+
+
 
     public void nastavDobuHry() {
         dobaHryPrvniPolocas = "45+" + nastaveniPrvniPolocas;
@@ -92,13 +102,6 @@ public class Zprava {
     public void setNastaveniDruhyPolocas(int nastaveniDruhyPolocas) {
         this.nastaveniDruhyPolocas = nastaveniDruhyPolocas;
     }
-
-
-    @Column(name = "vysledek")
-    public String vysledek = "0:0";
-
-    @Column(name = "polocas")
-    public String polocas = "0:0";
 
     public String getIdUtkani() {
         return idUtkani;

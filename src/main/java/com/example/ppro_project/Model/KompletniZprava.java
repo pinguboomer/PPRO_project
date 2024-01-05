@@ -1,5 +1,7 @@
 package com.example.ppro_project.Model;
 
+import java.util.ArrayList;
+
 public class KompletniZprava {
 
     public Zprava zprava;
@@ -14,6 +16,56 @@ public class KompletniZprava {
     public Clen ar2;
     public Clen dfa;
     public Clen td;
+
+    public KompletniZprava(){
+        utkani = new Utkani();
+        zprava = new Zprava();
+        soutez = new Soutez();
+        r = new Clen();
+        ar1 = new Clen();
+        ar2 = new Clen();
+        dfa = new Clen();
+        td = new Clen();
+        hodnoceniR = new Hodnoceni();
+        hodnoceniAR1 = new Hodnoceni();
+        hodnoceniAR2 = new Hodnoceni();
+
+        hodnoceniR.hodnoceniPopisList = new ArrayList<>();
+        hodnoceniAR1.hodnoceniPopisList = new ArrayList<>();
+        hodnoceniAR2.hodnoceniPopisList = new ArrayList<>();
+
+        naplnListPopisuProR();
+        naplnListPopisuProAR(true);
+        naplnListPopisuProAR(false);
+    }
+
+    private void naplnListPopisuProAR(boolean ar1) {
+
+        if(ar1){
+            hodnoceniAR1.hodnoceniPopisList.clear();
+            hodnoceniAR1.hodnoceniPopisList.add(new HodnoceniPopis("A1"));
+            hodnoceniAR1.hodnoceniPopisList.add(new HodnoceniPopis("A2"));
+        } else {
+            hodnoceniAR2.hodnoceniPopisList.clear();
+            hodnoceniAR2.hodnoceniPopisList.add(new HodnoceniPopis("A1"));
+            hodnoceniAR2.hodnoceniPopisList.add(new HodnoceniPopis("A2"));
+        }
+
+    }
+
+    private void naplnListPopisuProR() {
+        hodnoceniR.hodnoceniPopisList.clear();
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R1"));
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R2"));
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R3"));
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R4"));
+
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("KS"));
+
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OP"));
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OD"));
+        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OJ"));
+    }
 
     public Zprava getZprava() {
         return zprava;
@@ -101,5 +153,13 @@ public class KompletniZprava {
 
     public void setTd(Clen td) {
         this.td = td;
+    }
+
+    public void prevedIdClenuDoZpravy() {
+        zprava.idR = r.getId();
+        zprava.idAR1 = ar1.getId();
+        zprava.idAR2 = ar2.getId();
+        zprava.idDFA = dfa.getId();
+        zprava.idTD = td.getId();
     }
 }

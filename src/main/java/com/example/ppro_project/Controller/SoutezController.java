@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 public class SoutezController {
 
     public static SoutezService soutezService;
-
-    public static Soutez novaSoutez;
     @Autowired
     public SoutezController(SoutezService soutezService) {
         this.soutezService = soutezService;

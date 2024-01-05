@@ -13,9 +13,6 @@ public class HodnoceniController {
 
     public static HodnoceniService hodnoceniService;
 
-    public static Hodnoceni hodnoceniR;
-    public static Hodnoceni hodnoceniAR1;
-    public static Hodnoceni hodnoceniAR2;
     @Autowired
     public HodnoceniController(HodnoceniService hodnoceniService) {
         this.hodnoceniService = hodnoceniService;

@@ -13,7 +13,6 @@ import java.util.List;
 @Repository
 public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
     Zprava findByIdUtkani(String idUtkani);
-
     Zprava save(Zprava zprava);
 
     @Query("SELECT z FROM Zprava z WHERE z.idDFA = :idDFA")

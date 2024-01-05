@@ -20,6 +20,10 @@ public class ClenService {
         this.clenRepository = clenRepository;
     }
 
+    public Clen getClenByIdFacrAndRole(String idFacr, String role) {
+        return clenRepository.findByIdFacrAndRole(idFacr, role);
+    }
+
     public Clen getClenByIdFacrAndHeslo(String idFacr, String heslo) {
         return clenRepository.findByIdFacrAndHeslo(idFacr, heslo);
     }

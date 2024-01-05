@@ -2,6 +2,8 @@ package com.example.ppro_project.Model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Hodnoceni")
 public class Hodnoceni {
@@ -30,6 +32,18 @@ public class Hodnoceni {
     @Column(name = "znamka2")
     public String znamka2;
 
+    @Column(name = "obtiznost")
+    public String obtiznost = "Normální";
+
+    @Transient
+    public List<HodnoceniPopis> hodnoceniPopisList;
+
+    public void setIdHodnoceniToList(){
+        for (int i = 0; i < hodnoceniPopisList.size(); i++) {
+            hodnoceniPopisList.get(i).idHodnoceni = getId();
+        }
+    }
+
     public String getZnamka2() {
         return znamka2;
     }
@@ -37,19 +51,6 @@ public class Hodnoceni {
     public void setZnamka2(String znamka2) {
         this.znamka2 = znamka2;
     }
-
-    public String getZnamkaHCH() {
-        return znamkaHCH;
-    }
-
-    public void setZnamkaHCH(String znamkaHCH) {
-        this.znamkaHCH = znamkaHCH;
-    }
-
-    public String znamkaHCH;
-
-    @Column(name = "obtiznost")
-    public String obtiznost = "Normální";
 
     public int getId() {
         return id;

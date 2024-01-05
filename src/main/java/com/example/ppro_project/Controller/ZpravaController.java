@@ -4,23 +4,23 @@ import com.example.ppro_project.Model.*;
 import com.example.ppro_project.Service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.ppro_project.Constants.Constants.*;
 import static com.example.ppro_project.Controller.ClenController.*;
 import static com.example.ppro_project.Controller.HodnoceniController.*;
-import static com.example.ppro_project.Controller.SoutezController.novaSoutez;
+import static com.example.ppro_project.Controller.HodnoceniPopisController.hodnoceniPopisService;
 import static com.example.ppro_project.Controller.SoutezController.soutezService;
-import static com.example.ppro_project.Controller.UtkaniController.noveUtkani;
+import static com.example.ppro_project.Controller.UtkaniController.hledaneUtkani;
 import static com.example.ppro_project.Controller.UtkaniController.utkaniService;
 import static com.example.ppro_project.Controller.VlastnostController.*;
 
@@ -28,14 +28,8 @@ import static com.example.ppro_project.Controller.VlastnostController.*;
 public class ZpravaController {
 
     public static ZpravaService zpravaService;
-    public static Zprava novaZprava;
     public static KompletniZprava kompletniZprava;
 
-    public static Clen hlavniRozhodci;
-    public static Clen ar1;
-    public static Clen ar2;
-    public static Clen dfa;
-    public static Clen td;
 
     @Autowired
     public ZpravaController(ZpravaService zpravaService) {
@@ -46,11 +40,11 @@ public class ZpravaController {
     @GetMapping("/nova_zprava")
     public String novaZprava(Model model) {
         if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
-            noveUtkani = null;
+            kompletniZprava = null;
             return "redirect:/";
         }
 
-        if (noveUtkani == null) {
+        if (kompletniZprava.utkani == null) {
             vynulujParametryZpravy();
         }
 
@@ -59,35 +53,192 @@ public class ZpravaController {
         return "nova_zprava";
     }
 
+
+    @PostMapping("/nova_zprava/vyhledejUtkani")
+    public String vyhledejUtkani(@Valid @ModelAttribute("utkani") Utkani utkani,
+                                 BindingResult br, Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+            kompletniZprava = null;
+            return "redirect:/";
+        }
+        hledaneUtkani = utkani;
+        pridejAtributyDoModelu(model);
+        if (utkani == null || utkani.idUtkani == null || utkani.idUtkani.isEmpty()) {
+            br.rejectValue("idUtkani", "error.user", "Chybné údaje");
+            kompletniZprava = new KompletniZprava();
+            return "nova_zprava";
+        }
+        Utkani utkaniNalezene = utkaniService.getUtkaniByIdUtkani(utkani.idUtkani);
+        if (utkaniNalezene == null) {
+            br.rejectValue("idUtkani", "error.user", "Zpráva nenalezena");
+            kompletniZprava = new KompletniZprava();
+            return "nova_zprava";
+        }
+        Zprava zprava = zpravaService.getZpravaByIdUtkani(utkani.idUtkani);
+        if (zprava != null && zprava.idDFA != prihlasenyUzivatel.getId()) {
+            br.rejectValue("idUtkani", "error.user",
+                    "Na toto utkání již napsal/píše zprávu jiný delegát");
+            kompletniZprava = new KompletniZprava();
+            return "nova_zprava";
+        }
+
+        if (zprava == null) {
+            kompletniZprava = new KompletniZprava();
+            kompletniZprava.zprava = new Zprava();
+            kompletniZprava.zprava.idUtkani = utkani.idUtkani;
+            kompletniZprava.utkani = utkaniNalezene;
+            kompletniZprava.dfa = prihlasenyUzivatel;
+            kompletniZprava.zprava.idDFA = prihlasenyUzivatel.getId();
+        } else {
+            kompletniZprava.zprava = zprava;
+            List<Hodnoceni> hodnoceni = hodnoceniService.getHodnoceniByIdZprava(zprava.getId());
+            if (hodnoceni.isEmpty()) {
+                kompletniZprava.hodnoceniR = new Hodnoceni(R, zprava.getId());
+                kompletniZprava.hodnoceniAR1 = new Hodnoceni(AR1, zprava.getId());
+                kompletniZprava.hodnoceniAR2 = new Hodnoceni(AR2, zprava.getId());
+            } else {
+                Clen rozhodci = clenService.getClenById(zprava.idR);
+                Clen AR1 = clenService.getClenById(zprava.idAR1);
+                Clen AR2 = clenService.getClenById(zprava.idAR2);
+                Clen dfa = clenService.getClenById(zprava.idDFA);
+                Clen TD = clenService.getClenById(zprava.idTD);
+                nastavRozhodciVeZprave(rozhodci, AR1, AR2, dfa, TD);
+                for (Hodnoceni hodnoceniVal : hodnoceni) {
+                    dekodujHodnoceniDoZpravy(hodnoceniVal);
+                    List<HodnoceniPopis> hodnoceniPopis =
+                            hodnoceniPopisService.getByIdHodnoceni(hodnoceniVal.getId());
+                    if(!hodnoceniPopis.isEmpty()){
+                        //TODO
+                    }
+                }
+            }
+
+        }
+        Soutez soutezNalezena = soutezService.getSoutezByZkratka(utkani.idUtkani);
+        utkaniNalezene.dekodujKoloZIDUtkani(utkaniNalezene.idUtkani);
+        hledaneUtkani = utkaniNalezene;
+        kompletniZprava.utkani = utkaniNalezene;
+        kompletniZprava.soutez = soutezNalezena;
+        model.addAttribute("kompletniZprava", kompletniZprava);
+        return "redirect:/nova_zprava";
+    }
+
+
+    @PostMapping("/nova_zprava/ulozit")
+    public String ulozZpravu(@Valid @ModelAttribute("kompletniZprava")
+                             KompletniZprava kompletniZpravaModel,
+                             BindingResult br, Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+            kompletniZprava = null;
+            return "redirect:/";
+        }
+        if (kompletniZpravaModel.zprava == null) {
+            return "nova_zprava";
+        }
+        int idZprava = kompletniZprava.zprava.getId();
+        kompletniZprava.zprava = kompletniZpravaModel.zprava;
+        kompletniZprava.zprava.setId(idZprava);
+        kompletniZprava.dfa = prihlasenyUzivatel;
+        dekodujDelegovaneRozhodci(kompletniZpravaModel);
+        kompletniZprava.prevedIdClenuDoZpravy();
+        kompletniZprava.zprava.idUtkani = kompletniZprava.utkani.idUtkani;
+        kompletniZprava.zprava = zpravaService.save(kompletniZprava.zprava);
+
+        dekodujHodnoceniDoZpravy(kompletniZpravaModel);
+        kompletniZprava.hodnoceniR = hodnoceniService.save(kompletniZprava.hodnoceniR);
+        kompletniZprava.hodnoceniAR1 = hodnoceniService.save(kompletniZprava.hodnoceniAR1);
+        kompletniZprava.hodnoceniAR2 = hodnoceniService.save(kompletniZprava.hodnoceniAR2);
+
+        kompletniZprava.hodnoceniR.setIdHodnoceniToList();
+        kompletniZprava.hodnoceniAR1.setIdHodnoceniToList();
+        kompletniZprava.hodnoceniAR2.setIdHodnoceniToList();
+
+        dekodujHodnoceniPopis(kompletniZpravaModel);
+        ulozVsechnyPopisy();
+
+        pridejAtributyDoModelu(model);
+        return "redirect:/nova_zprava";
+    }
+
+    private void ulozVsechnyPopisy() {
+        List<HodnoceniPopis> hodnoceniPopisTemp = new ArrayList<>();
+        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.size(); i++) {
+            hodnoceniPopisTemp.add(
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i)));
+        }
+        kompletniZprava.hodnoceniR.hodnoceniPopisList = hodnoceniPopisTemp;
+        hodnoceniPopisTemp.clear();
+        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.size(); i++) {
+            hodnoceniPopisTemp.add(
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i)));
+        }
+        kompletniZprava.hodnoceniAR1.hodnoceniPopisList = hodnoceniPopisTemp;
+        hodnoceniPopisTemp.clear();
+        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.size(); i++) {
+            hodnoceniPopisTemp.add(
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i)));
+        }
+        kompletniZprava.hodnoceniAR2.hodnoceniPopisList = hodnoceniPopisTemp;
+    }
+
+    private void dekodujHodnoceniPopis(KompletniZprava kompletniZpravaModel) {
+        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.size(); i++) {
+            kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i).popis =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList.get(i).popis;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i).celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList.get(i).celkovaZnamka;
+        }
+        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.size(); i++) {
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i).popis =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList.get(i).popis;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i).celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList.get(i).celkovaZnamka;
+        }
+        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.size(); i++) {
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i).popis =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList.get(i).popis;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i).celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList.get(i).celkovaZnamka;
+        }
+    }
+
+    private void nastavRozhodciVeZprave(Clen rozhodci, Clen AR1, Clen AR2, Clen DFA, Clen TD) {
+        if (rozhodci != null) {
+            kompletniZprava.r = rozhodci;
+        } else {
+            kompletniZprava.r = new Clen();
+        }
+        if (AR1 != null) {
+            kompletniZprava.ar1 = AR1;
+        } else {
+            kompletniZprava.ar1 = new Clen();
+        }
+        if (AR2 != null) {
+            kompletniZprava.ar2 = AR2;
+        } else {
+            kompletniZprava.ar2 = new Clen();
+        }
+        if (DFA != null) {
+            kompletniZprava.dfa = DFA;
+        } else {
+            kompletniZprava.dfa = new Clen();
+        }
+        if (TD != null) {
+            kompletniZprava.td = TD;
+        } else {
+            kompletniZprava.td = new Clen();
+        }
+    }
     private void vynulujParametryZpravy() {
-        noveUtkani = new Utkani();
-        novaZprava = new Zprava();
-        novaSoutez = new Soutez();
-        hlavniRozhodci = new Clen();
-        ar1 = new Clen();
-        ar2 = new Clen();
-        dfa = new Clen();
-        td = new Clen();
-        hodnoceniR = new Hodnoceni();
-        hodnoceniAR1 = new Hodnoceni();
-        hodnoceniAR2 = new Hodnoceni();
         kompletniZprava = new KompletniZprava();
+
+        hledaneUtkani = new Utkani();
     }
 
     private void pridejAtributyDoModelu(Model model) {
         model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("utkani", hledaneUtkani);
         model.addAttribute("kompletniZprava", kompletniZprava);
-        model.addAttribute("utkani", noveUtkani);
-        model.addAttribute("soutez", novaSoutez);
-        model.addAttribute("novaZprava", novaZprava);
-        model.addAttribute("r", hlavniRozhodci);
-        model.addAttribute("ar1", ar1);
-        model.addAttribute("ar2", ar2);
-        model.addAttribute("dfa", dfa);
-        model.addAttribute("td", td);
-        model.addAttribute("hodnoceniR", hodnoceniR);
-        model.addAttribute("hodnoceniAR1", hodnoceniAR1);
-        model.addAttribute("hodnoceniAR2", hodnoceniAR2);
         model.addAttribute("rozhodciList", rozhodciList);
         model.addAttribute("delegatiList", delegatiList);
         model.addAttribute("vlastnostiListPF", vlastnostiListPF);
@@ -99,107 +250,94 @@ public class ZpravaController {
         model.addAttribute("vlastnostiListARPohyb", vlastnostiListARPohyb);
     }
 
-    @PostMapping("/nova_zprava/vyhledejUtkani")
-    public String vyhledejUtkani(@Valid @ModelAttribute("utkani") Utkani utkani,
-                                 BindingResult br, Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
-            noveUtkani = null;
-            return "redirect:/";
+    private void dekodujHodnoceniDoZpravy(KompletniZprava kompletniZpravaModel) {
+        kompletniZprava.hodnoceniR.obtiznost = kompletniZpravaModel.hodnoceniR.obtiznost;
+        kompletniZprava.hodnoceniR.znamka = kompletniZpravaModel.hodnoceniR.znamka;
+        kompletniZprava.hodnoceniR.znamka2 = kompletniZpravaModel.hodnoceniR.znamka2;
+        kompletniZprava.hodnoceniR.idZprava = kompletniZprava.zprava.getId();
+        kompletniZprava.hodnoceniR.roleR = R;
+
+        kompletniZprava.hodnoceniAR1.obtiznost = kompletniZpravaModel.hodnoceniAR1.obtiznost;
+        kompletniZprava.hodnoceniAR1.znamka = kompletniZpravaModel.hodnoceniAR1.znamka;
+        kompletniZprava.hodnoceniAR1.znamka2 = kompletniZpravaModel.hodnoceniAR1.znamka2;
+        kompletniZprava.hodnoceniAR1.idZprava = kompletniZprava.zprava.getId();
+        kompletniZprava.hodnoceniAR1.roleR = AR1;
+
+        kompletniZprava.hodnoceniAR2.obtiznost = kompletniZpravaModel.hodnoceniAR2.obtiznost;
+        kompletniZprava.hodnoceniAR2.znamka = kompletniZpravaModel.hodnoceniAR2.znamka;
+        kompletniZprava.hodnoceniAR2.znamka2 = kompletniZpravaModel.hodnoceniAR2.znamka2;
+        kompletniZprava.hodnoceniAR2.idZprava = kompletniZprava.zprava.getId();
+        kompletniZprava.hodnoceniAR2.roleR = AR2;
+    }
+
+    private void dekodujHodnoceniDoZpravy(Hodnoceni hodnoceni) {
+        if (Objects.equals(hodnoceni.roleR, R)) {
+            kompletniZprava.hodnoceniR.setId(hodnoceni.getId());
+            kompletniZprava.hodnoceniR.obtiznost = hodnoceni.obtiznost;
+            kompletniZprava.hodnoceniR.znamka = hodnoceni.znamka;
+            kompletniZprava.hodnoceniR.znamka2 = hodnoceni.znamka2;
+            kompletniZprava.hodnoceniR.idZprava = kompletniZprava.zprava.getId();
+            kompletniZprava.hodnoceniR.roleR = hodnoceni.roleR;
+        } else if (Objects.equals(hodnoceni.roleR, AR1)) {
+            kompletniZprava.hodnoceniAR1.setId(hodnoceni.getId());
+            kompletniZprava.hodnoceniAR1.obtiznost = hodnoceni.obtiznost;
+            kompletniZprava.hodnoceniAR1.znamka = hodnoceni.znamka;
+            kompletniZprava.hodnoceniAR1.znamka2 = hodnoceni.znamka2;
+            kompletniZprava.hodnoceniAR1.idZprava = kompletniZprava.zprava.getId();
+            kompletniZprava.hodnoceniAR1.roleR = hodnoceni.roleR;
+
+        } else if (Objects.equals(hodnoceni.roleR, AR2)) {
+            kompletniZprava.hodnoceniAR2.setId(hodnoceni.getId());
+            kompletniZprava.hodnoceniAR2.obtiznost = hodnoceni.obtiznost;
+            kompletniZprava.hodnoceniAR2.znamka = hodnoceni.znamka;
+            kompletniZprava.hodnoceniAR2.znamka2 = hodnoceni.znamka2;
+            kompletniZprava.hodnoceniAR2.idZprava = kompletniZprava.zprava.getId();
+            kompletniZprava.hodnoceniAR2.roleR = hodnoceni.roleR;
         }
 
-        pridejAtributyDoModelu(model);
-        if (utkani == null || utkani.idUtkani == null || utkani.idUtkani.isEmpty()) {
-            br.rejectValue("idUtkani", "error.user", "Chybné údaje");
-            return "nova_zprava";
-        }
-        Utkani utkaniNalezene = utkaniService.getUtkaniByIdUtkani(utkani.idUtkani);
-        if (utkaniNalezene == null) {
-            br.rejectValue("idUtkani", "error.user", "Zpráva nenalezena");
-            return "nova_zprava";
-        }
-        Zprava zprava = zpravaService.getZpravaByIdUtkani(utkani.idUtkani);
-        if (zprava != null && zprava.idDFA != prihlasenyUzivatel.getId()) {
-            br.rejectValue("idUtkani", "error.user",
-                    "Na toto utkání již napsal/píše zprávu jiný delegát");
-            return "nova_zprava";
-        }
+    }
 
-
-        if (zprava == null) {
-            novaZprava = new Zprava();
-            novaZprava.idDFA = prihlasenyUzivatel.getId();
-            novaZprava.idUtkani = utkani.idUtkani;
-            dfa = prihlasenyUzivatel;
-        } else {
-            List<Hodnoceni> hodnoceni = hodnoceniService.getHodnoceniByIdZprava(zprava.getId());
-            if(hodnoceni.isEmpty()){
-                hodnoceniR = new Hodnoceni("R", zprava.getId());
-                hodnoceniAR1 = new Hodnoceni("AR1", zprava.getId());
-                hodnoceniAR2 = new Hodnoceni("AR2", zprava.getId());
+    private void dekodujDelegovaneRozhodci(KompletniZprava kompletniZpravaModel) {
+        if (kompletniZpravaModel.r != null && !kompletniZpravaModel.r.idFacr.isEmpty()) {
+            Clen rozhodci = clenService.getClenByIdFacrAndRole(kompletniZpravaModel.r.idFacr, ROZHODCI);
+            if (rozhodci != null) {
+                kompletniZprava.r = rozhodci;
             } else {
-                Clen rozhodci = clenService.getClenById(zprava.idR);
-                Clen AR1 = clenService.getClenById(zprava.idAR1);
-                Clen AR2 = clenService.getClenById(zprava.idAR2);
-                Clen dfa = clenService.getClenById(zprava.idDFA);
-                Clen TD = clenService.getClenById(zprava.idTD);
-                nastavRozhodciVeZprave(rozhodci, AR1, AR2, dfa, TD);
+                kompletniZprava.r = new Clen();
             }
-        }
-        Soutez soutezNalezena = soutezService.getSoutezByZkratka(utkani.idUtkani);
-        utkaniNalezene.dekodujKoloZIDUtkani(utkaniNalezene.idUtkani);
-        noveUtkani = utkaniNalezene;
-        novaSoutez = soutezNalezena;
-        model.addAttribute("utkani", utkaniNalezene);
-        model.addAttribute("soutez", soutezNalezena);
-        model.addAttribute("novaZprava", novaZprava);
-        return "nova_zprava";
-    }
-
-    private void nastavRozhodciVeZprave(Clen rozhodci, Clen AR1, Clen AR2, Clen DFA, Clen TD) {
-        if(rozhodci != null){
-            hlavniRozhodci = rozhodci;
         } else {
-            hlavniRozhodci = new Clen();
+            kompletniZprava.r = new Clen();
         }
-        if(ar1 != null){
-            ar1 = AR1;
+        if (kompletniZpravaModel.ar1 != null && !kompletniZpravaModel.ar1.idFacr.isEmpty()) {
+            Clen ar1 = clenService.getClenByIdFacrAndRole(kompletniZpravaModel.ar1.idFacr, ROZHODCI);
+            if (ar1 != null) {
+                kompletniZprava.ar1 = ar1;
+            } else {
+                kompletniZprava.ar1 = new Clen();
+            }
         } else {
-            ar1 = new Clen();
+            kompletniZprava.ar1 = new Clen();
         }
-        if(AR2 != null){
-            ar2 = AR2;
+        if (kompletniZpravaModel.ar2 != null && !kompletniZpravaModel.ar2.idFacr.isEmpty()) {
+            Clen ar2 = clenService.getClenByIdFacrAndRole(kompletniZpravaModel.ar2.idFacr, ROZHODCI);
+            if (ar2 != null) {
+                kompletniZprava.ar2 = ar2;
+            } else {
+                kompletniZprava.ar2 = new Clen();
+            }
         } else {
-            ar2 = new Clen();
+            kompletniZprava.ar2 = new Clen();
         }
-        if(DFA != null){
-            dfa = DFA;
+        if (kompletniZpravaModel.td != null && !kompletniZpravaModel.td.idFacr.isEmpty()) {
+            Clen td = clenService.getClenByIdFacrAndRole(kompletniZpravaModel.td.idFacr, DELEGAT);
+            if (td != null) {
+                kompletniZprava.td = td;
+            } else {
+                kompletniZprava.td = new Clen();
+            }
         } else {
-            dfa = new Clen();
+            kompletniZprava.td = new Clen();
         }
-        if(TD != null){
-            td = TD;
-        } else {
-            td = new Clen();
-        }
-    }
-
-    @GetMapping("/nova_zprava/ulozit")
-    public String ulozZpravu(@Valid @ModelAttribute("novaZprava") Zprava zprava,
-                             @Valid @ModelAttribute("hodnoceniR") Hodnoceni hodnoceniRModel,
-                             @Valid @ModelAttribute("hodnoceniAR1") Hodnoceni hodnoceniAR1Model,
-                             @Valid @ModelAttribute("hodnoceniAR2") Hodnoceni hodnoceniAR2Model,
-                             BindingResult br, Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
-            noveUtkani = null;
-            return "redirect:/";
-        }
-        if (zprava == null){
-            return "nova_zprava";
-        }
-        novaZprava = zprava;
-        novaZprava = zpravaService.save(novaZprava);
-        pridejAtributyDoModelu(model);
-        return "nova_zprava";
     }
 
 }

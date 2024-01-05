@@ -337,13 +337,20 @@ var idFacrLabelAR1 = document.getElementById('idFacrAR1');
 var idFacrLabelAR2 = document.getElementById('idFacrAR2');
 var idFacrLabelTD = document.getElementById('idFacrTD');
 
+var idFacrRHiddenInput = document.getElementById('idFacrRHiddenInput');
+var idFacrAR1HiddenInput = document.getElementById('idFacrAR1HiddenInput');
+var idFacrAR2HiddenInput = document.getElementById('idFacrAR2HiddenInput');
+var idFacrTDHiddenInput = document.getElementById('idFacrTDHiddenInput');
+
 inputElementR.addEventListener('input', function () {
     var selectedOption = findOptionByValue(this.value, 'rozhodciList');
     if (selectedOption) {
         idFacrLabelR.textContent = selectedOption.value;
+        idFacrRHiddenInput.value = selectedOption.value;
         inputElementR.value = selectedOption.label;
         listaRJmeno.textContent = selectedOption.label + " (" + selectedOption.value + ")";
     } else {
+        idFacrRHiddenInput.value = "";
         idFacrLabelR.textContent = "";
         listaRJmeno.textContent = "";
     }
@@ -354,9 +361,11 @@ inputElementAR1.addEventListener('input', function () {
     var selectedOption = findOptionByValue(this.value, 'ar1List');
     if (selectedOption) {
         idFacrLabelAR1.textContent = selectedOption.value;
+        idFacrAR1HiddenInput.value = selectedOption.value;
         inputElementAR1.value = selectedOption.label;
         listaAR1Jmeno.textContent = selectedOption.label + " (" + selectedOption.value + ")";
     } else {
+        idFacrAR1HiddenInput.value = "";
         idFacrLabelAR1.textContent = "";
         listaAR1Jmeno.textContent = "";
     }
@@ -366,10 +375,12 @@ inputElementAR1.addEventListener('input', function () {
 inputElementAR2.addEventListener('input', function () {
     var selectedOption = findOptionByValue(this.value, 'ar2List');
     if (selectedOption) {
+        idFacrAR2HiddenInput.value = selectedOption.value;
         idFacrLabelAR2.textContent = selectedOption.value;
         inputElementAR2.value = selectedOption.label;
         listaAR2Jmeno.textContent = selectedOption.label + " (" + selectedOption.value + ")";
     } else {
+        idFacrAR2HiddenInput.value = "";
         idFacrLabelAR2.textContent = "";
         listaAR2Jmeno.textContent = "";
     }
@@ -379,9 +390,11 @@ inputElementAR2.addEventListener('input', function () {
 inputElementTD.addEventListener('input', function () {
     var selectedOption = findOptionByValue(this.value, 'tdList');
     if (selectedOption) {
+        idFacrTDHiddenInput.value = selectedOption.value;
         idFacrLabelTD.textContent = selectedOption.value;
         inputElementTD.value = selectedOption.label;
     } else {
+        idFacrTDHiddenInput.value = "";
         idFacrLabelTD.textContent = "";
     }
 });
@@ -486,6 +499,7 @@ function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
 
 window.onscroll = function () {
     // Získání elementu, který je přilepený

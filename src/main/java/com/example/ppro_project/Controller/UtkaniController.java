@@ -11,7 +11,7 @@ public class UtkaniController {
 
     public static UtkaniService utkaniService;
 
-    public static Utkani noveUtkani;
+    public static Utkani hledaneUtkani;
     @Autowired
     public UtkaniController(UtkaniService utkaniService) {
         this.utkaniService = utkaniService;

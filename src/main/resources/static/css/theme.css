@@ -159,6 +159,10 @@ label {
     width: 50%;
 }
 
+.idFacrNovaZprava{
+    display:none;
+}
+
 .custom-btn {
     width: 130px;
     height: 20px;

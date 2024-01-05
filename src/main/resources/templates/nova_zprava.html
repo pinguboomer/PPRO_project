@@ -50,26 +50,28 @@
             </div>
             <div class="utkaniNovaZprava">
                 <label th:text="*{utkani.domaci}"></label>
-                <label th:text="${utkani.hoste}"></label>
+                <label th:text="*{utkani.hoste}"></label>
             </div>
             <div class="style_description"></div>
             <div class="utkaniNovaZprava">
                 <div class="radekNovaZprava">
                     <label style="margin-right: 5px">Datum: </label>
-                    <label th:text="${utkani.datum != null ? utkani.datum?.getDay() + '. '
-                 + utkani.datum?.getMonth()
-                + '. ' + (utkani.datum?.getYear() + 1900) : ''}"></label>
+                    <label th:text="${kompletniZprava.utkani.datum != null ?
+                    kompletniZprava.utkani.datum?.getDay() + '. '
+                 + kompletniZprava.utkani.datum?.getMonth()
+                + '. ' + (kompletniZprava.utkani.datum?.getYear() + 1900) : ''}"></label>
                 </div>
                 <div class="radekNovaZprava">
                     <label style="margin-right: 5px">Začátek utkání:</label>
-                    <label th:text="${utkani.datum != null ? utkani.datum?.getHours() + ':'
-                 + utkani.minutyDvojciferne() : ''}"></label>
+                    <label th:text="${kompletniZprava.utkani.datum != null ?
+                     kompletniZprava.utkani.datum?.getHours() + ':'
+                 + kompletniZprava.utkani.minutyDvojciferne() : ''}"></label>
                 </div>
             </div>
             <div class="utkaniNovaZprava">
                 <div class="radekNovaZprava">
                     <label style="margin-right: 5px">Stadion: </label>
-                    <label th:text="${utkani.stadion}"></label>
+                    <label th:text="*{utkani.stadion}"></label>
                 </div>
             </div>
             <div class="style_description"></div>
@@ -84,7 +86,8 @@
                     <label style="margin-right: 5px">45 +</label>
                     <input name="nastaveniDruhyPolocas" th:maxlength="3"
                            th:name="nastaveniDruhyPolocas" th:id="nastaveniDruhyPolocas" pattern="*\d+.*" step="1"
-                           th:max="999" th:min="0" th:type="number" th:field="*{zprava.nastaveniDruhyPolocas}">
+                           th:max="999" th:min="0" th:type="number"
+                           th:field="*{zprava.nastaveniDruhyPolocas}">
                 </div>
             </div>
             <div class="style_description"></div>
@@ -103,8 +106,12 @@
                 <tbody>
                 <tr>
                     <td>R:</td>
-                    <td><input name="jmenoR" id="jmenoR" th:type="text" th:id="jmenoR" list="rozhodciList"
-                               th:field="*{r.idFacr}" th:autocomplete="${'on'}"></td>
+                    <td><input name="jmenoR" id="jmenoR" th:type="text"
+                               th:id="jmenoR" list="rozhodciList"
+                               th:value="${(kompletniZprava.r.jmeno!= null &&
+                                kompletniZprava.r.prijmeni!= null) ?
+                                kompletniZprava.r.prijmeni + ' ' +
+                                 kompletniZprava.r.jmeno : ''}" th:autocomplete="${'on'}"></td>
                     <datalist id="rozhodciList">
                         <th:block th:each="rozhodci : ${rozhodciList}">
                             <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
@@ -112,30 +119,42 @@
                         </th:block>
                     </datalist>
                     <div class="napoveda" id="napoveda"></div>
-                    <td style="width: 100px" id="idFacrR"></td>
+                    <td style="width: 100px">
+                        <label style="width: auto" th:text="*{r.idFacr}" id="idFacrR"></label>
+                        <input class="idFacrNovaZprava" name="idFacrRHiddenInput"
+                               th:type="text" th:field="*{r.idFacr}" id="idFacrRHiddenInput">
+                    </td>
                     <td><input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="6" th:id="znamkaR" th:name="znamkaR"
                                th:field="*{hodnoceniR.znamka}"></td>
                     <td><select th:field="*{hodnoceniR.obtiznost}">
-                        <option th:selected="${hodnoceniR.obtiznost == 'Normální'}" th:value="Normální">Normální
+                        <option th:selected="*{hodnoceniR.obtiznost == 'Normální'}" th:value="Normální">Normální
                         </option>
-                        <option th:selected="${hodnoceniR.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
-                        <option th:selected="${hodnoceniR.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
+                        <option th:selected="*{hodnoceniR.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
+                        <option th:selected="*{hodnoceniR.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
                     </select></td>
                 </tr>
-                <tr style="display: none" th:id="znamkaRHCHRadek">
+                <tr th:style="${kompletniZprava.hodnoceniR.znamka != null &&
+                            (kompletniZprava.hodnoceniR.znamka == '7.8' ||
+                             kompletniZprava.hodnoceniR.znamka == '7.9') ?
+                                'display:table-row;' : 'display:none;'}" th:id="znamkaRHCHRadek">
                     <td></td>
                     <td></td>
                     <td style="text-align: right">*</td>
-                    <td><input type="number" name="cislo" step="0.1"
+                    <td>
+                        <input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="8.0" th:id="znamkaRHCH" th:name="znamkaRHCH"
-                               th:field="*{hodnoceniR.znamkaHCH}"></td>
+                               th:field="*{hodnoceniR.znamka2}"></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>AR1:</td>
-                    <td><input name="jmenoAR1" id="jmenoAR1" th:field="*{ar1.idFacr}"
+                    <td><input name="jmenoAR1" id="jmenoAR1"
                                th:type="text" th:id="jmenoAR1" list="ar1List"
+                               th:value="${(kompletniZprava.ar1.jmeno!= null &&
+                                kompletniZprava.ar1.prijmeni!= null) ?
+                                kompletniZprava.ar1.prijmeni + ' ' +
+                                 kompletniZprava.ar1.jmeno : ''}"
                                th:autocomplete="${'on'}"></td>
                     <datalist id="ar1List">
                         <th:block th:each="rozhodci : ${rozhodciList}">
@@ -144,31 +163,41 @@
                         </th:block>
                     </datalist>
                     <div class="napoveda" id="napovedaAr1"></div>
-                    <td id="idFacrAR1"></td>
+                    <td>
+                        <label style="width: auto" th:text="*{ar1.idFacr}" id="idFacrAR1"></label>
+                        <input class="idFacrNovaZprava" name="idFacrAR1HiddenInput"
+                               th:type="text" th:field="*{ar1.idFacr}" id="idFacrAR1HiddenInput">
+                    </td>
                     <td><input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="6" th:id="znamkaAR1" th:name="znamkaAR1"
                                th:field="*{hodnoceniAR1.znamka}"></td>
                     <td><select th:field="*{hodnoceniAR1.obtiznost}">
-                        <option th:selected="${hodnoceniAR1.obtiznost == 'Normální'}" th:value="Normální">Normální
+                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Normální'}" th:value="Normální">Normální
                         </option>
-                        <option th:selected="${hodnoceniAR1.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
-                        <option th:selected="${hodnoceniAR1.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
+                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
+                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
                     </select></td>
                 </tr>
-                <tr style="display: none" th:id="znamkaAR1HCHRadek">
+                <tr th:style="${kompletniZprava.hodnoceniAR1.znamka != null &&
+                            (kompletniZprava.hodnoceniAR1.znamka == '7.8' ||
+                             kompletniZprava.hodnoceniAR1.znamka == '7.9') ?
+                                'display:table-row;' : 'display:none;'}" th:id="znamkaAR1HCHRadek">
                     <td></td>
                     <td></td>
                     <td style="text-align: right">*</td>
                     <td><input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="8.0" th:id="znamkaAR1HCH" th:name="znamkaAR1HCH"
-                               th:field="*{hodnoceniAR1.znamkaHCH}"></td>
+                               th:field="*{hodnoceniAR1.znamka2}"></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td>AR2:</td>
                     <td><input name="jmenoAR2" id="jmenoAR2"
-                               th:field="*{ar2.idFacr}"
                                th:type="text" th:id="jmenoAR2" list="ar2List"
+                               th:value="${(kompletniZprava.ar2.jmeno!= null &&
+                                kompletniZprava.ar2.prijmeni!= null) ?
+                                kompletniZprava.ar2.prijmeni + ' ' +
+                                 kompletniZprava.ar2.jmeno : ''}"
                                th:autocomplete="${'on'}"></td>
                     <datalist id="ar2List">
                         <th:block th:each="rozhodci : ${rozhodciList}">
@@ -177,24 +206,35 @@
                         </th:block>
                     </datalist>
                     <div class="napoveda" id="napovedaAr2"></div>
-                    <td id="idFacrAR2"></td>
+                    <td>
+                        <label style="width: auto" th:text="*{ar2.idFacr}" id="idFacrAR2"></label>
+                        <input class="idFacrNovaZprava" name="idFacrAR2HiddenInput"
+                               th:type="text" th:field="*{ar2.idFacr}" id="idFacrAR2HiddenInput">
+                    </td>
                     <td><input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="6" th:id="znamkaAR2" th:name="znamkaAR2"
                                th:field="*{hodnoceniAR2.znamka}"></td>
                     <td><select th:field="*{hodnoceniAR2.obtiznost}">
-                        <option th:selected="${hodnoceniAR2.obtiznost == 'Normální'}" th:value="Normální">Normální
+                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Normální'}"
+                                th:value="Normální">Normální
                         </option>
-                        <option th:selected="${hodnoceniAR2.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
-                        <option th:selected="${hodnoceniAR2.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
+                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Obtížné'}"
+                                th:value="Obtížné">Obtížné</option>
+                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Těžké'}"
+                                th:value="Těžké">Těžké</option>
                     </select></td>
                 </tr>
-                <tr style="display: none" th:id="znamkaAR2HCHRadek">
+                <tr th:style="${kompletniZprava.hodnoceniAR2.znamka != null &&
+                            (kompletniZprava.hodnoceniAR2.znamka == '7.8' ||
+                             kompletniZprava.hodnoceniAR2.znamka == '7.9') ?
+                                'display:table-row;' : 'display:none;'}"
+                    th:id="znamkaAR2HCHRadek">
                     <td></td>
                     <td></td>
                     <td style="text-align: right">*</td>
                     <td><input type="number" name="cislo" step="0.1"
                                th:max="10" th:min="8.0" th:id="znamkaAR2HCH" th:name="znamkaAR2HCH"
-                               th:field="*{hodnoceniAR2.znamkaHCH}"></td>
+                               th:field="*{hodnoceniAR2.znamka2}"></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -205,8 +245,12 @@
                 </tr>
                 <tr>
                     <td>TD:</td>
-                    <td><input name="jmenoTD" id="jmenoTD" th:field="*{td.idFacr}" th:type="text"
+                    <td><input name="jmenoTD" id="jmenoTD" th:type="text"
                                th:id="jmenoTD" list="tdList"
+                               th:value="${(kompletniZprava.td.jmeno!= null &&
+                                kompletniZprava.td.prijmeni!= null) ?
+                                kompletniZprava.td.prijmeni + ' ' +
+                                 kompletniZprava.td.jmeno : ''}"
                                th:autocomplete="${'on'}"></td>
                     <datalist id="tdList">
                         <th:block th:each="delegati : ${delegatiList}">
@@ -215,22 +259,28 @@
                         </th:block>
                     </datalist>
                     <div class="napoveda" id="napovedaTD"></div>
-                    <td id="idFacrTD"></td>
+                    <td>
+                        <label style="width: auto" th:text="*{td.idFacr}" id="idFacrTD"></label>
+                        <input class="idFacrNovaZprava" name="idFacrTDHiddenInput"
+                               th:type="text" th:field="*{td.idFacr}" id="idFacrTDHiddenInput">
+                    </td>
                     <td></td>
                 </tr>
                 </tbody>
             </table>
             <div class="style_description"></div>
 
+
         </div>
         <div class="sticky-element">
             <div style="display: flex;justify-content: space-between">
                 <div style="text-align: left" class="novaZprava">
-                    <button class="button-48" role="button" onclick="topFunction()"><span class="text">↑</span></button>
+                    <button type="button" class="button-48" role="button" onclick="topFunction()"><span
+                            class="text">↑</span></button>
                 </div>
                 <div style="text-align: right; margin-right: 10px" class="novaZprava">
-                     <button type="submit" class="button-48"
-                           role="button"><span class="text">Uložit a pokračovat</span></button>
+                    <button type="submit" class="button-48"
+                            role="button"><span class="text">Uložit a pokračovat</span></button>
                 </div>
             </div>
         </div>
@@ -238,7 +288,11 @@
         <div class="sticky-element_rozhodci" style="top: 45px">
             <div class="radekKategorie" th:id="listaR">
                 <div class="listaDiv"><label style="width:40px">R:</label></div>
-                <div class="listaDiv"><label th:id="listaRJmeno"></label></div>
+                <div class="listaDiv"><label th:text="${(kompletniZprava.r.jmeno!= null &&
+                                kompletniZprava.r.prijmeni!= null) ?
+                                kompletniZprava.r.prijmeni + ' ' +
+                                 kompletniZprava.r.jmeno + ' (' + kompletniZprava.r.idFacr + ')' : ''}"
+                                             th:id="listaRJmeno"></label></div>
                 <div class="sipkaDivHlavni" th:id="sipkaR">
                     <img th:src="@{/css/img/arrow.png}"/>
                 </div>
@@ -403,7 +457,11 @@
         <div class="sticky-element_rozhodci" style="top: 69px">
             <div class="radekKategorie" th:id="listaAR1">
                 <div class="listaDiv"><label style="width:40px">AR1:</label></div>
-                <div class="listaDiv"><label th:id="listaAR1Jmeno"></label></div>
+                <div class="listaDiv"><label th:text="${(kompletniZprava.ar1.jmeno!= null &&
+                                kompletniZprava.ar1.prijmeni!= null) ?
+                                kompletniZprava.ar1.prijmeni + ' ' +
+                                 kompletniZprava.ar1.jmeno + ' (' + kompletniZprava.ar1.idFacr + ')' : ''}"
+                                             th:id="listaAR1Jmeno"></label></div>
                 <div class="sipkaDivHlavni" th:id="sipkaAR1">
                     <img th:src="@{/css/img/arrow.png}"/>
                 </div>
@@ -492,7 +550,12 @@
         <div class="sticky-element_rozhodci" style="top: 93px">
             <div class="radekKategorie" th:id="listaAR2">
                 <div class="listaDiv"><label style="width:40px">AR2:</label></div>
-                <div class="listaDiv"><label th:id="listaAR2Jmeno"></label></div>
+                <div class="listaDiv"><label
+                        th:text="${(kompletniZprava.ar2.jmeno!= null &&
+                                kompletniZprava.ar2.prijmeni!= null) ?
+                                kompletniZprava.ar2.prijmeni + ' ' +
+                                 kompletniZprava.ar2.jmeno + ' (' + kompletniZprava.ar2.idFacr + ')' : ''}"
+                        th:id="listaAR2Jmeno"></label></div>
                 <div class="sipkaDivHlavni" th:id="sipkaAR2">
                     <img th:src="@{/css/img/arrow.png}"/>
                 </div>

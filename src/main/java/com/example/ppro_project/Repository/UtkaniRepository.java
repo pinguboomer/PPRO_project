@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UtkaniRepository extends JpaRepository<Utkani, Long> {
+public interface UtkaniRepository extends JpaRepository<Utkani, String> {
     Utkani findByIdUtkani(String idUtkani);
 
 }

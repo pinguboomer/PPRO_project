@@ -1,6 +1,8 @@
 package com.example.ppro_project.Controller;
 
 import com.example.ppro_project.Model.Clen;
+import com.example.ppro_project.Model.KompletniZprava;
+import com.example.ppro_project.Model.Utkani;
 import com.example.ppro_project.Model.Zprava;
 import com.example.ppro_project.Repository.ClenRepository;
 import com.example.ppro_project.Service.ClenService;
@@ -19,7 +21,9 @@ import java.util.List;
 
 import static com.example.ppro_project.Constants.Constants.*;
 import static com.example.ppro_project.Controller.VlastnostController.*;
+import static com.example.ppro_project.Controller.UtkaniController.*;
 import static com.example.ppro_project.Controller.VlastnostController.vlastnostService;
+import static com.example.ppro_project.Controller.ZpravaController.kompletniZprava;
 import static com.example.ppro_project.Controller.ZpravaController.zpravaService;
 
 @Controller
@@ -116,9 +120,11 @@ public class ClenController {
         }
     }
 
-    private void naplnAtributyClena() {
+    public void naplnAtributyClena() {
         rozhodciList = clenService.getRozhodci();
         delegatiList = clenService.getDelegati();
+        kompletniZprava = new KompletniZprava();
+        hledaneUtkani = new Utkani();
         maRozpracovane = false;
         if (prihlasenyUzivatel.getRole() == DELEGAT) {
             zpravyClena = zpravaService.getZpravyByIdDFA(prihlasenyUzivatel.getId());

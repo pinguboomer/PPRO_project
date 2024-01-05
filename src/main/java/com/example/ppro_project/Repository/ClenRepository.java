@@ -15,4 +15,6 @@ public interface ClenRepository extends JpaRepository<Clen, Integer> {
 
     List<Clen> findByRole(String role);
     Clen findById(int id);
+
+    Clen findByIdFacrAndRole(String idFacr, String role);
 }
