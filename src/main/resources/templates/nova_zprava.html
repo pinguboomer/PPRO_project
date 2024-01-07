@@ -219,9 +219,11 @@
                                 th:value="Normální">Normální
                         </option>
                         <option th:selected="*{hodnoceniAR2.obtiznost == 'Obtížné'}"
-                                th:value="Obtížné">Obtížné</option>
+                                th:value="Obtížné">Obtížné
+                        </option>
                         <option th:selected="*{hodnoceniAR2.obtiznost == 'Těžké'}"
-                                th:value="Těžké">Těžké</option>
+                                th:value="Těžké">Těžké
+                        </option>
                     </select></td>
                 </tr>
                 <tr th:style="${kompletniZprava.hodnoceniAR2.znamka != null &&
@@ -300,7 +302,8 @@
         </div>
         <div th:id="blokR">
             <div class="radekKategorie" th:id="listaR1">
-                <div class="listaDiv"><label>1) Aplikace a interpretace pravidel fotbalu, taktika řízení utkání:</label>
+                <div class="listaDiv">
+                    <label>1) Aplikace a interpretace pravidel fotbalu, taktika řízení utkání:</label>
                 </div>
                 <div class="sipkaDiv" th:id="sipkaR1">
                     <img th:src="@{/css/img/arrow.png}"/>
@@ -309,13 +312,15 @@
             <div th:id="blokR1">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPF">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select></div>
+                    <div style="margin-right: 10px">
+                        <select th:id="znamkaPF"
+                                th:field="*{hodnoceniR.hodnoceniPopisList[0].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
+                    </select>
+                    </div>
                 </div>
                 <div class="radekKategorie">
                     <div class="vlastnosti"><select th:id="vlastnostiPFSelect">
@@ -329,12 +334,16 @@
                             <div th:id="pridatKladPF" class="custom-btn btn-1">+
                             </div>
                         </div>
-                        <div th:id="kladyZaporyPFDiv"></div>
+                        <div th:id="kladyZaporyPFDiv">
+                            <input th:id="kladyZaporyPFInputHidden"
+                                   th:field="*{hodnoceniR.hodnoceniPopisList[0].hodnoceniVlastnostInputString}">
+                            </div>
                     </div>
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPF" style="flex: 1"></textarea>
+                    <textarea th:field="*{hodnoceniR.hodnoceniPopisList[0].popis}"
+                              th:id="popisPF" style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaR2">
@@ -347,12 +356,12 @@
             <div th:id="blokR2">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaOT">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaOT"
+                                                            th:field="*{hodnoceniR.hodnoceniPopisList[1].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -367,12 +376,16 @@
                             <div th:id="pridatKladOT" class="custom-btn btn-1">+
                             </div>
                         </div>
-                        <div th:id="kladyZaporyOTDiv"></div>
+                        <div th:id="kladyZaporyOTDiv">
+                            <input th:id="kladyZaporyOTInputHidden"
+                                   th:field="*{hodnoceniR.hodnoceniPopisList[1].hodnoceniVlastnostInputString}">
+                        </div>
                     </div>
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisOT" style="flex: 1"></textarea>
+                    <textarea th:id="popisOT" th:field="*{hodnoceniR.hodnoceniPopisList[1].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaR3">
@@ -385,12 +398,12 @@
             <div th:id="blokR3">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaFyzicka">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaFyzicka"
+                                                            th:field="*{hodnoceniR.hodnoceniPopisList[2].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[2].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -410,7 +423,7 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisFyzicka" style="flex: 1"></textarea>
+                    <textarea th:id="popisFyzicka" th:field="*{hodnoceniR.hodnoceniPopisList[2].popis}" style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaR4">
@@ -423,12 +436,12 @@
             <div th:id="blokR4">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaSpoluprace">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaSpoluprace"
+                                                            th:field="*{hodnoceniR.hodnoceniPopisList[3].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[3].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -448,7 +461,8 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisSpoluprace" style="flex: 1"></textarea>
+                    <textarea th:id="popisSpoluprace" th:field="*{hodnoceniR.hodnoceniPopisList[3].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
         </div>
@@ -478,12 +492,12 @@
             <div th:id="blokAR1_1">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPFAR1">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaPFAR1"
+                                                            th:field="*{hodnoceniAR1.hodnoceniPopisList[0].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -503,7 +517,8 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPFAR1" style="flex: 1"></textarea>
+                    <textarea th:id="popisPFAR1" th:field="*{hodnoceniAR1.hodnoceniPopisList[0].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaAR1_2">
@@ -516,12 +531,12 @@
             <div th:id="blokAR1_2">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR1">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR1"
+                                                            th:field="*{hodnoceniAR1.hodnoceniPopisList[1].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -541,7 +556,8 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPohybAR1" style="flex: 1"></textarea>
+                    <textarea th:id="popisPohybAR1"  th:field="*{hodnoceniAR1.hodnoceniPopisList[1].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
         </div>
@@ -572,12 +588,12 @@
             <div th:id="blokAR2_1">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPFAR2">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaPFAR2"
+                                                            th:field="*{hodnoceniAR2.hodnoceniPopisList[0].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -597,7 +613,8 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPFAR2" style="flex: 1"></textarea>
+                    <textarea th:id="popisPFAR2"  th:field="*{hodnoceniAR2.hodnoceniPopisList[0].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaAR2_2">
@@ -610,12 +627,12 @@
             <div th:id="blokAR2_2">
                 <div class="radekKategorie">
                     <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR2">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR2"
+                                                            th:field="*{hodnoceniAR2.hodnoceniPopisList[1].celkovaZnamka}">
+                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                th:value="${znamka}" th:text="${znamka}"></option>
                     </select></div>
                 </div>
                 <div class="radekKategorie">
@@ -635,7 +652,8 @@
                 </div>
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPohybAR2" style="flex: 1"></textarea>
+                    <textarea th:id="popisPohybAR2"  th:field="*{hodnoceniAR2.hodnoceniPopisList[1].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
         </div>
@@ -652,7 +670,8 @@
         <div th:id="blokSituace">
             <div style="margin-left: 10px">Popis:</div>
             <div style="display: flex; margin: 5px 10px 5px 10px">
-                <textarea th:id="popisSituace" style="flex: 1"></textarea>
+                <textarea th:id="popisSituace"  th:field="*{hodnoceniR.hodnoceniPopisList[4].popis}"
+                          style="flex: 1"></textarea>
             </div>
         </div>
 
@@ -676,7 +695,8 @@
             <div th:id="blokOstatni1">
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPoradatele" style="flex: 1"></textarea>
+                    <textarea th:id="popisPoradatele" th:field="*{hodnoceniR.hodnoceniPopisList[5].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaOstatni2">
@@ -689,7 +709,8 @@
             <div th:id="blokOstatni2">
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisDivaci" style="flex: 1"></textarea>
+                    <textarea th:id="popisDivaci" th:field="*{hodnoceniR.hodnoceniPopisList[6].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
             <div class="radekKategorie" th:id="listaOstatni3">
@@ -702,7 +723,8 @@
             <div th:id="blokOstatni3">
                 <div style="margin-left: 10px">Popis:</div>
                 <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisJine" style="flex: 1"></textarea>
+                    <textarea th:id="popisJine" th:field="*{hodnoceniR.hodnoceniPopisList[7].popis}"
+                              style="flex: 1"></textarea>
                 </div>
             </div>
         </div>

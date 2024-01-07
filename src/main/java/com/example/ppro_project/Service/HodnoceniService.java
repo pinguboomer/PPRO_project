@@ -28,7 +28,7 @@ public class HodnoceniService {
         if(!Objects.equals(hodnoceni.znamka, "7.8") && !hodnoceni.znamka.equals("7.9")) {
             hodnoceni.znamka2 = null;
         }
-        List<HodnoceniPopis> tempList = hodnoceni.hodnoceniPopisList;
+        HodnoceniPopis[] tempList = hodnoceni.hodnoceniPopisList;
         Hodnoceni h = hodnoceniRepository.save(hodnoceni);
         if(h != null){
             h.hodnoceniPopisList = tempList;

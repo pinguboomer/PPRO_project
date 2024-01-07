@@ -9,8 +9,8 @@ public class HodnoceniVlastnost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "idHodnoceni")
-    public int idHodnoceni;
+    @Column(name = "idPopis")
+    public int idPopis;
 
     @Column(name = "idVlastnost")
     public int idVlastnost;
@@ -21,8 +21,8 @@ public class HodnoceniVlastnost {
     public HodnoceniVlastnost(){
 
     }
-    public HodnoceniVlastnost(int idHodnoceni, int idVlastnost, int typ) {
-        this.idHodnoceni = idHodnoceni;
+    public HodnoceniVlastnost(int idPopis, int idVlastnost, int typ) {
+        this.idPopis = idPopis;
         this.idVlastnost = idVlastnost;
         this.typ = typ;
     }
@@ -35,12 +35,12 @@ public class HodnoceniVlastnost {
         this.id = id;
     }
 
-    public int getIdHodnoceni() {
-        return idHodnoceni;
+    public int getIdPopis() {
+        return idPopis;
     }
 
-    public void setIdHodnoceni(int idHodnoceni) {
-        this.idHodnoceni = idHodnoceni;
+    public void setIdPopis(int idPopis) {
+        this.idPopis = idPopis;
     }
 
     public int getIdVlastnost() {

@@ -12,14 +12,14 @@ import java.util.List;
 @Repository
 public interface HodnoceniVlastnostRepository extends JpaRepository<HodnoceniVlastnost, Integer> {
 
-    @Query("SELECT z.idVlastnost FROM HodnoceniVlastnost z WHERE z.idHodnoceni = :idHodnoceni")
-    List<Integer> findVlastnostiIdByIdHodnoceni(@Param("idHodnoceni") int idHodnoceni);
+    @Query("SELECT z FROM HodnoceniVlastnost z WHERE z.idPopis = :idPopis")
+    List<HodnoceniVlastnost> findVlastnostiIdByIdPopis(@Param("idPopis") int idPopis);
 
     HodnoceniVlastnost save(HodnoceniVlastnost hodnoceniVlastnost);
 
-    @Query("SELECT hv FROM HodnoceniVlastnost hv WHERE hv.idHodnoceni = :idHodnoceni" +
+    @Query("SELECT hv FROM HodnoceniVlastnost hv WHERE hv.idPopis = :idPopis" +
             " AND hv.idVlastnost = :idVlastnost")
-    HodnoceniVlastnost findByHodnoceniAndVlastnost(@Param("idHodnoceni") int idHodnoceni,
+    HodnoceniVlastnost findByPopisAndVlastnost(@Param("idPopis") int idPopis,
                                                    @Param("idVlastnost") int idVlastnost);
 
 }

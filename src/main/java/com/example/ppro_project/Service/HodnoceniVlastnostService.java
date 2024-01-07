@@ -19,17 +19,17 @@ public class HodnoceniVlastnostService {
     public HodnoceniVlastnostService(HodnoceniVlastnostRepository hodnoceniVlastnostRepository) {
         this.hodnoceniVlastnostRepository = hodnoceniVlastnostRepository;
     }
-    public List<Integer> getVlastnostiIdByIdHodnoceni(int idHodnoceni) {
-        return hodnoceniVlastnostRepository.findVlastnostiIdByIdHodnoceni(idHodnoceni);
+    public List<HodnoceniVlastnost> getVlastnostiIdByIdPopis(int idHodnoceni) {
+        return hodnoceniVlastnostRepository.findVlastnostiIdByIdPopis(idHodnoceni);
     }
 
-    public HodnoceniVlastnost save(int idHodnoceni, int idVlastnost, int typ) {
+    public HodnoceniVlastnost save(int idPopis, int idVlastnost, int typ) {
         HodnoceniVlastnost hv =
-                hodnoceniVlastnostRepository.findByHodnoceniAndVlastnost(idHodnoceni, idVlastnost);
+                hodnoceniVlastnostRepository.findByPopisAndVlastnost(idPopis, idVlastnost);
         if(hv == null){
-            hv = new HodnoceniVlastnost(idHodnoceni, idVlastnost, typ);
+            hv = new HodnoceniVlastnost(idPopis, idVlastnost, typ);
         } else {
-            hv.idHodnoceni = idHodnoceni;
+            hv.idPopis = idPopis;
             hv.idVlastnost = idVlastnost;
             hv.typ = typ;
         }

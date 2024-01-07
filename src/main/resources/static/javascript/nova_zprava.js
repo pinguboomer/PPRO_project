@@ -99,77 +99,138 @@ const pridatZaporPohybAR2 = document.getElementById('pridatZaporPohybAR2');
 const vlastnostiPohybAR2Select = document.getElementById('vlastnostiPohybAR2Select');
 const kladyZaporyPohybAR2Div = document.getElementById('kladyZaporyPohybAR2Div');
 
+const kladyZaporyPFInputHidden = document.getElementById('kladyZaporyPFInputHidden');
+const kladyZaporyOTInputHidden = document.getElementById('kladyZaporyOTInputHidden');
+const kladyZaporyFyzickaInputHidden = document.getElementById('kladyZaporyFyzickaInputHidden');
+const kladyZaporySpolupraceInputHidden = document.getElementById('kladyZaporySpolupraceInputHidden');
+const kladyZaporyPFAR1InputHidden = document.getElementById('kladyZaporyPFAR1InputHidden');
+const kladyZaporyPohybAR1InputHidden = document.getElementById('kladyZaporyPohybAR1InputHidden');
+const kladyZaporyPFAR2InputHidden = document.getElementById('kladyZaporyPFAR2InputHidden');
+const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohybAR2InputHidden');
+
 
 pridatKladPF.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF");
+    pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
 });
 
 pridatZaporPF.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPFSelect, kladyZaporyPFDiv, "PF");
+    pridejVlastnost(false, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
 });
 
 pridatKladOT.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiOTSelect, kladyZaporyOTDiv, "OT");
+    pridejVlastnost(true, vlastnostiOTSelect, kladyZaporyOTDiv, "OT", kladyZaporyOTInputHidden);
 });
 
 pridatZaporOT.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiOTSelect, kladyZaporyOTDiv, "OT");
+    pridejVlastnost(false, vlastnostiOTSelect, kladyZaporyOTDiv, "OT", kladyZaporyOTInputHidden);
 });
 
 pridatKladFyzicka.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv, "Fyzicka");
+    pridejVlastnost(true, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv,
+        "Fyzicka", kladyZaporyFyzickaInputHidden);
 });
 
 pridatZaporFyzicka.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv, "Fyzicka");
+    pridejVlastnost(false, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv,
+        "Fyzicka", kladyZaporyFyzickaInputHidden);
 });
 
 pridatKladSpoluprace.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv, "Spoluprace");
+    pridejVlastnost(true, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv,
+        "Spoluprace", kladyZaporySpolupraceInputHidden);
 });
 
 pridatZaporSpoluprace.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv, "Spoluprace");
+    pridejVlastnost(false, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv,
+        "Spoluprace", kladyZaporySpolupraceInputHidden);
 });
 
 pridatKladPFAR1.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPFAR1Select, kladyZaporyPFAR1Div, "PFAR1");
+    pridejVlastnost(true, vlastnostiPFAR1Select, kladyZaporyPFAR1Div,
+        "PFARJedna", kladyZaporyPFAR1InputHidden);
 });
 
 pridatZaporPFAR1.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPFAR1Select, kladyZaporyPFAR1Div, "PFAR1");
+    pridejVlastnost(false, vlastnostiPFAR1Select, kladyZaporyPFAR1Div,
+        "PFARJedna", kladyZaporyPFAR1InputHidden);
 });
 
 pridatKladPohybAR1.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div, "PohybAR1");
+    pridejVlastnost(true, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div,
+        "PohybARJedna", kladyZaporyPohybAR1InputHidden);
 });
 
 pridatZaporPohybAR1.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div, "PohybAR1");
+    pridejVlastnost(false, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div,
+        "PohybARJedna", kladyZaporyPohybAR1InputHidden);
 });
 
 pridatKladPFAR2.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPFAR2Select, kladyZaporyPFAR2Div, "PFAR2");
+    pridejVlastnost(true, vlastnostiPFAR2Select, kladyZaporyPFAR2Div,
+        "PFARDva", kladyZaporyPFAR2InputHidden);
 });
 
 pridatZaporPFAR2.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPFAR2Select, kladyZaporyPFAR2Div, "PFAR2");
+    pridejVlastnost(false, vlastnostiPFAR2Select, kladyZaporyPFAR2Div,
+        "PFARDva", kladyZaporyPFAR2InputHidden);
 });
 
 pridatKladPohybAR2.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div, "PohybAR2");
+    pridejVlastnost(true, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div,
+        "PohybARDva", kladyZaporyPohybAR2InputHidden);
 });
 
 pridatZaporPohybAR2.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div, "PohybAR2");
+    pridejVlastnost(false, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div,
+        "PohybARDva", kladyZaporyPohybAR2InputHidden);
 });
 
-function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ) {
-    var existingDivs = document.querySelectorAll('#kladyZaporyPFDiv > div');
+function vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden){
+    var idVlastnost = select[select.selectedIndex].value;
+    var index = kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '+');
+    var index2 = kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '-');
+
+    if (index >= 0 || index2 >= 0) {
+        if (kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '+') !== -1 && !jeKlad) {
+            kladyZaporyInputHidden.value =
+                kladyZaporyInputHidden.value.replace(',' + idVlastnost + '+',
+                    ',' + idVlastnost + '-');
+        } else if (kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '-') !== -1 && jeKlad) {
+            kladyZaporyInputHidden.value =
+                kladyZaporyInputHidden.value.replace(',' + idVlastnost + '-',
+                    ',' + idVlastnost + '+');
+        }
+        return;
+    }
+    if (existingDivs.length >= 5) {
+        return;
+    }
+    if (jeKlad) {
+        kladyZaporyInputHidden.value += ',' + idVlastnost + '+,';
+    } else {
+        kladyZaporyInputHidden.value += ',' + idVlastnost + '-,';
+    }
+}
+
+function odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden) {
+    if (jeKlad) {
+        kladyZaporyInputHidden.value =
+            kladyZaporyInputHidden.value.replace(',' + idVlastnost + '+', '');
+    } else {
+        kladyZaporyInputHidden.value =
+            kladyZaporyInputHidden.value.replace(',' + idVlastnost + '-', '');
+    }
+
+}
+
+function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHidden) {
+    var existingDivs =
+        document.querySelectorAll('#' + kladyZaporyDiv.id + ' > div');
+
     var selectedOption = select[select.selectedIndex].text;
     // Vytvoření nového divu
     var div = document.createElement('div');
-    div.id = 'div_' + typ + select.value;
+    div.id = typ + select[select.selectedIndex].value;
     div.value = select.value;
     var myDiv = document.getElementById(div.id);
     var pridat = true;
@@ -197,11 +258,12 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ) {
     div.style.display = "flex";
     div.style.textAlign = "left";
     // Přidání divu pod element Select
+    vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden);
     if (existingDivs.length >= 5) {
         return; // Pokud je počet divů větší nebo roven 5, ukončit funkci
     }
     // Vytvoření obrázku
-    var img = document.createElement('img');
+    const img = document.createElement('img');
     img.src = '/css/img/remove_icon.png';
     img.style.width = "20px";
     img.style.height = "20px";
@@ -214,8 +276,12 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ) {
     img.addEventListener('mouseleave', function (event) {
         img.src = '/css/img/remove_icon.png';
     });
+
     img.addEventListener('click', function (event) {
-        kladyZaporyDiv.removeChild(div)
+
+        const idVlastnost = div.id.replace(/\D/g, '');
+        kladyZaporyDiv.removeChild(div);
+        odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden);
     });
 
     div.appendChild(img);
@@ -223,6 +289,15 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ) {
         kladyZaporyDiv.appendChild(div);
     }
 
+}
+
+function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyInputHidden){
+    var selectedOption = select[select.selectedIndex].text;
+    // Vytvoření nového divu
+    var div = document.createElement('div');
+    div.id = typ + select[select.selectedIndex].value;
+    div.value = select.value;
+    var myDiv = document.getElementById(div.id);
 }
 
 function showOrHide(div, sipkaImg, headerOffset) {

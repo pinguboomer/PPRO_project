@@ -11,13 +11,14 @@ public class KompletniZprava {
     public Hodnoceni hodnoceniR;
     public Hodnoceni hodnoceniAR1;
     public Hodnoceni hodnoceniAR2;
+
     public Clen r;
     public Clen ar1;
     public Clen ar2;
     public Clen dfa;
     public Clen td;
 
-    public KompletniZprava(){
+    public KompletniZprava() {
         utkani = new Utkani();
         zprava = new Zprava();
         soutez = new Soutez();
@@ -30,9 +31,9 @@ public class KompletniZprava {
         hodnoceniAR1 = new Hodnoceni();
         hodnoceniAR2 = new Hodnoceni();
 
-        hodnoceniR.hodnoceniPopisList = new ArrayList<>();
-        hodnoceniAR1.hodnoceniPopisList = new ArrayList<>();
-        hodnoceniAR2.hodnoceniPopisList = new ArrayList<>();
+        hodnoceniR.hodnoceniPopisList = new HodnoceniPopis[8];
+        hodnoceniAR1.hodnoceniPopisList = new HodnoceniPopis[2];
+        hodnoceniAR2.hodnoceniPopisList = new HodnoceniPopis[2];
 
         naplnListPopisuProR();
         naplnListPopisuProAR(true);
@@ -41,30 +42,36 @@ public class KompletniZprava {
 
     private void naplnListPopisuProAR(boolean ar1) {
 
-        if(ar1){
-            hodnoceniAR1.hodnoceniPopisList.clear();
-            hodnoceniAR1.hodnoceniPopisList.add(new HodnoceniPopis("A1"));
-            hodnoceniAR1.hodnoceniPopisList.add(new HodnoceniPopis("A2"));
+        if (ar1) {
+            hodnoceniAR1.hodnoceniPopisList[0] = new HodnoceniPopis("A1");
+            hodnoceniAR1.hodnoceniPopisList[1] = new HodnoceniPopis("A2");
+            hodnoceniAR1.hodnoceniPopisList[0].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
+            hodnoceniAR1.hodnoceniPopisList[1].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
         } else {
-            hodnoceniAR2.hodnoceniPopisList.clear();
-            hodnoceniAR2.hodnoceniPopisList.add(new HodnoceniPopis("A1"));
-            hodnoceniAR2.hodnoceniPopisList.add(new HodnoceniPopis("A2"));
+            hodnoceniAR2.hodnoceniPopisList[0] = new HodnoceniPopis("A1");
+            hodnoceniAR2.hodnoceniPopisList[1] = new HodnoceniPopis("A2");
+            hodnoceniAR2.hodnoceniPopisList[0].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
+            hodnoceniAR2.hodnoceniPopisList[1].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
         }
 
     }
 
     private void naplnListPopisuProR() {
-        hodnoceniR.hodnoceniPopisList.clear();
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R1"));
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R2"));
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R3"));
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("R4"));
+        hodnoceniR.hodnoceniPopisList[0] = new HodnoceniPopis("R1");
+        hodnoceniR.hodnoceniPopisList[1] = new HodnoceniPopis("R2");
+        hodnoceniR.hodnoceniPopisList[2] = new HodnoceniPopis("R3");
+        hodnoceniR.hodnoceniPopisList[3] = new HodnoceniPopis("R4");
 
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("KS"));
+        hodnoceniR.hodnoceniPopisList[4] = new HodnoceniPopis("KS");
 
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OP"));
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OD"));
-        hodnoceniR.hodnoceniPopisList.add(new HodnoceniPopis("OJ"));
+        hodnoceniR.hodnoceniPopisList[5] = new HodnoceniPopis("OP");
+        hodnoceniR.hodnoceniPopisList[6] = new HodnoceniPopis("OD");
+        hodnoceniR.hodnoceniPopisList[7] = new HodnoceniPopis("OJ");
+
+        hodnoceniR.hodnoceniPopisList[0].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
+        hodnoceniR.hodnoceniPopisList[1].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
+        hodnoceniR.hodnoceniPopisList[2].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
+        hodnoceniR.hodnoceniPopisList[3].hodnoceniVlastnostArray = new HodnoceniVlastnost[5];
     }
 
     public Zprava getZprava() {

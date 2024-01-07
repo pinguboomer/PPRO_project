@@ -19,6 +19,7 @@ import static com.example.ppro_project.Constants.Constants.*;
 import static com.example.ppro_project.Controller.ClenController.*;
 import static com.example.ppro_project.Controller.HodnoceniController.*;
 import static com.example.ppro_project.Controller.HodnoceniPopisController.hodnoceniPopisService;
+import static com.example.ppro_project.Controller.HodnoceniVlastnostController.hodnoceniVlastnostService;
 import static com.example.ppro_project.Controller.SoutezController.soutezService;
 import static com.example.ppro_project.Controller.UtkaniController.hledaneUtkani;
 import static com.example.ppro_project.Controller.UtkaniController.utkaniService;
@@ -107,8 +108,8 @@ public class ZpravaController {
                     dekodujHodnoceniDoZpravy(hodnoceniVal);
                     List<HodnoceniPopis> hodnoceniPopis =
                             hodnoceniPopisService.getByIdHodnoceni(hodnoceniVal.getId());
-                    if(!hodnoceniPopis.isEmpty()){
-                        //TODO
+                    if (!hodnoceniPopis.isEmpty()) {
+                        dekodujDoHodnoceniPopis(hodnoceniPopis, hodnoceniVal);
                     }
                 }
             }
@@ -121,6 +122,70 @@ public class ZpravaController {
         kompletniZprava.soutez = soutezNalezena;
         model.addAttribute("kompletniZprava", kompletniZprava);
         return "redirect:/nova_zprava";
+    }
+
+    private void dekodujDoHodnoceniPopis(List<HodnoceniPopis> hodnoceniPopis, Hodnoceni hodnoceniVal) {
+        for (int i = 0; i < hodnoceniPopis.size(); i++) {
+            if (Objects.equals(hodnoceniVal.roleR, R)) {
+                if (i < 8) {
+                    kompletniZprava.hodnoceniR.hodnoceniPopisList[i] = hodnoceniPopis.get(i);
+                    if (i < 5) {
+                        kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray
+                                = new HodnoceniVlastnost[5];
+                        List<HodnoceniVlastnost> hodnoceniVlastnost =
+                                hodnoceniVlastnostService.
+                                        getVlastnostiIdByIdPopis(hodnoceniPopis.get(i).getId());
+                        if (!hodnoceniVlastnost.isEmpty()) {
+                            for (int j = 0; j < hodnoceniVlastnost.size(); j++) {
+                                if (j < 5) {
+                                    kompletniZprava.hodnoceniR.hodnoceniPopisList[i].
+                                            hodnoceniVlastnostArray[j] = hodnoceniVlastnost.get(j);
+                                }
+                            }
+                        }
+                    }
+                }
+                kompletniZprava.hodnoceniR.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+            }
+            if (Objects.equals(hodnoceniVal.roleR, AR1)) {
+                if (i < 2) {
+                    kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i] = hodnoceniPopis.get(i);
+                    kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray
+                            = new HodnoceniVlastnost[5];
+                    List<HodnoceniVlastnost> hodnoceniVlastnost =
+                            hodnoceniVlastnostService.
+                                    getVlastnostiIdByIdPopis(hodnoceniPopis.get(i).getId());
+                    if (!hodnoceniVlastnost.isEmpty()) {
+                        for (int j = 0; j < hodnoceniVlastnost.size(); j++) {
+                            if (j < 5) {
+                                kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].
+                                        hodnoceniVlastnostArray[j] = hodnoceniVlastnost.get(j);
+                            }
+                        }
+                    }
+                }
+                kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+            }
+            if (Objects.equals(hodnoceniVal.roleR, AR2)) {
+                if (i < 2) {
+                    kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i] = hodnoceniPopis.get(i);
+                    kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray
+                            = new HodnoceniVlastnost[5];
+                    List<HodnoceniVlastnost> hodnoceniVlastnost =
+                            hodnoceniVlastnostService.
+                                    getVlastnostiIdByIdPopis(hodnoceniPopis.get(i).getId());
+                    if (!hodnoceniVlastnost.isEmpty()) {
+                        for (int j = 0; j < hodnoceniVlastnost.size(); j++) {
+                            if (j < 5) {
+                                kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].
+                                        hodnoceniVlastnostArray[j] = hodnoceniVlastnost.get(j);
+                            }
+                        }
+                    }
+                }
+                kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+            }
+        }
     }
 
 
@@ -161,44 +226,42 @@ public class ZpravaController {
     }
 
     private void ulozVsechnyPopisy() {
-        List<HodnoceniPopis> hodnoceniPopisTemp = new ArrayList<>();
-        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.size(); i++) {
-            hodnoceniPopisTemp.add(
-                    hodnoceniPopisService.save(kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i)));
+        HodnoceniPopis[] hodnoceniPopisTemp = new HodnoceniPopis[5];
+        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.length; i++) {
+            hodnoceniPopisTemp[i] =
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniR.hodnoceniPopisList[i]);
         }
         kompletniZprava.hodnoceniR.hodnoceniPopisList = hodnoceniPopisTemp;
-        hodnoceniPopisTemp.clear();
-        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.size(); i++) {
-            hodnoceniPopisTemp.add(
-                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i)));
+        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.length; i++) {
+            hodnoceniPopisTemp[i] =
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i]);
         }
         kompletniZprava.hodnoceniAR1.hodnoceniPopisList = hodnoceniPopisTemp;
-        hodnoceniPopisTemp.clear();
-        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.size(); i++) {
-            hodnoceniPopisTemp.add(
-                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i)));
+        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.length; i++) {
+            hodnoceniPopisTemp[i] =
+                    hodnoceniPopisService.save(kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i]);
         }
         kompletniZprava.hodnoceniAR2.hodnoceniPopisList = hodnoceniPopisTemp;
     }
 
     private void dekodujHodnoceniPopis(KompletniZprava kompletniZpravaModel) {
-        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.size(); i++) {
-            kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i).popis =
-                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList.get(i).popis;
-            kompletniZprava.hodnoceniR.hodnoceniPopisList.get(i).celkovaZnamka =
-                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList.get(i).celkovaZnamka;
+        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.length; i++) {
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].popis =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].popis;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].celkovaZnamka;
         }
-        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.size(); i++) {
-            kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i).popis =
-                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList.get(i).popis;
-            kompletniZprava.hodnoceniAR1.hodnoceniPopisList.get(i).celkovaZnamka =
-                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList.get(i).celkovaZnamka;
+        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.length; i++) {
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].popis =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].popis;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].celkovaZnamka;
         }
-        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.size(); i++) {
-            kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i).popis =
-                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList.get(i).popis;
-            kompletniZprava.hodnoceniAR2.hodnoceniPopisList.get(i).celkovaZnamka =
-                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList.get(i).celkovaZnamka;
+        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.length; i++) {
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].popis =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].popis;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].celkovaZnamka =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].celkovaZnamka;
         }
     }
 
@@ -229,6 +292,7 @@ public class ZpravaController {
             kompletniZprava.td = new Clen();
         }
     }
+
     private void vynulujParametryZpravy() {
         kompletniZprava = new KompletniZprava();
 

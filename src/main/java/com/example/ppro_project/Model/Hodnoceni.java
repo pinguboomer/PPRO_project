@@ -36,11 +36,19 @@ public class Hodnoceni {
     public String obtiznost = "Normální";
 
     @Transient
-    public List<HodnoceniPopis> hodnoceniPopisList;
+    public HodnoceniPopis[] hodnoceniPopisList;
+
+    public HodnoceniPopis[] getHodnoceniPopisList() {
+        return hodnoceniPopisList;
+    }
+
+    public void setHodnoceniPopisList(HodnoceniPopis[] hodnoceniPopisList) {
+        this.hodnoceniPopisList = hodnoceniPopisList;
+    }
 
     public void setIdHodnoceniToList(){
-        for (int i = 0; i < hodnoceniPopisList.size(); i++) {
-            hodnoceniPopisList.get(i).idHodnoceni = getId();
+        for (int i = 0; i < hodnoceniPopisList.length; i++) {
+            hodnoceniPopisList[i].idHodnoceni = getId();
         }
     }
 
