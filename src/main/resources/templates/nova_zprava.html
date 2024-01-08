@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>SKFS – hodnocení</title>
+    <title>SKFS – nový posudek</title>
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
     <script th:src="@{/javascript/nova_zprava.js}" th:defer="defer"></script>
 </head>
@@ -36,705 +36,731 @@
                   th:errors="*{idUtkani}" style="color: white;"></span>
         </div>
     </form>
-    <form method="POST" th:action="@{/nova_zprava/ulozit}" th:object="${kompletniZprava}">
-        <div th:id="utkaniBlok">
-            <div class="utkaniNovaZprava">
-                <label th:text="*{soutez.soutez}"></label>
-                <label th:text="*{utkani.kolo + '. kolo'}"></label>
-                <label th:text="*{soutez.kategorie}"></label>
-            </div>
-            <div class="style_description"></div>
-            <div class="utkaniNovaZprava">
-                <label>Domácí:</label>
-                <label>Hosté:</label>
-            </div>
-            <div class="utkaniNovaZprava">
-                <label th:text="*{utkani.domaci}"></label>
-                <label th:text="*{utkani.hoste}"></label>
-            </div>
-            <div class="style_description"></div>
-            <div class="utkaniNovaZprava">
-                <div class="radekNovaZprava">
-                    <label style="margin-right: 5px">Datum: </label>
-                    <label th:text="${kompletniZprava.utkani.datum != null ?
+    <div th:id="zpravaBody">
+        <form method="POST" th:action="@{/nova_zprava/ulozit}" th:object="${kompletniZprava}">
+            <div th:id="utkaniBlok">
+                <div class="utkaniNovaZprava">
+                    <label th:text="*{soutez.soutez}"></label>
+                    <label th:text="*{utkani.kolo + '. kolo'}"></label>
+                    <label th:text="*{soutez.kategorie}"></label>
+                </div>
+                <div class="style_description"></div>
+                <div class="utkaniNovaZprava">
+                    <label>Domácí:</label>
+                    <label>Hosté:</label>
+                </div>
+                <div class="utkaniNovaZprava">
+                    <label th:text="*{utkani.domaci}"></label>
+                    <label th:text="*{utkani.hoste}"></label>
+                </div>
+                <div class="style_description"></div>
+                <div class="utkaniNovaZprava">
+                    <div class="radekNovaZprava">
+                        <label style="margin-right: 5px">Datum: </label>
+                        <label th:text="${kompletniZprava.utkani.datum != null ?
                     kompletniZprava.utkani.datum?.getDay() + '. '
                  + kompletniZprava.utkani.datum?.getMonth()
                 + '. ' + (kompletniZprava.utkani.datum?.getYear() + 1900) : ''}"></label>
-                </div>
-                <div class="radekNovaZprava">
-                    <label style="margin-right: 5px">Začátek utkání:</label>
-                    <label th:text="${kompletniZprava.utkani.datum != null ?
+                    </div>
+                    <div class="radekNovaZprava">
+                        <label style="margin-right: 5px">Začátek utkání:</label>
+                        <label th:text="${kompletniZprava.utkani.datum != null ?
                      kompletniZprava.utkani.datum?.getHours() + ':'
                  + kompletniZprava.utkani.minutyDvojciferne() : ''}"></label>
+                    </div>
                 </div>
-            </div>
-            <div class="utkaniNovaZprava">
-                <div class="radekNovaZprava">
-                    <label style="margin-right: 5px">Stadion: </label>
-                    <label th:text="*{utkani.stadion}"></label>
+                <div class="utkaniNovaZprava">
+                    <div class="radekNovaZprava">
+                        <label style="margin-right: 5px">Stadion: </label>
+                        <label th:text="*{utkani.stadion}"></label>
+                    </div>
                 </div>
-            </div>
-            <div class="style_description"></div>
-            <div class="utkaniNovaZprava">
-                <div class="radekNovaZprava">
-                    <label style="margin-right: 5px">Doba hry (1. | 2. poločas):</label>
-                    <label style="margin-right: 5px">45 +</label>
-                    <input name="nastaveniPrvniPolocas" th:maxlength="3"
-                           th:name="nastaveniPrvniPolocas" th:id="nastaveniPrvniPolocas" pattern="*\d+.*"
-                           step="1" th:max="999" th:min="0" th:type="number"
-                           th:field="*{zprava.nastaveniPrvniPolocas}">
-                    <label style="margin-right: 5px">45 +</label>
-                    <input name="nastaveniDruhyPolocas" th:maxlength="3"
-                           th:name="nastaveniDruhyPolocas" th:id="nastaveniDruhyPolocas" pattern="*\d+.*" step="1"
-                           th:max="999" th:min="0" th:type="number"
-                           th:field="*{zprava.nastaveniDruhyPolocas}">
+                <div class="style_description"></div>
+                <div class="utkaniNovaZprava">
+                    <div class="radekNovaZprava">
+                        <label style="margin-right: 5px">Doba hry (1. | 2. poločas):</label>
+                        <label style="margin-right: 5px">45 +</label>
+                        <input name="nastaveniPrvniPolocas" th:maxlength="3"
+                               th:name="nastaveniPrvniPolocas" th:id="nastaveniPrvniPolocas" pattern="*\d+.*"
+                               step="1" th:max="999" th:min="0" th:type="number"
+                               th:field="*{zprava.nastaveniPrvniPolocas}">
+                        <label style="margin-right: 5px">45 +</label>
+                        <input name="nastaveniDruhyPolocas" th:maxlength="3"
+                               th:name="nastaveniDruhyPolocas" th:id="nastaveniDruhyPolocas" pattern="*\d+.*" step="1"
+                               th:max="999" th:min="0" th:type="number"
+                               th:field="*{zprava.nastaveniDruhyPolocas}">
+                    </div>
                 </div>
-            </div>
-            <div class="style_description"></div>
-            <div class="utkaniNovaZprava">
-                <div class="radekVysledekNovaZprava">
-                    <label style="margin-right: 5px">Poločas:</label>
-                    <input name="polocas" th:maxlength="5" th:id="polocas"
-                           th:name="polocas" pattern="\d+:\d+" th:type="text" th:field="*{zprava.polocas}">
-                    <label style="margin-right: 5px; margin-left: 30px">Výsledek:</label>
-                    <input name="vysledek" th:maxlength="5" th:id="vysledek"
-                           th:name="vysledek" pattern="\d+:\d+" th:type="text" th:field="*{zprava.vysledek}">
+                <div class="style_description"></div>
+                <div class="utkaniNovaZprava">
+                    <div class="radekVysledekNovaZprava">
+                        <label style="margin-right: 5px">Poločas:</label>
+                        <input name="polocas" th:maxlength="5" th:id="polocas"
+                               th:name="polocas" pattern="\d+:\d+" th:type="text" th:field="*{zprava.polocas}">
+                        <label style="margin-right: 5px; margin-left: 30px">Výsledek:</label>
+                        <input name="vysledek" th:maxlength="5" th:id="vysledek"
+                               th:name="vysledek" pattern="\d+:\d+" th:type="text" th:field="*{zprava.vysledek}">
+                    </div>
                 </div>
-            </div>
-            <div class="style_description"></div>
-            <table>
-                <tbody>
-                <tr>
-                    <td>R:</td>
-                    <td><input name="jmenoR" id="jmenoR" th:type="text"
-                               th:id="jmenoR" list="rozhodciList"
-                               th:value="${(kompletniZprava.r.jmeno!= null &&
+                <div class="style_description"></div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>R:</td>
+                        <td><input name="jmenoR" id="jmenoR" th:type="text"
+                                   th:id="jmenoR" list="rozhodciList"
+                                   th:value="${(kompletniZprava.r.jmeno!= null &&
                                 kompletniZprava.r.prijmeni!= null) ?
                                 kompletniZprava.r.prijmeni + ' ' +
                                  kompletniZprava.r.jmeno : ''}" th:autocomplete="${'on'}"></td>
-                    <datalist id="rozhodciList">
-                        <th:block th:each="rozhodci : ${rozhodciList}">
-                            <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
-                                    th:value="${rozhodci.idFacr}"></option>
-                        </th:block>
-                    </datalist>
-                    <div class="napoveda" id="napoveda"></div>
-                    <td style="width: 100px">
-                        <label style="width: auto" th:text="*{r.idFacr}" id="idFacrR"></label>
-                        <input class="idFacrNovaZprava" name="idFacrRHiddenInput"
-                               th:type="text" th:field="*{r.idFacr}" id="idFacrRHiddenInput">
-                    </td>
-                    <td><input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="6" th:id="znamkaR" th:name="znamkaR"
-                               th:field="*{hodnoceniR.znamka}"></td>
-                    <td><select th:field="*{hodnoceniR.obtiznost}">
-                        <option th:selected="*{hodnoceniR.obtiznost == 'Normální'}" th:value="Normální">Normální
-                        </option>
-                        <option th:selected="*{hodnoceniR.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
-                        <option th:selected="*{hodnoceniR.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
-                    </select></td>
-                </tr>
-                <tr th:style="${kompletniZprava.hodnoceniR.znamka != null &&
+                        <datalist id="rozhodciList">
+                            <th:block th:each="rozhodci : ${rozhodciList}">
+                                <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
+                                        th:value="${rozhodci.idFacr}"></option>
+                            </th:block>
+                        </datalist>
+                        <div class="napoveda" id="napoveda"></div>
+                        <td style="width: 100px">
+                            <label style="width: auto" th:text="*{r.idFacr}" id="idFacrR"></label>
+                            <input class="idFacrNovaZprava" name="idFacrRHiddenInput"
+                                   th:type="text" th:field="*{r.idFacr}" id="idFacrRHiddenInput">
+                        </td>
+                        <td><input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="6" th:id="znamkaR" th:name="znamkaR"
+                                   th:field="*{hodnoceniR.znamka}"></td>
+                        <td><select th:field="*{hodnoceniR.obtiznost}">
+                            <option th:selected="*{hodnoceniR.obtiznost == 'Normální'}" th:value="Normální">Normální
+                            </option>
+                            <option th:selected="*{hodnoceniR.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné
+                            </option>
+                            <option th:selected="*{hodnoceniR.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
+                        </select></td>
+                    </tr>
+                    <tr th:style="${kompletniZprava.hodnoceniR.znamka != null &&
                             (kompletniZprava.hodnoceniR.znamka == '7.8' ||
                              kompletniZprava.hodnoceniR.znamka == '7.9') ?
                                 'display:table-row;' : 'display:none;'}" th:id="znamkaRHCHRadek">
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right">*</td>
-                    <td>
-                        <input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="8.0" th:id="znamkaRHCH" th:name="znamkaRHCH"
-                               th:field="*{hodnoceniR.znamka2}"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>AR1:</td>
-                    <td><input name="jmenoAR1" id="jmenoAR1"
-                               th:type="text" th:id="jmenoAR1" list="ar1List"
-                               th:value="${(kompletniZprava.ar1.jmeno!= null &&
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right">*</td>
+                        <td>
+                            <input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="8.0" th:id="znamkaRHCH" th:name="znamkaRHCH"
+                                   th:field="*{hodnoceniR.znamka2}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>AR1:</td>
+                        <td><input name="jmenoAR1" id="jmenoAR1"
+                                   th:type="text" th:id="jmenoAR1" list="ar1List"
+                                   th:value="${(kompletniZprava.ar1.jmeno!= null &&
                                 kompletniZprava.ar1.prijmeni!= null) ?
                                 kompletniZprava.ar1.prijmeni + ' ' +
                                  kompletniZprava.ar1.jmeno : ''}"
-                               th:autocomplete="${'on'}"></td>
-                    <datalist id="ar1List">
-                        <th:block th:each="rozhodci : ${rozhodciList}">
-                            <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
-                                    th:value="${rozhodci.idFacr}"></option>
-                        </th:block>
-                    </datalist>
-                    <div class="napoveda" id="napovedaAr1"></div>
-                    <td>
-                        <label style="width: auto" th:text="*{ar1.idFacr}" id="idFacrAR1"></label>
-                        <input class="idFacrNovaZprava" name="idFacrAR1HiddenInput"
-                               th:type="text" th:field="*{ar1.idFacr}" id="idFacrAR1HiddenInput">
-                    </td>
-                    <td><input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="6" th:id="znamkaAR1" th:name="znamkaAR1"
-                               th:field="*{hodnoceniAR1.znamka}"></td>
-                    <td><select th:field="*{hodnoceniAR1.obtiznost}">
-                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Normální'}" th:value="Normální">Normální
-                        </option>
-                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné</option>
-                        <option th:selected="*{hodnoceniAR1.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
-                    </select></td>
-                </tr>
-                <tr th:style="${kompletniZprava.hodnoceniAR1.znamka != null &&
+                                   th:autocomplete="${'on'}"></td>
+                        <datalist id="ar1List">
+                            <th:block th:each="rozhodci : ${rozhodciList}">
+                                <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
+                                        th:value="${rozhodci.idFacr}"></option>
+                            </th:block>
+                        </datalist>
+                        <div class="napoveda" id="napovedaAr1"></div>
+                        <td>
+                            <label style="width: auto" th:text="*{ar1.idFacr}" id="idFacrAR1"></label>
+                            <input class="idFacrNovaZprava" name="idFacrAR1HiddenInput"
+                                   th:type="text" th:field="*{ar1.idFacr}" id="idFacrAR1HiddenInput">
+                        </td>
+                        <td><input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="6" th:id="znamkaAR1" th:name="znamkaAR1"
+                                   th:field="*{hodnoceniAR1.znamka}"></td>
+                        <td><select th:field="*{hodnoceniAR1.obtiznost}">
+                            <option th:selected="*{hodnoceniAR1.obtiznost == 'Normální'}" th:value="Normální">Normální
+                            </option>
+                            <option th:selected="*{hodnoceniAR1.obtiznost == 'Obtížné'}" th:value="Obtížné">Obtížné
+                            </option>
+                            <option th:selected="*{hodnoceniAR1.obtiznost == 'Těžké'}" th:value="Těžké">Těžké</option>
+                        </select></td>
+                    </tr>
+                    <tr th:style="${kompletniZprava.hodnoceniAR1.znamka != null &&
                             (kompletniZprava.hodnoceniAR1.znamka == '7.8' ||
                              kompletniZprava.hodnoceniAR1.znamka == '7.9') ?
                                 'display:table-row;' : 'display:none;'}" th:id="znamkaAR1HCHRadek">
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right">*</td>
-                    <td><input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="8.0" th:id="znamkaAR1HCH" th:name="znamkaAR1HCH"
-                               th:field="*{hodnoceniAR1.znamka2}"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>AR2:</td>
-                    <td><input name="jmenoAR2" id="jmenoAR2"
-                               th:type="text" th:id="jmenoAR2" list="ar2List"
-                               th:value="${(kompletniZprava.ar2.jmeno!= null &&
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right">*</td>
+                        <td><input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="8.0" th:id="znamkaAR1HCH" th:name="znamkaAR1HCH"
+                                   th:field="*{hodnoceniAR1.znamka2}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>AR2:</td>
+                        <td><input name="jmenoAR2" id="jmenoAR2"
+                                   th:type="text" th:id="jmenoAR2" list="ar2List"
+                                   th:value="${(kompletniZprava.ar2.jmeno!= null &&
                                 kompletniZprava.ar2.prijmeni!= null) ?
                                 kompletniZprava.ar2.prijmeni + ' ' +
                                  kompletniZprava.ar2.jmeno : ''}"
-                               th:autocomplete="${'on'}"></td>
-                    <datalist id="ar2List">
-                        <th:block th:each="rozhodci : ${rozhodciList}">
-                            <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
-                                    th:value="${rozhodci.idFacr}"></option>
-                        </th:block>
-                    </datalist>
-                    <div class="napoveda" id="napovedaAr2"></div>
-                    <td>
-                        <label style="width: auto" th:text="*{ar2.idFacr}" id="idFacrAR2"></label>
-                        <input class="idFacrNovaZprava" name="idFacrAR2HiddenInput"
-                               th:type="text" th:field="*{ar2.idFacr}" id="idFacrAR2HiddenInput">
-                    </td>
-                    <td><input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="6" th:id="znamkaAR2" th:name="znamkaAR2"
-                               th:field="*{hodnoceniAR2.znamka}"></td>
-                    <td><select th:field="*{hodnoceniAR2.obtiznost}">
-                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Normální'}"
-                                th:value="Normální">Normální
-                        </option>
-                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Obtížné'}"
-                                th:value="Obtížné">Obtížné
-                        </option>
-                        <option th:selected="*{hodnoceniAR2.obtiznost == 'Těžké'}"
-                                th:value="Těžké">Těžké
-                        </option>
-                    </select></td>
-                </tr>
-                <tr th:style="${kompletniZprava.hodnoceniAR2.znamka != null &&
+                                   th:autocomplete="${'on'}"></td>
+                        <datalist id="ar2List">
+                            <th:block th:each="rozhodci : ${rozhodciList}">
+                                <option th:label="${rozhodci.prijmeni + ' ' + rozhodci.jmeno}"
+                                        th:value="${rozhodci.idFacr}"></option>
+                            </th:block>
+                        </datalist>
+                        <div class="napoveda" id="napovedaAr2"></div>
+                        <td>
+                            <label style="width: auto" th:text="*{ar2.idFacr}" id="idFacrAR2"></label>
+                            <input class="idFacrNovaZprava" name="idFacrAR2HiddenInput"
+                                   th:type="text" th:field="*{ar2.idFacr}" id="idFacrAR2HiddenInput">
+                        </td>
+                        <td><input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="6" th:id="znamkaAR2" th:name="znamkaAR2"
+                                   th:field="*{hodnoceniAR2.znamka}"></td>
+                        <td><select th:field="*{hodnoceniAR2.obtiznost}">
+                            <option th:selected="*{hodnoceniAR2.obtiznost == 'Normální'}"
+                                    th:value="Normální">Normální
+                            </option>
+                            <option th:selected="*{hodnoceniAR2.obtiznost == 'Obtížné'}"
+                                    th:value="Obtížné">Obtížné
+                            </option>
+                            <option th:selected="*{hodnoceniAR2.obtiznost == 'Těžké'}"
+                                    th:value="Těžké">Těžké
+                            </option>
+                        </select></td>
+                    </tr>
+                    <tr th:style="${kompletniZprava.hodnoceniAR2.znamka != null &&
                             (kompletniZprava.hodnoceniAR2.znamka == '7.8' ||
                              kompletniZprava.hodnoceniAR2.znamka == '7.9') ?
                                 'display:table-row;' : 'display:none;'}"
-                    th:id="znamkaAR2HCHRadek">
-                    <td></td>
-                    <td></td>
-                    <td style="text-align: right">*</td>
-                    <td><input type="number" name="cislo" step="0.1"
-                               th:max="10" th:min="8.0" th:id="znamkaAR2HCH" th:name="znamkaAR2HCH"
-                               th:field="*{hodnoceniAR2.znamka2}"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>DFA:</td>
-                    <td><input name="jmenoDFA" id="jmenoDFA" disabled th:type="text" th:id="jmenoDFA"
-                               th:value="*{dfa.prijmeni + ' ' + dfa.jmeno}"></td>
-                    <td th:text="*{dfa.idFacr}"></td>
-                </tr>
-                <tr>
-                    <td>TD:</td>
-                    <td><input name="jmenoTD" id="jmenoTD" th:type="text"
-                               th:id="jmenoTD" list="tdList"
-                               th:value="${(kompletniZprava.td.jmeno!= null &&
+                        th:id="znamkaAR2HCHRadek">
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right">*</td>
+                        <td><input type="number" name="cislo" step="0.1"
+                                   th:max="10" th:min="8.0" th:id="znamkaAR2HCH" th:name="znamkaAR2HCH"
+                                   th:field="*{hodnoceniAR2.znamka2}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>DFA:</td>
+                        <td><input name="jmenoDFA" id="jmenoDFA" disabled th:type="text" th:id="jmenoDFA"
+                                   th:value="*{dfa.prijmeni + ' ' + dfa.jmeno}"></td>
+                        <td th:text="*{dfa.idFacr}"></td>
+                    </tr>
+                    <tr>
+                        <td>TD:</td>
+                        <td><input name="jmenoTD" id="jmenoTD" th:type="text"
+                                   th:id="jmenoTD" list="tdList"
+                                   th:value="${(kompletniZprava.td.jmeno!= null &&
                                 kompletniZprava.td.prijmeni!= null) ?
                                 kompletniZprava.td.prijmeni + ' ' +
                                  kompletniZprava.td.jmeno : ''}"
-                               th:autocomplete="${'on'}"></td>
-                    <datalist id="tdList">
-                        <th:block th:each="delegati : ${delegatiList}">
-                            <option th:label="${delegati.prijmeni + ' ' + delegati.jmeno}"
-                                    th:value="${delegati.idFacr}"></option>
-                        </th:block>
-                    </datalist>
-                    <div class="napoveda" id="napovedaTD"></div>
-                    <td>
-                        <label style="width: auto" th:text="*{td.idFacr}" id="idFacrTD"></label>
-                        <input class="idFacrNovaZprava" name="idFacrTDHiddenInput"
-                               th:type="text" th:field="*{td.idFacr}" id="idFacrTDHiddenInput">
-                    </td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="style_description"></div>
+                                   th:autocomplete="${'on'}"></td>
+                        <datalist id="tdList">
+                            <th:block th:each="delegati : ${delegatiList}">
+                                <option th:label="${delegati.prijmeni + ' ' + delegati.jmeno}"
+                                        th:value="${delegati.idFacr}"></option>
+                            </th:block>
+                        </datalist>
+                        <div class="napoveda" id="napovedaTD"></div>
+                        <td>
+                            <label style="width: auto" th:text="*{td.idFacr}" id="idFacrTD"></label>
+                            <input class="idFacrNovaZprava" name="idFacrTDHiddenInput"
+                                   th:type="text" th:field="*{td.idFacr}" id="idFacrTDHiddenInput">
+                        </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="style_description"></div>
 
 
-        </div>
-        <div class="sticky-element">
-            <div style="display: flex;justify-content: space-between">
-                <div style="text-align: left" class="novaZprava">
-                    <button type="button" class="button-48" role="button" onclick="topFunction()"><span
-                            class="text">↑</span></button>
-                </div>
-                <div style="text-align: right; margin-right: 10px" class="novaZprava">
-                    <button type="submit" class="button-48"
-                            role="button"><span class="text">Uložit a pokračovat</span></button>
+            </div>
+            <div class="sticky-element">
+                <div style="display: flex;justify-content: space-between">
+                    <div style="text-align: left" class="novaZprava">
+                        <button type="button" class="button-48" role="button" onclick="topFunction()"><span
+                                class="text">↑</span></button>
+                    </div>
+                    <div style="text-align: right; margin-right: 10px" class="novaZprava">
+                        <button type="submit" class="button-48"
+                                role="button"><span class="text">Uložit a pokračovat</span></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="style_description"></div>
-        <div class="sticky-element_rozhodci" style="top: 45px">
-            <div class="radekKategorie" th:id="listaR">
-                <div class="listaDiv"><label style="width:40px">R:</label></div>
-                <div class="listaDiv"><label th:text="${(kompletniZprava.r.jmeno!= null &&
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 45px; background: #31313a">
+                <div class="radekKategorie" th:id="listaR">
+                    <div class="listaDiv"><label style="width:40px">R:</label></div>
+                    <div class="listaDiv"><label th:text="${(kompletniZprava.r.jmeno!= null &&
                                 kompletniZprava.r.prijmeni!= null) ?
                                 kompletniZprava.r.prijmeni + ' ' +
                                  kompletniZprava.r.jmeno + ' (' + kompletniZprava.r.idFacr + ')' : ''}"
-                                             th:id="listaRJmeno"></label></div>
-                <div class="sipkaDivHlavni" th:id="sipkaR">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-        </div>
-        <div th:id="blokR">
-            <div class="radekKategorie" th:id="listaR1">
-                <div class="listaDiv">
-                    <label>1) Aplikace a interpretace pravidel fotbalu, taktika řízení utkání:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaR1">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokR1">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px">
-                        <select th:id="znamkaPF"
-                                th:field="*{hodnoceniR.hodnoceniPopisList[0].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[0].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select>
+                                                 th:id="listaRJmeno"></label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaR">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiPFSelect">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListPF}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporPF" class="custom-btn btn-1">-
+            </div>
+            <div th:id="blokR" style="background: #31313a">
+                <div class="radekKategorie" th:id="listaR1">
+                    <div class="listaDiv">
+                        <label>1) Aplikace a interpretace pravidel fotbalu, taktika řízení utkání:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaR1">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokR1">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px">
+                            <select th:id="znamkaPF"
+                                    th:field="*{hodnoceniR.hodnoceniPopisList[0].celkovaZnamka}">
+                                <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                        th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                        th:value="${znamka}" th:text="${znamka}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiPFSelect">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListPF}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporPF" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladPF" class="custom-btn btn-1">+
+                                </div>
                             </div>
-                            <div th:id="pridatKladPF" class="custom-btn btn-1">+
+                            <div th:id="kladyZaporyPFDiv">
+                                <input style="display: none" th:id="kladyZaporyPFInputHidden"
+                                       th:field="*{hodnoceniR.hodnoceniPopisList[0].hodnoceniVlastnostInputString}">
                             </div>
                         </div>
-                        <div th:id="kladyZaporyPFDiv">
-                            <input th:id="kladyZaporyPFInputHidden"
-                                   th:field="*{hodnoceniR.hodnoceniPopisList[0].hodnoceniVlastnostInputString}">
-                            </div>
                     </div>
-                </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:field="*{hodnoceniR.hodnoceniPopisList[0].popis}"
                               th:id="popisPF" style="flex: 1"></textarea>
-                </div>
-            </div>
-            <div class="radekKategorie" th:id="listaR2">
-                <div class="listaDiv"><label>2) Disciplinární opatření, zvládání hráčů a funkcionářů družstev:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaR2">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokR2">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaOT"
-                                                            th:field="*{hodnoceniR.hodnoceniPopisList[1].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[1].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiOTSelect">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListOT}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporOT" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladOT" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyOTDiv">
-                            <input th:id="kladyZaporyOTInputHidden"
-                                   th:field="*{hodnoceniR.hodnoceniPopisList[1].hodnoceniVlastnostInputString}">
-                        </div>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <div class="radekKategorie" style="background: #3d3d48" th:id="listaR2">
+                    <div class="listaDiv"><label>2) Disciplinární opatření, zvládání hráčů a funkcionářů
+                        družstev:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaR2">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokR2" style="background: #3d3d48">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaOT"
+                                                                th:field="*{hodnoceniR.hodnoceniPopisList[1].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiOTSelect">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListOT}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporOT" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladOT" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyOTDiv">
+                                <input style="display: none" th:id="kladyZaporyOTInputHidden"
+                                       th:field="*{hodnoceniR.hodnoceniPopisList[1].hodnoceniVlastnostInputString}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisOT" th:field="*{hodnoceniR.hodnoceniPopisList[1].popis}"
                               style="flex: 1"></textarea>
-                </div>
-            </div>
-            <div class="radekKategorie" th:id="listaR3">
-                <div class="listaDiv"><label>3) Pohyb a poziční postavení:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaR3">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokR3">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaFyzicka"
-                                                            th:field="*{hodnoceniR.hodnoceniPopisList[2].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[2].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiFyzickaSelect">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListFyzicka}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporFyzicka" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladFyzicka" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyFyzickaDiv"></div>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisFyzicka" th:field="*{hodnoceniR.hodnoceniPopisList[2].popis}" style="flex: 1"></textarea>
-                </div>
-            </div>
-            <div class="radekKategorie" th:id="listaR4">
-                <div class="listaDiv"><label>4) Osobnost rozhodčího a spolupráce s ostatními rozhodčími:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaR4">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokR4">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaSpoluprace"
-                                                            th:field="*{hodnoceniR.hodnoceniPopisList[3].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[3].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiSpolupraceSelect">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListSpoluprace}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporSpoluprace" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladSpoluprace" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporySpolupraceDiv"></div>
+                <div class="radekKategorie" th:id="listaR3" style="background: #3b444a">
+                    <div class="listaDiv"><label>3) Pohyb a poziční postavení:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaR3">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <div th:id="blokR3" style="background: #3b444a">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaFyzicka"
+                                                                th:field="*{hodnoceniR.hodnoceniPopisList[2].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[2].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiFyzickaSelect">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListFyzicka}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporFyzicka" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladFyzicka" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyFyzickaDiv">
+                                <input style="display: none" th:id="kladyZaporyFyzickaInputHidden"
+                                       th:field="*{hodnoceniR.hodnoceniPopisList[2].hodnoceniVlastnostInputString}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                        <textarea th:id="popisFyzicka" th:field="*{hodnoceniR.hodnoceniPopisList[2].popis}"
+                                  style="flex: 1"></textarea>
+                    </div>
+                </div>
+                <div class="radekKategorie" th:id="listaR4">
+                    <div class="listaDiv"><label>4) Osobnost rozhodčího a spolupráce s ostatními rozhodčími:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaR4">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokR4">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaSpoluprace"
+                                                                th:field="*{hodnoceniR.hodnoceniPopisList[3].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniR.hodnoceniPopisList[3].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiSpolupraceSelect">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListSpoluprace}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporSpoluprace" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladSpoluprace" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporySpolupraceDiv">
+                                <input style="display: none" th:id="kladyZaporySpolupraceInputHidden"
+                                       th:field="*{hodnoceniR.hodnoceniPopisList[3].hodnoceniVlastnostInputString}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisSpoluprace" th:field="*{hodnoceniR.hodnoceniPopisList[3].popis}"
                               style="flex: 1"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="style_description"></div>
-        <div class="sticky-element_rozhodci" style="top: 69px">
-            <div class="radekKategorie" th:id="listaAR1">
-                <div class="listaDiv"><label style="width:40px">AR1:</label></div>
-                <div class="listaDiv"><label th:text="${(kompletniZprava.ar1.jmeno!= null &&
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 69px; background: #313a32">
+                <div class="radekKategorie" th:id="listaAR1">
+                    <div class="listaDiv"><label style="width:40px">AR1:</label></div>
+                    <div class="listaDiv"><label th:text="${(kompletniZprava.ar1.jmeno!= null &&
                                 kompletniZprava.ar1.prijmeni!= null) ?
                                 kompletniZprava.ar1.prijmeni + ' ' +
                                  kompletniZprava.ar1.jmeno + ' (' + kompletniZprava.ar1.idFacr + ')' : ''}"
-                                             th:id="listaAR1Jmeno"></label></div>
-                <div class="sipkaDivHlavni" th:id="sipkaAR1">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-        </div>
-        <div th:id="blokAR1">
-            <div class="radekKategorie" th:id="listaAR1_1">
-                <div class="listaDiv"><label>1) Aplikace a interpretace pravidel fotbalu, spolupráce s R:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaAR1_1">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokAR1_1">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPFAR1"
-                                                            th:field="*{hodnoceniAR1.hodnoceniPopisList[0].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[0].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiPFAR1Select">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPF}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporPFAR1" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladPFAR1" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyPFAR1Div"></div>
+                                                 th:id="listaAR1Jmeno"></label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaAR1">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+            </div>
+            <div th:id="blokAR1" style="background: #313a32">
+                <div class="radekKategorie" th:id="listaAR1_1">
+                    <div class="listaDiv"><label>1) Aplikace a interpretace pravidel fotbalu, spolupráce s R:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaAR1_1">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokAR1_1">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaPFAR1"
+                                                                th:field="*{hodnoceniAR1.hodnoceniPopisList[0].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiPFAR1Select">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPF}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporPFAR1" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladPFAR1" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyPFAR1Div">
+                                <input style="display: none" th:id="kladyZaporyPFAR1InputHidden"
+                                       th:field="*{hodnoceniAR1.hodnoceniPopisList[0].hodnoceniVlastnostInputString}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPFAR1" th:field="*{hodnoceniAR1.hodnoceniPopisList[0].popis}"
                               style="flex: 1"></textarea>
-                </div>
-            </div>
-            <div class="radekKategorie" th:id="listaAR1_2">
-                <div class="listaDiv"><label>2) Pohyb a poziční postavení:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaAR1_2">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokAR1_2">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR1"
-                                                            th:field="*{hodnoceniAR1.hodnoceniPopisList[1].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[1].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiPohybAR1Select">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPohyb}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporPohybAR1" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladPohybAR1" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyPohybAR1Div"></div>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPohybAR1"  th:field="*{hodnoceniAR1.hodnoceniPopisList[1].popis}"
+                <div class="radekKategorie" style="background: #3f4a41" th:id="listaAR1_2">
+                    <div class="listaDiv"><label>2) Pohyb a poziční postavení:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaAR1_2">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokAR1_2" style="background: #3f4a41">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaPohybAR1"
+                                                                th:field="*{hodnoceniAR1.hodnoceniPopisList[1].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniAR1.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiPohybAR1Select">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPohyb}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporPohybAR1" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladPohybAR1" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyPohybAR1Div">
+                                <input style="display: none" th:id="kladyZaporyPohybAR1InputHidden"
+                                       th:field="*{hodnoceniAR1.hodnoceniPopisList[1].hodnoceniVlastnostInputString}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <textarea th:id="popisPohybAR1" th:field="*{hodnoceniAR1.hodnoceniPopisList[1].popis}"
                               style="flex: 1"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="style_description"></div>
-        <div class="sticky-element_rozhodci" style="top: 93px">
-            <div class="radekKategorie" th:id="listaAR2">
-                <div class="listaDiv"><label style="width:40px">AR2:</label></div>
-                <div class="listaDiv"><label
-                        th:text="${(kompletniZprava.ar2.jmeno!= null &&
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 93px; background: #2a4f22">
+                <div class="radekKategorie" th:id="listaAR2">
+                    <div class="listaDiv"><label style="width:40px">AR2:</label></div>
+                    <div class="listaDiv"><label
+                            th:text="${(kompletniZprava.ar2.jmeno!= null &&
                                 kompletniZprava.ar2.prijmeni!= null) ?
                                 kompletniZprava.ar2.prijmeni + ' ' +
                                  kompletniZprava.ar2.jmeno + ' (' + kompletniZprava.ar2.idFacr + ')' : ''}"
-                        th:id="listaAR2Jmeno"></label></div>
-                <div class="sipkaDivHlavni" th:id="sipkaAR2">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-        </div>
-        <div th:id="blokAR2">
-            <div class="radekKategorie" th:id="listaAR2_1">
-                <div class="listaDiv"><label>1) Aplikace a interpretace pravidel fotbalu, spolupráce s R:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaAR2_1">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokAR2_1">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPFAR2"
-                                                            th:field="*{hodnoceniAR2.hodnoceniPopisList[0].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[0].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiPFAR2Select">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPF}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporPFAR2" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladPFAR2" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyPFAR2Div"></div>
+                            th:id="listaAR2Jmeno"></label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaAR2">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPFAR2"  th:field="*{hodnoceniAR2.hodnoceniPopisList[0].popis}"
-                              style="flex: 1"></textarea>
-                </div>
             </div>
-            <div class="radekKategorie" th:id="listaAR2_2">
-                <div class="listaDiv"><label>2) Pohyb a poziční postavení:</label>
-                </div>
-                <div class="sipkaDiv" th:id="sipkaAR2_2">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokAR2_2">
-                <div class="radekKategorie">
-                    <div style="margin: auto 0 auto 10px">Celková známka:</div>
-                    <div style="margin-right: 10px"><select th:id="znamkaPohybAR2"
-                                                            th:field="*{hodnoceniAR2.hodnoceniPopisList[1].celkovaZnamka}">
-                        <option th:each="znamka : ${#numbers.sequence(1, 5)}"
-                                th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[1].
-                                        celkovaZnamka == znamka}"
-                                th:value="${znamka}" th:text="${znamka}"></option>
-                    </select></div>
-                </div>
-                <div class="radekKategorie">
-                    <div class="vlastnosti"><select th:id="vlastnostiPohybAR2Select">
-                        <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPohyb}"
-                                th:value="${vlastnost.id}"
-                                th:text="${vlastnost.popis}"></option>
-                    </select>
-                        <div class="kladyZapory">
-                            <div th:id="pridatZaporPohybAR2" class="custom-btn btn-1">-
-                            </div>
-                            <div th:id="pridatKladPohybAR2" class="custom-btn btn-1">+
-                            </div>
-                        </div>
-                        <div th:id="kladyZaporyPohybAR2Div"></div>
+            <div th:id="blokAR2" style="background: #2a4f22">
+                <div class="radekKategorie" th:id="listaAR2_1">
+                    <div class="listaDiv"><label>1) Aplikace a interpretace pravidel fotbalu, spolupráce s R:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaAR2_1">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisPohybAR2"  th:field="*{hodnoceniAR2.hodnoceniPopisList[1].popis}"
-                              style="flex: 1"></textarea>
-                </div>
-            </div>
-        </div>
+                <div th:id="blokAR2_1">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaPFAR2"
+                                                                th:field="*{hodnoceniAR2.hodnoceniPopisList[0].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[0].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiPFAR2Select">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPF}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporPFAR2" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladPFAR2" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyPFAR2Div">
+                                <input style="display: none" th:id="kladyZaporyPFAR2InputHidden"
+                                       th:field="*{hodnoceniAR2.hodnoceniPopisList[0].hodnoceniVlastnostInputString}">
 
-        <div class="style_description"></div>
-        <div class="sticky-element_rozhodci" style="top: 117px">
-            <div class="radekKategorie" th:id="listaSituace">
-                <div class="listaDiv"><label>Popis klíčových herních situací během utkání:</label></div>
-                <div class="sipkaDivHlavni" th:id="sipkaSituace">
-                    <img th:src="@{/css/img/arrow.png}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <textarea th:id="popisPFAR2" th:field="*{hodnoceniAR2.hodnoceniPopisList[0].popis}"
+                              style="flex: 1"></textarea>
+                    </div>
+                </div>
+                <div class="radekKategorie" style="background: #2d560b" th:id="listaAR2_2">
+                    <div class="listaDiv"><label>2) Pohyb a poziční postavení:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaAR2_2">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokAR2_2" style="background: #2d560b">
+                    <div class="radekKategorie">
+                        <div style="margin: auto 0 auto 10px">Celková známka:</div>
+                        <div style="margin-right: 10px"><select th:id="znamkaPohybAR2"
+                                                                th:field="*{hodnoceniAR2.hodnoceniPopisList[1].celkovaZnamka}">
+                            <option th:each="znamka : ${#numbers.sequence(1, 5)}"
+                                    th:selected="${kompletniZprava.hodnoceniAR2.hodnoceniPopisList[1].
+                                        celkovaZnamka == znamka}"
+                                    th:value="${znamka}" th:text="${znamka}"></option>
+                        </select></div>
+                    </div>
+                    <div class="radekKategorie">
+                        <div class="vlastnosti"><select th:id="vlastnostiPohybAR2Select">
+                            <option class="vlastnosti" th:each="vlastnost : ${vlastnostiListARPohyb}"
+                                    th:value="${vlastnost.id}"
+                                    th:text="${vlastnost.popis}"></option>
+                        </select>
+                            <div class="kladyZapory">
+                                <div th:id="pridatZaporPohybAR2" class="custom-btn btn-1">-
+                                </div>
+                                <div th:id="pridatKladPohybAR2" class="custom-btn btn-1">+
+                                </div>
+                            </div>
+                            <div th:id="kladyZaporyPohybAR2Div">
+                                <input style="display: none" th:id="kladyZaporyPohybAR2InputHidden"
+                                       th:field="*{hodnoceniAR2.hodnoceniPopisList[1].hodnoceniVlastnostInputString}">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <textarea th:id="popisPohybAR2" th:field="*{hodnoceniAR2.hodnoceniPopisList[1].popis}"
+                              style="flex: 1"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div th:id="blokSituace">
-            <div style="margin-left: 10px">Popis:</div>
-            <div style="display: flex; margin: 5px 10px 5px 10px">
-                <textarea th:id="popisSituace"  th:field="*{hodnoceniR.hodnoceniPopisList[4].popis}"
+
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 117px">
+                <div class="radekKategorie" th:id="listaSituace">
+                    <div class="listaDiv"><label>Popis klíčových herních situací během utkání:</label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaSituace">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+            </div>
+            <div th:id="blokSituace">
+                <div style="margin-left: 10px">Popis:</div>
+                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <textarea th:id="popisSituace" th:field="*{hodnoceniR.hodnoceniPopisList[4].popis}"
                           style="flex: 1"></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="style_description"></div>
-        <div class="sticky-element_rozhodci" style="top: 141px">
-            <div class="radekKategorie" th:id="listaOstatni">
-                <div class="listaDiv"><label>Ostatní:</label></div>
-                <div class="sipkaDivHlavni" th:id="sipkaOstatni">
-                    <img th:src="@{/css/img/arrow.png}"/>
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 141px">
+                <div class="radekKategorie" th:id="listaOstatni">
+                    <div class="listaDiv"><label>Ostatní:</label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaOstatni">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div th:id="blokOstatni">
-            <div class="radekKategorie" th:id="listaOstatni1">
-                <div class="listaDiv"><label>1) Pořadatelé:</label>
+            <div th:id="blokOstatni">
+                <div class="radekKategorie" th:id="listaOstatni1">
+                    <div class="listaDiv"><label>1) Pořadatelé:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaOstatni1">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
                 </div>
-                <div class="sipkaDiv" th:id="sipkaOstatni1">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokOstatni1">
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <div th:id="blokOstatni1">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPoradatele" th:field="*{hodnoceniR.hodnoceniPopisList[5].popis}"
                               style="flex: 1"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="radekKategorie" th:id="listaOstatni2">
-                <div class="listaDiv"><label>2) Chování diváků:</label>
+                <div class="radekKategorie" th:id="listaOstatni2">
+                    <div class="listaDiv"><label>2) Chování diváků:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaOstatni2">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
                 </div>
-                <div class="sipkaDiv" th:id="sipkaOstatni2">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokOstatni2">
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <div th:id="blokOstatni2">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisDivaci" th:field="*{hodnoceniR.hodnoceniPopisList[6].popis}"
                               style="flex: 1"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="radekKategorie" th:id="listaOstatni3">
-                <div class="listaDiv"><label>3) Jiné:</label>
+                <div class="radekKategorie" th:id="listaOstatni3">
+                    <div class="listaDiv"><label>3) Jiné:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaOstatni3">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
                 </div>
-                <div class="sipkaDiv" th:id="sipkaOstatni3">
-                    <img th:src="@{/css/img/arrow.png}"/>
-                </div>
-            </div>
-            <div th:id="blokOstatni3">
-                <div style="margin-left: 10px">Popis:</div>
-                <div style="display: flex; margin: 5px 10px 5px 10px">
+                <div th:id="blokOstatni3">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisJine" th:field="*{hodnoceniR.hodnoceniPopisList[7].popis}"
                               style="flex: 1"></textarea>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="style_description"></div>
-        <div style="text-align: left" class="novaZprava">
-            <a th:href="@{/nova_zprava/odeslat}">
-                <button class="button-48" role="button"><span class="text">ODESLAT</span></button>
-            </a>
-        </div>
-    </form>
+            <div class="style_description"></div>
+            <div style="text-align: left" class="novaZprava">
+                <a th:href="@{/nova_zprava/odeslat}">
+                    <button class="button-48" role="button"><span class="text">ODESLAT</span></button>
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 </div>
 </body>

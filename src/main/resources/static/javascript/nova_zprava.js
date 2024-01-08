@@ -108,6 +108,22 @@ const kladyZaporyPohybAR1InputHidden = document.getElementById('kladyZaporyPohyb
 const kladyZaporyPFAR2InputHidden = document.getElementById('kladyZaporyPFAR2InputHidden');
 const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohybAR2InputHidden');
 
+document.addEventListener('DOMContentLoaded', function () {
+    vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden);
+    vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden);
+    vytvorDivyPodleDatvVInputu(vlastnostiFyzickaSelect, "Fyzicka", kladyZaporyFyzickaDiv,
+        kladyZaporyFyzickaInputHidden);
+    vytvorDivyPodleDatvVInputu(vlastnostiSpolupraceSelect, "Spoluprace", kladyZaporySpolupraceDiv,
+         kladyZaporySpolupraceInputHidden);
+    pridejVlastnost(vlastnostiPFAR1Select, "PFARJedna", kladyZaporyPFAR1Div,
+         kladyZaporyPFAR1InputHidden);
+    pridejVlastnost(vlastnostiPohybAR1Select, "PohybARJedna", kladyZaporyPohybAR1Div,
+        kladyZaporyPohybAR1InputHidden);
+    pridejVlastnost(vlastnostiPFAR2Select, "PFARDva", kladyZaporyPFAR2Div,
+        kladyZaporyPFAR2InputHidden);
+    pridejVlastnost(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
+        kladyZaporyPohybAR2InputHidden);
+});
 
 pridatKladPF.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
@@ -185,7 +201,7 @@ pridatZaporPohybAR2.addEventListener('click', function () {
         "PohybARDva", kladyZaporyPohybAR2InputHidden);
 });
 
-function vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden){
+function vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden) {
     var idVlastnost = select[select.selectedIndex].value;
     var index = kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '+');
     var index2 = kladyZaporyInputHidden.value.indexOf(',' + idVlastnost + '-');
@@ -278,7 +294,6 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHi
     });
 
     img.addEventListener('click', function (event) {
-
         const idVlastnost = div.id.replace(/\D/g, '');
         kladyZaporyDiv.removeChild(div);
         odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden);
@@ -291,13 +306,88 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHi
 
 }
 
-function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyInputHidden){
-    var selectedOption = select[select.selectedIndex].text;
-    // Vytvoření nového divu
-    var div = document.createElement('div');
-    div.id = typ + select[select.selectedIndex].value;
-    div.value = select.value;
-    var myDiv = document.getElementById(div.id);
+
+function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInputHidden) {
+    // Rozdělíme vstupní řetězec podle čárky
+    const inputVal = kladyZaporyInputHidden.value;
+    let pridaneDivySoucet = 0;
+    let items = inputVal.split(',');
+    for (let i = 0; i < items.length; i++) {
+        let jeKlad = false;
+        var idVlastnost = '';
+        if (items[i].indexOf('+') !== -1) {
+            idVlastnost = items[i].replace('+', '');
+            jeKlad = true;
+        } else if (items[i].indexOf('-') !== -1) {
+            idVlastnost = items[i].replace('-', '');
+            jeKlad = false;
+        }
+        if (idVlastnost.length === 0 || isNaN(idVlastnost)) {
+            continue;
+        }
+        let div = document.createElement('div');
+        div.id = typ + idVlastnost;
+        div.value = idVlastnost;
+        let textContent = "";
+        // Projdeme všechny <option> elementy v <select>
+        for (let j = 0; j < select.options.length; j++) {
+            var option = select.options[j];
+            if (option.value === idVlastnost) {
+                textContent = option.text;
+                break;
+            }
+        }
+        if (jeKlad) {
+            div.textContent = '+ ' + textContent;
+            div.style.background = "lightgreen";
+            div.style.color = "black";
+            div.style.border = "2px solid black"
+        } else {
+            div.textContent = '- ' + textContent;
+            div.style.background = "red";
+            div.style.color = "white";
+            div.style.border = "2px solid white"
+        }
+        div.style.padding = "5px";
+        div.style.paddingLeft = "10px";
+        div.style.paddingRight = "5px";
+        div.style.margin = "10px";
+        div.style.borderRadius = "25px";
+        div.style.justifyContent = "space-between";
+        div.style.display = "flex";
+        div.style.textAlign = "left";
+        // Vytvoření obrázku
+        const img = document.createElement('img');
+        img.src = '/css/img/remove_icon.png';
+        img.style.width = "20px";
+        img.style.height = "20px";
+        img.style.marginTop = "auto";
+        img.style.marginBottom = "auto";
+        img.style.verticalAlign = 'middle';
+        img.addEventListener('mouseenter', function (event) {
+            img.src = '/css/img/remove_icon_active.png';
+        });
+        img.addEventListener('mouseleave', function (event) {
+            img.src = '/css/img/remove_icon.png';
+        });
+
+        img.addEventListener('click', function (event) {
+
+            const idVlastnost = div.id.replace(/\D/g, '');
+            kladyZaporyDiv.removeChild(div);
+            odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden);
+        });
+
+
+        pridaneDivySoucet++;
+        if(document.title === 'SKFS – nový posudek'){
+            div.appendChild(img);
+        }
+        kladyZaporyDiv.appendChild(div);
+        if (pridaneDivySoucet >= 5) {
+            return;
+        }
+    }
 }
 
 function showOrHide(div, sipkaImg, headerOffset) {

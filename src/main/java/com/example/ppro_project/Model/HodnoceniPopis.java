@@ -2,6 +2,8 @@ package com.example.ppro_project.Model;
 
 import jakarta.persistence.*;
 
+import static java.lang.Float.isNaN;
+
 @Entity
 @Table(name = "Hodnocenipopis")
 public class HodnoceniPopis {
@@ -40,15 +42,17 @@ public class HodnoceniPopis {
             return;
         }
         for (int i = 0; i < hodnoceniVlastnostArray.length; i++) {
+            hodnoceniVlastnostInputString += ",";
             if (hodnoceniVlastnostArray[i] != null) {
-                hodnoceniVlastnostInputString += hodnoceniVlastnostArray[i].idVlastnost;
-                if (hodnoceniVlastnostArray[i].typ == 0) {
-                    hodnoceniVlastnostInputString += "-";
-                } else {
-                    hodnoceniVlastnostInputString += "+";
+                if(hodnoceniVlastnostArray[i].idVlastnost > 0) {
+                    hodnoceniVlastnostInputString += hodnoceniVlastnostArray[i].idVlastnost;
+                    if (hodnoceniVlastnostArray[i].typ == 0) {
+                        hodnoceniVlastnostInputString += "-";
+                    } else {
+                        hodnoceniVlastnostInputString += "+";
+                    }
                 }
             }
-            hodnoceniVlastnostInputString += ",";
         }
     }
 
@@ -114,5 +118,44 @@ public class HodnoceniPopis {
 
     public void setHodnoceniVlastnostInputString(String hodnoceniVlastnostInputString) {
         this.hodnoceniVlastnostInputString = hodnoceniVlastnostInputString;
+    }
+
+    public void dekodujInpuStringDoPoleVlastnosti() {
+        // Rozdělíme vstupní řetězec podle čárky
+        String[] items = hodnoceniVlastnostInputString.split(",");
+        int index = 0;
+        for (String item : items) {
+            int jeKlad = 0;
+            String idVlastnost = "";
+            if (item.indexOf('+') != -1) {
+                idVlastnost = item.replace("+", "");
+                jeKlad = 1;
+            } else if (item.indexOf('-') != -1) {
+                idVlastnost = item.replace("-", "");
+            }
+            if (idVlastnost.isEmpty()) {
+                continue;
+            }
+            int foo;
+            try {
+                foo = Integer.parseInt(idVlastnost);
+            } catch (NumberFormatException e) {
+                foo = -1;
+            }
+            if (foo < 0) {
+                continue;
+            }
+            hodnoceniVlastnostArray[index] = new HodnoceniVlastnost();
+            hodnoceniVlastnostArray[index].idPopis = id;
+            hodnoceniVlastnostArray[index].idVlastnost = foo;
+            hodnoceniVlastnostArray[index].typ = jeKlad;
+            index++;
+            if (index >= 5) {
+                break;
+            }
+        }
+        for (int i = index; i < 5; i++) {
+            hodnoceniVlastnostArray[index++] = new HodnoceniVlastnost();
+        }
     }
 }

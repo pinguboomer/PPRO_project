@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SKFS – hodnocení</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+  <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
+  <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
+</head>
+<body>
+<div id="udajeHeader">
+  <a th:href="@{/menu}"><img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/></a>
+  <div>
+    <label th:text="${clen.jmeno + ' ' + clen.prijmeni}" ></label>
+    <label th:text="${'ID: ' + clen.idFacr}"></label>
+    <label th:text="${'Role: ' + clen.role}"></label>
+  </div>
+  <img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/>
+</div>
+<div class="profilWrapper">
+  <table>
+    <thead>
+    <tr>
+      <th>Utkání</th>
+      <th>Domácí</th>
+      <th>Hosté</th>
+      <th>Výsledek</th>
+      <th>Rozhodčí</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="posudek : ${posudky}">
+      <td th:text="${posudek.idUtkani}"></td>
+      <td th:text="${posudek.domaci}"></td>
+      <td th:text="${posudek.hoste}"></td>
+      <td th:text="${posudek.vysledek}"></td>
+      <td th:text="${posudek.prijmeniR + ' ' + posudek.jmenoR + ' (' + posudek.idFacrR + ')'}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

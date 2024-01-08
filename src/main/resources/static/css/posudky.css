@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #3f4a41;
+}
+
+tr:nth-child(even) {
+    background-color: #3f4a41;
+}
+
+tr:hover {
+    background-color: #000000; /* Zvýraznění při najetí myší */
+}
