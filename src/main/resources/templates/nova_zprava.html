@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>SKFS – nový posudek</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
     <script th:src="@{/javascript/nova_zprava.js}" th:defer="defer"></script>
 </head>
@@ -22,7 +23,7 @@
 <div class="novaZpravaWrapper">
     <form method="POST" th:action="@{/nova_zprava/vyhledejUtkani}" th:object="${utkani}">
         <div class="novaZprava">
-            <label>Číslo utkání: 2023210A1A0103</label>
+            <label>Číslo utkání:</label>
         </div>
         <div class="novaZprava">
 
@@ -36,7 +37,7 @@
                   th:errors="*{idUtkani}" style="color: white;"></span>
         </div>
     </form>
-    <div th:id="zpravaBody">
+    <div th:id="zpravaBody" th:if="${kompletniZprava.utkani.idUtkani != null}">
         <form method="POST" th:action="@{/nova_zprava/ulozit}" th:object="${kompletniZprava}">
             <div th:id="utkaniBlok">
                 <div class="utkaniNovaZprava">
@@ -755,9 +756,10 @@
             </div>
             <div class="style_description"></div>
             <div style="text-align: left" class="novaZprava">
-                <a th:href="@{/nova_zprava/odeslat}">
-                    <button class="button-48" role="button"><span class="text">ODESLAT</span></button>
-                </a>
+                <input th:field="*{zprava.stav}" style="display: none"
+                       th:id="zpravaStavInput">
+                <button type="submit" class="button-48" th:id="odeslatBtn"
+                        role="button"><span class="text">ODESLAT</span></button>
             </div>
         </form>
     </div>

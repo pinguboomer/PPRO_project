@@ -19,8 +19,16 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "FROM Zprava zprava " +
             "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
             "JOIN Clen clen ON zprava.idR = clen.id " +
-            "WHERE zprava.idDFA = :idDFA")
+            "WHERE zprava.idDFA = :idDFA and zprava.stav = 1")
     List<Object[]> findPosudekByDFA(@Param("idDFA") int idDFA);
+
+    @Query("SELECT zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste," +
+            " clen.prijmeni, clen.jmeno, clen.idFacr " +
+            "FROM Zprava zprava " +
+            "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
+            "JOIN Clen clen ON zprava.idR = clen.id " +
+            "WHERE zprava.idDFA = :idDFA and zprava.stav = 0")
+    List<Object[]> findPosudekByDFARozpracovane(@Param("idDFA") int idDFA);
 
     @Query("SELECT distinct zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste," +
             " clen.prijmeni, clen.jmeno, clen.idFacr, hodnoceni.roleR " +
@@ -31,7 +39,7 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             " and clen.id = zprava.idR) " +
             "            or (hodnoceni.roleR = 'AR1' and clen.id = zprava.idAR1) or" +
             "            (hodnoceni.roleR = 'AR2' and clen.id = zprava.idAR2)) " +
-            "WHERE zprava.idR = :idR or zprava.idAR1 = :idR or zprava.idAR2 = :idR")
+            "WHERE (zprava.idR = :idR or zprava.idAR1 = :idR or zprava.idAR2 = :idR) and zprava.stav = 1")
     List<Object[]> findPosudekByR(@Param("idR") int idR);
 
     Zprava save(Zprava zprava);

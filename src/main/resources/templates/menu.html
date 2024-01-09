@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>SKFS – hodnocení</title>
+    <title>SKFS – Menu</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
 </head>
 <body>
@@ -13,14 +14,22 @@
         <label th:text="${'ID: ' + clen.idFacr}"></label>
         <label th:text="${'Role: ' + clen.role}"></label>
     </div>
-    <img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/>
+    <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
 </div>
 <div class="profilWrapper">
     <div class="profilPolozka" th:if="${clen.role == 'Delegát'}">
-        <a th:href="@{/nova_zprava}">
+        <a th:href="@{/nova_zprava/new}">
             <div>
                 <img height="80" width="80" th:src="@{/css/img/create_icon.jpg}"/>
                 <label>Nová zpráva</label>
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka" th:if="${clen.role == 'Delegát' && maRozpracovane}">
+        <a th:href="@{/rozpracovane}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/edit_icon.png}"/>
+                <label>Rozpracované</label>
             </div>
         </a>
     </div>

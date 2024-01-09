@@ -4,20 +4,20 @@ import com.example.ppro_project.Model.Clen;
 import com.example.ppro_project.Model.KompletniZprava;
 import com.example.ppro_project.Model.Utkani;
 import com.example.ppro_project.Model.Zprava;
-import com.example.ppro_project.Repository.ClenRepository;
 import com.example.ppro_project.Service.ClenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.ppro_project.Constants.Constants.*;
 import static com.example.ppro_project.Controller.VlastnostController.*;
@@ -27,7 +27,7 @@ import static com.example.ppro_project.Controller.ZpravaController.kompletniZpra
 import static com.example.ppro_project.Controller.ZpravaController.zpravaService;
 
 @Controller
-public class ClenController {
+public class ClenController implements ErrorController {
 
     public static ClenService clenService;
     public static Clen prihlasenyUzivatel;
@@ -51,7 +51,11 @@ public class ClenController {
         this.clenService = clenService;
     }
 
-    //  @ResponseBody
+    @RequestMapping("/error")
+    public String handleError() {
+        return "redirect:/";
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         if (jePrihlasenUzivatel()) {
@@ -70,6 +74,7 @@ public class ClenController {
             return "redirect:/";
         }
         model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("maRozpracovane", maRozpracovane);
         return "menu";
     }
 
@@ -126,7 +131,7 @@ public class ClenController {
         kompletniZprava = new KompletniZprava();
         hledaneUtkani = new Utkani();
         maRozpracovane = false;
-        if (prihlasenyUzivatel.getRole() == DELEGAT) {
+        if (Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT)) {
             zpravyClena = zpravaService.getZpravyByIdDFA(prihlasenyUzivatel.getId());
         } else {
             zpravyClena = zpravaService.getZpravyByIdRozhodci(prihlasenyUzivatel.getId());

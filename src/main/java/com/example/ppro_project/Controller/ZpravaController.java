@@ -54,6 +54,19 @@ public class ZpravaController {
         return "nova_zprava";
     }
 
+    @GetMapping("/nova_zprava/new")
+    public String novaZpravaNew(Model model) {
+        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+            kompletniZprava = null;
+            return "redirect:/";
+        }
+        vynulujParametryZpravy();
+
+        pridejAtributyDoModelu(model);
+
+        return "nova_zprava";
+    }
+
 
     @PostMapping("/nova_zprava/vyhledejUtkani")
     public String vyhledejUtkani(@Valid @ModelAttribute("utkani") Utkani utkani,
@@ -79,6 +92,12 @@ public class ZpravaController {
         if (zprava != null && zprava.idDFA != prihlasenyUzivatel.getId()) {
             br.rejectValue("idUtkani", "error.user",
                     "Na toto utkání již napsal/píše zprávu jiný delegát");
+            kompletniZprava = new KompletniZprava();
+            return "nova_zprava";
+        }
+        if(zprava != null && zprava.stav == 1){
+            br.rejectValue("idUtkani", "error.user",
+                    "Tato zpráva už je finálně odeslána");
             kompletniZprava = new KompletniZprava();
             return "nova_zprava";
         }
@@ -225,6 +244,10 @@ public class ZpravaController {
         dekodujHodnoceniPopis(kompletniZpravaModel);
         ulozVsechnyPopisy();
 
+        if(kompletniZprava.zprava.stav == 1){
+            kompletniZprava = new KompletniZprava();
+            return "redirect:/posudky";
+        }
         pridejAtributyDoModelu(model);
         return "redirect:/nova_zprava";
     }

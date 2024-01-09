@@ -31,8 +31,19 @@ public class HodnoceniController {
         this.hodnoceniService = hodnoceniService;
     }
 
+    @GetMapping("/rozpracovane")
+    public String rozpracovane(Model model) {
+        if (!jePrihlasenUzivatel() || Objects.equals(prihlasenyUzivatel.getRole(), ROZHODCI)) {
+            return "redirect:/";
+        }
+        mojePosudky = zpravaService.getZpravyByIdDFARozpracovane(prihlasenyUzivatel.getId());
+        model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("posudky", mojePosudky);
+        return "moje_posudky";
+    }
+
     @GetMapping("/posudky")
-    public String menu(Model model) {
+    public String posudky(Model model) {
         if (!jePrihlasenUzivatel()) {
             return "redirect:/";
         }
@@ -70,7 +81,12 @@ public class HodnoceniController {
             kompletniZprava = new KompletniZprava();
             return "redirect:/";
         }
-        if(!Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT) && zprava.stav == 0){
+        if(!Objects.equals(prihlasenyUzivatel.getRole(), ROZHODCI) && zprava.stav == 0){
+            if(zprava.idDFA == prihlasenyUzivatel.getId()){
+                kompletniZprava = new KompletniZprava();
+                naplnKompletniZpravu(utkaniNalezene, zprava);
+                return "redirect:nova_zprava";
+            }
             return "redirect:/";
         }
         kompletniZprava = new KompletniZprava();

@@ -108,6 +108,13 @@ const kladyZaporyPohybAR1InputHidden = document.getElementById('kladyZaporyPohyb
 const kladyZaporyPFAR2InputHidden = document.getElementById('kladyZaporyPFAR2InputHidden');
 const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohybAR2InputHidden');
 
+const zpravaStavInput = document.getElementById('zpravaStavInput');
+const odeslatBtn = document.getElementById('odeslatBtn');
+
+odeslatBtn.addEventListener('click', function () {
+    zpravaStavInput.value = 1;
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden);

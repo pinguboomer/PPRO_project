@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>SKFS – hodnocení</title>
+  <title>SKFS – posudky</title>
+  <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
   <link rel="stylesheet" th:href="@{/css/theme.css}"/>
   <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
   <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
@@ -15,7 +16,7 @@
     <label th:text="${'ID: ' + clen.idFacr}"></label>
     <label th:text="${'Role: ' + clen.role}"></label>
   </div>
-  <img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/>
+  <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
 </div>
 <div class="profilWrapper">
   <table>

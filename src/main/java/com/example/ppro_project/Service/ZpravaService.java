@@ -32,12 +32,32 @@ public class ZpravaService {
         return zprava;
     }
 
+
+
     public List<Zprava> getZpravyByIdDFA(int idDFA) {
         return zpravaRepository.findByIdDfa(idDFA);
     }
 
     public List<Zprava> getZpravyByIdRozhodci(int idR) {
         return zpravaRepository.findByIdRorIdAr1orIdAr2(idR, idR, idR);
+    }
+
+    public List<Posudek> getZpravyByIdDFARozpracovane(int idDFA) {
+        List<Object[]> objects = zpravaRepository.findPosudekByDFARozpracovane(idDFA);
+        List<Posudek> posudky = new ArrayList<>();
+        for (Object[] object : objects) {
+            int index = 0;
+            String idUtkani = (String) object[index++];
+            String vysledek = (String) object[index++];
+            String domaci = (String) object[index++];
+            String hoste = (String) object[index++];
+            String prijmeni = (String) object[index++];
+            String jmeno = (String) object[index++];
+            String idFacr = (String) object[index++];
+            posudky.add(new Posudek(idUtkani, jmeno, prijmeni, idFacr, domaci,
+                    hoste, vysledek));
+        }
+        return posudky;
     }
 
     public List<Posudek> getPosudkyByIdDFA(int idDFA) {
