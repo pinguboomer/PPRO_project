@@ -3,6 +3,7 @@ package com.example.ppro_project.Repository;
 import com.example.ppro_project.Model.Hodnoceni;
 import com.example.ppro_project.Model.HodnoceniVlastnost;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,10 @@ public interface HodnoceniVlastnostRepository extends JpaRepository<HodnoceniVla
     List<HodnoceniVlastnost> findVlastnostiIdByIdPopis(@Param("idPopis") int idPopis);
 
     HodnoceniVlastnost save(HodnoceniVlastnost hodnoceniVlastnost);
+
+    @Modifying
+    @Query("DELETE FROM HodnoceniVlastnost h WHERE h.idPopis = :idPopis")
+    void deleteByIdPopis(@Param("idPopis") int idPopis);
 
     @Query("SELECT hv FROM HodnoceniVlastnost hv WHERE hv.idPopis = :idPopis" +
             " AND hv.idVlastnost = :idVlastnost")

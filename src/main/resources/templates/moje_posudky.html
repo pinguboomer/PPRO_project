@@ -30,7 +30,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="posudek : ${posudky}">
+    <tr th:each="posudek : ${posudky}" style="cursor: pointer">
       <td th:text="${posudek.idUtkani}"></td>
       <td th:text="${posudek.domaci}"></td>
       <td th:text="${posudek.hoste}"></td>

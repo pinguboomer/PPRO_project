@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.ppro_project.Constants.Constants.*;
+import static com.example.ppro_project.Controller.HodnoceniController.hodnoceniService;
 import static com.example.ppro_project.Controller.VlastnostController.*;
 import static com.example.ppro_project.Controller.UtkaniController.*;
 import static com.example.ppro_project.Controller.VlastnostController.vlastnostService;
@@ -83,7 +84,14 @@ public class ClenController implements ErrorController {
         if (!jePrihlasenUzivatel()) {
             return "redirect:/";
         }
+        int pocetZprav;
+        if(prihlasenyUzivatel.getRole() == ROZHODCI){
+            pocetZprav = zpravaService.getPocetZpravByIdR(prihlasenyUzivatel.getId());
+        } else {
+            pocetZprav = zpravaService.getPocetZpravByIdDFA(prihlasenyUzivatel.getId());
+        }
         model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("pocetZprav", pocetZprav);
         return "profil";
     }
 

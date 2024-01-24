@@ -5,6 +5,8 @@ import com.example.ppro_project.Model.Soutez;
 import com.example.ppro_project.Model.Utkani;
 import com.example.ppro_project.Model.Zprava;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

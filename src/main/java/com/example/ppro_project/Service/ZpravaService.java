@@ -32,7 +32,13 @@ public class ZpravaService {
         return zprava;
     }
 
+    public int getPocetZpravByIdDFA(int idDFA) {
+        return zpravaRepository.countByIdDFA(idDFA);
+    }
 
+    public int getPocetZpravByIdR(int idR) {
+        return zpravaRepository.countByIdR(idR);
+    }
 
     public List<Zprava> getZpravyByIdDFA(int idDFA) {
         return zpravaRepository.findByIdDfa(idDFA);

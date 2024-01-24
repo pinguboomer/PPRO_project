@@ -30,7 +30,7 @@ public class Hodnoceni {
     public String znamka = "8.3";
 
     @Column(name = "znamka2")
-    public String znamka2;
+    public String znamka2 = "8.3";
 
     @Column(name = "obtiznost")
     public String obtiznost = "Normální";

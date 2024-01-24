@@ -116,6 +116,9 @@ odeslatBtn.addEventListener('click', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    if(document.getElementById('jeUlozeno').textContent === "true"){
+        showFlashAnimation();
+    }
     vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiFyzickaSelect, "Fyzicka", kladyZaporyFyzickaDiv,
@@ -130,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
         kladyZaporyPFAR2InputHidden);
     pridejVlastnost(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
         kladyZaporyPohybAR2InputHidden);
+
 });
 
 pridatKladPF.addEventListener('click', function () {
@@ -398,6 +402,7 @@ function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInpu
 }
 
 function showOrHide(div, sipkaImg, headerOffset) {
+
     if (div.style.display === "none") {
         div.style.display = "block";
         sipkaImg.style.transform = 'rotate(0deg)';
@@ -481,11 +486,37 @@ polocas1.addEventListener('input', function () {
 polocas2.addEventListener('input', function () {
     checkValid(polocas2);
 });
+
+function checkValidPolocasAndVysledekSkore() {
+    if(polocas.checkValidity()){
+        var inputValue1 = polocas.value;
+        var inputValue2 = vysledek.value;
+
+        // Vytvoří regulární výraz pro extrakci čísel
+        var regex = /\d+/g;
+
+        // Extrahuje čísla z hodnot
+        var numbers1 = inputValue1.match(regex);
+        var numbers2 = inputValue2.match(regex);
+        if(numbers1[0] > numbers2[0] || numbers1[1] > numbers2[1]) {
+            polocas.classList.add('invalid-input');
+            polocas.setCustomValidity("Poločas je větší než výsledek");
+        }
+    }
+}
 polocas.addEventListener('input', function () {
+    polocas.classList.remove('invalid-input');
+    polocas.setCustomValidity("");
     checkValid(polocas);
+    checkValidPolocasAndVysledekSkore();
+
 });
 vysledek.addEventListener('input', function () {
+    polocas.classList.remove('invalid-input');
+    polocas.setCustomValidity("");
+    checkValid(polocas);
     checkValid(vysledek);
+    checkValidPolocasAndVysledekSkore();
 });
 znamkaRHCH.addEventListener('input', function () {
     checkValid(znamkaRHCH);
@@ -593,6 +624,8 @@ function checkDuplicity() {
         inputElementR.classList.add('invalid-input');
         inputElementAR1.classList.add('invalid-input');
         inputElementAR2.classList.add('invalid-input');
+        inputElementAR1.setCustomValidity("Duplicitní rozhodčí");
+        inputElementAR2.setCustomValidity("Duplicitní rozhodčí");
         return;
     }
     if (idFacrLabelR.textContent.length > 0 &&
@@ -600,6 +633,7 @@ function checkDuplicity() {
         && idFacrLabelR.textContent === idFacrLabelAR1.textContent) {
         inputElementR.classList.add('invalid-input');
         inputElementAR1.classList.add('invalid-input');
+        inputElementAR1.setCustomValidity("Duplicitní rozhodčí");
         return;
     }
     if (idFacrLabelR.textContent.length > 0 &&
@@ -607,6 +641,7 @@ function checkDuplicity() {
         && idFacrLabelR.textContent === idFacrLabelAR2.textContent) {
         inputElementR.classList.add('invalid-input');
         inputElementAR2.classList.add('invalid-input');
+        inputElementAR2.setCustomValidity("Duplicitní rozhodčí");
         return;
     }
     if (idFacrLabelAR2.textContent.length > 0 &&
@@ -614,7 +649,11 @@ function checkDuplicity() {
         && idFacrLabelAR2.textContent === idFacrLabelAR1.textContent) {
         inputElementAR1.classList.add('invalid-input');
         inputElementAR2.classList.add('invalid-input');
+        inputElementAR2.setCustomValidity("Duplicitní rozhodčí");
     }
+    inputElementR.setCustomValidity('');
+    inputElementAR1.setCustomValidity('');
+    inputElementAR2.setCustomValidity('');
 }
 
 function findOptionByValue(value, listType) {
@@ -668,8 +707,26 @@ function checkValidZnamka(inputElement, radek) {
 }
 
 function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function showFlashAnimation() {
+    var flashElement = document.getElementById('flashAnimation');
+
+    // Zobrazí flash animaci
+    flashElement.style.display = 'block';
+
+    // Spustí animaci
+    flashElement.classList.add('flash-animation');
+
+    // Skryje flash animaci po skončení animace
+    setTimeout(function() {
+        flashElement.style.display = 'none';
+        flashElement.classList.remove('flash-animation');
+    }, 3000); // čas trvání animace v milisekundách (1s v tomto případě)
 }
 
 

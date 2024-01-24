@@ -46,12 +46,31 @@
     </div>
     <div class="infoProfilPolozka" style="margin-top: 40px">
         <label>Počet zpráv:</label>
+        <label th:text="${pocetZprav}"></label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Nejlepší známka:</label>
+        <label>0</label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Nejhorší známka:</label>
+        <label>0</label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Nejlepší vlastnosti:</label>
+        <label>0</label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Nejhorší vlastnosti:</label>
+        <label>0</label>
+    </div>
+    <div class="infoProfilPolozka">
+        <label>Největší parťák:</label>
         <label>0</label>
     </div>
     <a th:href="@{/menu}">
-        <button method="post">Zpět</button>
+        <button class="button-48"><span class="text">Zpět</span></button>
     </a>
-</div>
 </div>
 </body>
 </html>

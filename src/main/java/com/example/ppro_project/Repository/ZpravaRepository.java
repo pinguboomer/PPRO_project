@@ -19,7 +19,7 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "FROM Zprava zprava " +
             "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
             "JOIN Clen clen ON zprava.idR = clen.id " +
-            "WHERE zprava.idDFA = :idDFA and zprava.stav = 1")
+            "WHERE zprava.idDFA = :idDFA and zprava.stav = 1 order by zprava.id desc")
     List<Object[]> findPosudekByDFA(@Param("idDFA") int idDFA);
 
     @Query("SELECT zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste," +
@@ -27,7 +27,7 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "FROM Zprava zprava " +
             "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
             "JOIN Clen clen ON zprava.idR = clen.id " +
-            "WHERE zprava.idDFA = :idDFA and zprava.stav = 0")
+            "WHERE zprava.idDFA = :idDFA and zprava.stav = 0 order by zprava.id desc")
     List<Object[]> findPosudekByDFARozpracovane(@Param("idDFA") int idDFA);
 
     @Query("SELECT distinct zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste," +
@@ -39,7 +39,8 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             " and clen.id = zprava.idR) " +
             "            or (hodnoceni.roleR = 'AR1' and clen.id = zprava.idAR1) or" +
             "            (hodnoceni.roleR = 'AR2' and clen.id = zprava.idAR2)) " +
-            "WHERE (zprava.idR = :idR or zprava.idAR1 = :idR or zprava.idAR2 = :idR) and zprava.stav = 1")
+            "WHERE (zprava.idR = :idR or zprava.idAR1 = :idR or zprava.idAR2 = :idR)" +
+            " and zprava.stav = 1")
     List<Object[]> findPosudekByR(@Param("idR") int idR);
 
     Zprava save(Zprava zprava);
@@ -50,4 +51,11 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
     @Query("SELECT z FROM Zprava z WHERE z.idR = :idR or z.idAR1 = :idAR1 or z.idAR2 = :idAR2")
     List<Zprava> findByIdRorIdAr1orIdAr2(@Param("idR") int idR,
                                          @Param("idAR1") int idAR1,@Param("idAR2")  int idAR2);
+
+    @Query("SELECT COUNT(z) FROM Zprava z WHERE (z.idR = :idR or z.idAR1 = :idR or z.idAR2 = :idR) and z.stav = 1")
+    int countByIdR(@Param("idR") int idR);
+
+    @Query("SELECT COUNT(z) FROM Zprava z WHERE z.idDFA = :idDFA and z.stav = 1")
+    int countByIdDFA(@Param("idDFA") int idDFA);
+
 }

@@ -31,7 +31,7 @@ public class ZpravaController {
     public static ZpravaService zpravaService;
     public static KompletniZprava kompletniZprava;
 
-
+    public static boolean ulozeno = false;
     @Autowired
     public ZpravaController(ZpravaService zpravaService) {
         this.zpravaService = zpravaService;
@@ -248,7 +248,8 @@ public class ZpravaController {
             kompletniZprava = new KompletniZprava();
             return "redirect:/posudky";
         }
-        pridejAtributyDoModelu(model);
+        ulozeno = true;
+        //ridejAtributyDoModelu(model);
         return "redirect:/nova_zprava";
     }
 
@@ -260,6 +261,7 @@ public class ZpravaController {
             if (i < 4) {
                 HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
                 kompletniZprava.hodnoceniR.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+                hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
                 for (int j = 0;
                      j < kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
                      j++) {
@@ -282,6 +284,7 @@ public class ZpravaController {
 
             HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
             kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+            hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
             for (int j = 0;
                  j < kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
                  j++) {
@@ -302,6 +305,7 @@ public class ZpravaController {
 
             HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
             kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+            hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
             for (int j = 0;
                  j < kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
                  j++) {
@@ -398,6 +402,8 @@ public class ZpravaController {
         model.addAttribute("vlastnostiListKomentar", vlastnostiListKomentar);
         model.addAttribute("vlastnostiListARPF", vlastnostiListARPF);
         model.addAttribute("vlastnostiListARPohyb", vlastnostiListARPohyb);
+        model.addAttribute("ulozeno", ulozeno);
+        ulozeno = false;
     }
 
     private void dekodujHodnoceniDoZpravy(KompletniZprava kompletniZpravaModel) {

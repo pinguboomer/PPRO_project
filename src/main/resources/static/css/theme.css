@@ -264,7 +264,7 @@ label {
 .sticky-element {
     position: sticky;
     padding: 5px;
-    z-index:1000;
+    z-index:100;
     background: #22222C;
     top: 0;
     font-size: 25px;
@@ -272,7 +272,7 @@ label {
 
 .sticky-element_rozhodci {
     position: sticky;
-    z-index:9999;
+    z-index:999;
     background: #22222C;
     padding-top: 5px;
 }
@@ -353,7 +353,26 @@ table select{
     width: 75px;
 }
 
+.flash-animation {
+    display: none;
+    background-color: deepskyblue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    animation: flash 3s ease-out;
+    z-index: 9999;
+}
 
+@keyframes flash {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
 
 
 /* CSS */

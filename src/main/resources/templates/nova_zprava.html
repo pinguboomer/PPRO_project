@@ -21,7 +21,8 @@
     </div>
 </div>
 <div class="novaZpravaWrapper">
-    <form method="POST" th:action="@{/nova_zprava/vyhledejUtkani}" th:object="${utkani}">
+    <form method="POST" id="ulozitForm"
+          th:action="@{/nova_zprava/vyhledejUtkani}" th:object="${utkani}">
         <div class="novaZprava">
             <label>Číslo utkání:</label>
         </div>
@@ -287,8 +288,11 @@
                     <div style="text-align: right; margin-right: 10px" class="novaZprava">
                         <button type="submit" class="button-48"
                                 role="button"><span class="text">Uložit a pokračovat</span></button>
+                        <div id="flashAnimation" class="flash-animation">ULOŽENO</div>
                     </div>
+
                 </div>
+                <label style="display: none" th:text="${ulozeno}" id="jeUlozeno"></label>
             </div>
             <div class="style_description"></div>
             <div class="sticky-element_rozhodci" style="top: 45px; background: #31313a">
