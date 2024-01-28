@@ -248,7 +248,6 @@ label {
 .infoProfilPolozka {
     width: 500px;
     justify-content: space-between;
-    /*border: 1px solid yellow;*/
     text-align: left;
     flex-wrap: nowrap;
     display: flex;
@@ -433,4 +432,9 @@ table select{
 .button-48 span {
     z-index: 1;
     position: relative;
+}
+
+.posudek_rozhodci_label:hover {
+    cursor: pointer;
+    color: yellow;
 }

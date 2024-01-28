@@ -1,10 +1,12 @@
 package com.example.ppro_project.Service;
 
 import com.example.ppro_project.Model.Clen;
+import com.example.ppro_project.Model.Posudek;
 import com.example.ppro_project.Repository.ClenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ppro_project.Constants.Constants.DELEGAT;
@@ -38,5 +40,39 @@ public class ClenService {
 
     public Clen getClenById(int idClen) {
         return clenRepository.findById(idClen);
+    }
+
+    public Posudek getNejlepsiZnamkaRByIdR(int idClen) {
+        List<Object[]> objects = clenRepository.findNejlepsiZnamkaRByIdR(idClen);
+
+        return dekodujZnamkuNaPosudek(objects);
+    }
+
+    public Posudek getNejhorsiZnamkaRByIdR(int idClen) {
+        List<Object[]> objects = clenRepository.findNejhorsiZnamkaRByIdR(idClen);
+        return dekodujZnamkuNaPosudek(objects);
+    }
+
+    public Posudek getNejlepsiZnamkaARByIdR(int idClen) {
+        List<Object[]> objects = clenRepository.findNejlepsiZnamkaARByIdR(idClen);
+        return dekodujZnamkuNaPosudek(objects);
+    }
+
+    public Posudek getNejhorsiZnamkaARByIdR(int idClen) {
+        List<Object[]> objects = clenRepository.findNejhorsiZnamkaARByIdR(idClen);
+        return dekodujZnamkuNaPosudek(objects);
+    }
+    private Posudek dekodujZnamkuNaPosudek(List<Object[]> objects) {
+        Posudek posudek = new Posudek();
+        for (Object[] object : objects) {
+            int index = 0;
+            posudek.idUtkani = (String) object[index++];
+            posudek.znamka = (String) object[index++];
+            if(posudek.znamka.equals("7.8") || posudek.znamka.equals("7.9")){
+                posudek.znamka = posudek.znamka + " (*" + object[index] + ")";
+            }
+            return posudek;
+        }
+        return posudek;
     }
 }

@@ -22,4 +22,12 @@ public class VlastnostService {
     public List<Vlastnost> getVlastnostiByKategorie(int kategorie) {
         return vlastnostRepository.findByKategorie(kategorie);
     }
+
+    public List<Vlastnost> getNejcastejsiVlastnostiRByIdR(int idClen, int typ) {
+        return vlastnostRepository.findNejcastejsiVlastnostiRByIdR(idClen, typ);
+    }
+
+    public List<Vlastnost> getNejcastejsiVlastnostiARByIdR(int idClen, int typ) {
+        return vlastnostRepository.findNejcastejsiVlastnostiARByIdR(idClen, typ);
+    }
 }

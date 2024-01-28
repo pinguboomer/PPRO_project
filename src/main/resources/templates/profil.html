@@ -5,6 +5,8 @@
     <title>SKFS – profil</title>
     <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
+    <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
 </head>
 <body>
 <div id="udajeHeader">
@@ -44,33 +46,93 @@
         <label>Adresa:</label>
         <label th:text="${(clen.ulice ?: '') + ' ' + (clen.mesto ?: '') + ' ' + (clen.psc ?: '')}"></label>
     </div>
-    <div class="infoProfilPolozka" style="margin-top: 40px">
-        <label>Počet zpráv:</label>
-        <label th:text="${pocetZprav}"></label>
+    <div th:if="${schovatDetaily == 0}">
+        <div class="infoProfilPolozka" style="margin-top: 40px" th:if="${clen.role != 'Admin'}">
+            <label>Počet posudků:</label>
+            <label th:text="${pocetZprav}"></label>
+        </div>
+        <div th:if="${clen.role == 'Rozhodčí'}">
+            <div class="infoProfilPolozka">
+                <label>Nejlepší známka (R):</label>
+                <div class="znamkaProfil">
+                    <a th:href="'/posudek?idUtkani=' + ${nejlepsiZnamkaR.idUtkani}">
+                        <label th:text="${nejlepsiZnamkaR.znamka}"></label>
+                    </a>
+                </div>
+            </div>
+            <div class="infoProfilPolozka">
+                <label>Nejhorší známka (R):</label>
+                <div class="znamkaProfil">
+                    <a th:href="'/posudek?idUtkani=' + ${nejhorsiZnamkaR.idUtkani}">
+                        <label th:text="${nejhorsiZnamkaR.znamka}"></label>
+                    </a>
+                </div>
+            </div>
+            <div class="infoProfilPolozka">
+                <label>Nejlepší známka (AR):</label>
+                <div class="znamkaProfil">
+                    <a th:href="'/posudek?idUtkani=' + ${nejlepsiZnamkaAR.idUtkani}">
+                        <label th:text="${nejlepsiZnamkaAR.znamka}"></label>
+                    </a>
+                </div>
+            </div>
+            <div class="infoProfilPolozka">
+                <label>Nejhorší známka (AR):</label>
+                <div class="znamkaProfil">
+                    <a th:href="'/posudek?idUtkani=' + ${nejhorsiZnamkaAR.idUtkani}">
+                        <label th:text="${nejhorsiZnamkaAR.znamka}"></label>
+                    </a>
+                </div>
+            </div>
+            <div class="infoProfilPolozka" style="display: block">
+                <label>Nejlepší vlastnosti (R):</label>
+                <div th:each="g: ${nejlepsiVlastnostiR}">
+                    <div style="background: lightgreen; color: black;
+                 border: 2px solid black; border-radius: 25px;
+                 padding: 5px;
+                width: 75%; text-align: center; margin: 10px auto 10px auto">
+                        <label style="width: 90%" th:text="${g.popis}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="infoProfilPolozka" style="display: block;">
+                <label>Nejhorší vlastnosti (R):</label>
+                <div th:each="g: ${nejhorsiVlastnostiR}">
+                    <div style="background: red; color: white;
+                 border: 2px solid white; border-radius: 25px;
+                 padding: 5px;
+                width: 75%; text-align: center; margin: 10px auto 10px auto">
+                        <label th:text="${g.popis}" style="width: 90%"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="infoProfilPolozka" style="display: block">
+                <label>Nejlepší vlastnosti (AR):</label>
+                <div th:each="g: ${nejlepsiVlastnostiAR}">
+                    <div style="background: lightgreen; color: black;
+                 border: 2px solid black; border-radius: 25px;
+                 padding: 5px;
+                width: 75%; text-align: center; margin: 10px auto 10px auto">
+                        <label style="width: 90%" th:text="${g.popis}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="infoProfilPolozka" style="display: block">
+                <label>Nejhorší vlastnosti (AR):</label>
+                <div th:each="g: ${nejhorsiVlastnostiAR}">
+                    <div style="background: red; color: white;
+                 border: 2px solid white; border-radius: 25px;
+                 padding: 5px;
+                width: 75%; text-align: center; margin: 10px auto 10px auto">
+                        <label style="width: 90%" th:text="${g.popis}"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="infoProfilPolozka">
-        <label>Nejlepší známka:</label>
-        <label>0</label>
-    </div>
-    <div class="infoProfilPolozka">
-        <label>Nejhorší známka:</label>
-        <label>0</label>
-    </div>
-    <div class="infoProfilPolozka">
-        <label>Nejlepší vlastnosti:</label>
-        <label>0</label>
-    </div>
-    <div class="infoProfilPolozka">
-        <label>Nejhorší vlastnosti:</label>
-        <label>0</label>
-    </div>
-    <div class="infoProfilPolozka">
-        <label>Největší parťák:</label>
-        <label>0</label>
-    </div>
-    <a th:href="@{/menu}">
-        <button class="button-48"><span class="text">Zpět</span></button>
-    </a>
+    <button class="button-48" onclick="vratSeNaPredchoziStranku()">
+        <span class="text">Zpět</span>
+    </button>
 </div>
 </body>
 </html>

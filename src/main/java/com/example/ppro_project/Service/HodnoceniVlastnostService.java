@@ -21,17 +21,19 @@ public class HodnoceniVlastnostService {
     public HodnoceniVlastnostService(HodnoceniVlastnostRepository hodnoceniVlastnostRepository) {
         this.hodnoceniVlastnostRepository = hodnoceniVlastnostRepository;
     }
-    public List<HodnoceniVlastnost> getVlastnostiIdByIdPopis(int idHodnoceni) {
-        return hodnoceniVlastnostRepository.findVlastnostiIdByIdPopis(idHodnoceni);
+    public List<HodnoceniVlastnost> getVlastnostiIdByIdPopis(int idPopis) {
+        List<HodnoceniVlastnost> heh = hodnoceniVlastnostRepository.findVlastnostiIdByIdPopis(idPopis);
+        return heh;
     }
 
 
     public void vymazVsechnyPodleIdPopis(int idPopis) {
         hodnoceniVlastnostRepository.deleteByIdPopis(idPopis);
     }
-    public HodnoceniVlastnost save(int idPopis, int idVlastnost, int typ) {
+    public HodnoceniVlastnost save(int idPopis, int idVlastnost, int typ, int idClen) {
 
         HodnoceniVlastnost hv = new HodnoceniVlastnost(idPopis, idVlastnost, typ);
+        hv.idClen = idClen;
         return hodnoceniVlastnostRepository.save(hv);
     }
 }

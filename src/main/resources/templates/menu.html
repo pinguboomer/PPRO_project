@@ -33,7 +33,7 @@
             </div>
         </a>
     </div>
-    <div class="profilPolozka">
+    <div class="profilPolozka" th:if="${clen.role != 'Admin'}">
         <a th:href="@{/posudky}">
             <div>
                 <img height="80" width="80" th:src="@{/css/img/list_icon.png}"/>
@@ -41,8 +41,32 @@
             </div>
         </a>
     </div>
+    <div class="profilPolozka" th:if="${clen.role == 'Admin'}">
+        <a th:href="@{/admin_posudky}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/list_icon.png}"/>
+                <label>Přehled posudků</label>
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka" th:if="${clen.role == 'Admin'}">
+        <a th:href="@{/delegati}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/delegate_icon.png}"/>
+                <label>Přehled delegátů</label>
+            </div>
+        </a>
+    </div>
+    <div class="profilPolozka" th:if="${clen.role == 'Admin'}">
+        <a th:href="@{/rozhodci}">
+            <div>
+                <img height="80" width="80" th:src="@{/css/img/ref_icon.png}"/>
+                <label>Přehled rozhodčích</label>
+            </div>
+        </a>
+    </div>
     <div class="profilPolozka">
-        <a th:href="@{/profil}">
+        <a th:href="@{/muj_profil}">
             <div>
                 <img height="80" width="80" th:src="@{/css/img/profil_icon.png}"/>
                 <label>Profil</label>

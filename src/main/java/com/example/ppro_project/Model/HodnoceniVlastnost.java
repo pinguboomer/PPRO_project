@@ -18,6 +18,9 @@ public class HodnoceniVlastnost {
     @Column(name = "typ")
     public int typ;
 
+    @Column(name = "idClen")
+    public int idClen;
+
     public HodnoceniVlastnost(){
 
     }
@@ -57,5 +60,14 @@ public class HodnoceniVlastnost {
 
     public void setTyp(int typ) {
         this.typ = typ;
+    }
+
+
+    public int getIdClen() {
+        return idClen;
+    }
+
+    public void setIdClen(int idClen) {
+        this.idClen = idClen;
     }
 }

@@ -3,6 +3,8 @@ package com.example.ppro_project.Constants;
 public class Constants {
     public static String DELEGAT = "Delegát";
     public static String ROZHODCI = "Rozhodčí";
+    public static String ADMIN = "Admin";
+
     public static String R = "R";
     public static String AR1 = "AR1";
     public static String AR2 = "AR2";

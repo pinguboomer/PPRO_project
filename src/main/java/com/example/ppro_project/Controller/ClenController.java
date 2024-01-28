@@ -1,9 +1,6 @@
 package com.example.ppro_project.Controller;
 
-import com.example.ppro_project.Model.Clen;
-import com.example.ppro_project.Model.KompletniZprava;
-import com.example.ppro_project.Model.Utkani;
-import com.example.ppro_project.Model.Zprava;
+import com.example.ppro_project.Model.*;
 import com.example.ppro_project.Service.ClenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,19 +77,92 @@ public class ClenController implements ErrorController {
         return "menu";
     }
 
+    private List<Clen> getCleny(String typClena){
+        if(typClena.equals(DELEGAT)){
+            return clenService.getDelegati();
+        } else {
+            return clenService.getRozhodci();
+        }
+    }
+
+    @GetMapping("/rozhodci")
+    public String clenoveRozhodci(Model model) {
+        if (!jePrihlasenUzivatel() || !Objects.equals(prihlasenyUzivatel.getRole(), ADMIN)) {
+            return "redirect:/";
+        }
+        List<Clen> clenove = getCleny(ROZHODCI);
+        model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("clenove", clenove);
+        return "admin_clenove";
+    }
+
+    @GetMapping("/delegati")
+    public String clenoveDelegati(Model model) {
+        if (!jePrihlasenUzivatel() || !Objects.equals(prihlasenyUzivatel.getRole(), ADMIN)) {
+            return "redirect:/";
+        }
+        List<Clen> clenove = getCleny(DELEGAT);
+        model.addAttribute("clen", prihlasenyUzivatel);
+        model.addAttribute("clenove", clenove);
+        return "admin_clenove";
+    }
+
+    public void nactiProfil(Model model, Clen clen) {
+        int pocetZprav = 0;
+        if (Objects.equals(clen.getRole(), ROZHODCI)) {
+            pocetZprav = zpravaService.getPocetZpravByIdR(clen.getId());
+            List<Vlastnost> nejlepsiVlastnostiR =
+                    vlastnostService.getNejcastejsiVlastnostiRByIdR(clen.getId(), 1);
+            List<Vlastnost> nejhorsiVlastnostiR =
+                    vlastnostService.getNejcastejsiVlastnostiRByIdR(clen.getId(), 0);
+            List<Vlastnost> nejlepsiVlastnostiAR =
+                    vlastnostService.getNejcastejsiVlastnostiARByIdR(clen.getId(), 1);
+            List<Vlastnost> nejhorsiVlastnostiAR =
+                    vlastnostService.getNejcastejsiVlastnostiARByIdR(clen.getId(), 0);
+            Posudek nejlepsiZnamkaR = clenService.getNejlepsiZnamkaRByIdR(clen.getId());
+            Posudek nejhorsiZnamkaR = clenService.getNejhorsiZnamkaRByIdR(clen.getId());
+            Posudek nejlepsiZnamkaAR = clenService.getNejlepsiZnamkaARByIdR(clen.getId());
+            Posudek nejhorsiZnamkaAR = clenService.getNejhorsiZnamkaARByIdR(clen.getId());
+            model.addAttribute("nejlepsiZnamkaR", nejlepsiZnamkaR);
+            model.addAttribute("nejhorsiZnamkaR", nejhorsiZnamkaR);
+            model.addAttribute("nejlepsiZnamkaAR", nejlepsiZnamkaAR);
+            model.addAttribute("nejhorsiZnamkaAR", nejhorsiZnamkaAR);
+            model.addAttribute("nejlepsiVlastnostiR", nejlepsiVlastnostiR);
+            model.addAttribute("nejhorsiVlastnostiR", nejhorsiVlastnostiR);
+            model.addAttribute("nejlepsiVlastnostiAR", nejlepsiVlastnostiAR);
+            model.addAttribute("nejhorsiVlastnostiAR", nejhorsiVlastnostiAR);
+        } else if (Objects.equals(clen.getRole(), DELEGAT)) {
+            pocetZprav = zpravaService.getPocetZpravByIdDFA(clen.getId());
+        }
+        model.addAttribute("clen", clen);
+        model.addAttribute("pocetZprav", pocetZprav);
+    }
+
     @GetMapping("/profil")
+    public String profil(@RequestParam String id, Model model) {
+        if (!jePrihlasenUzivatel()) {
+            return "redirect:/";
+        }
+        Clen clen = clenService.getClenById(Integer.parseInt(id));
+        if(clen == null){
+            return "redirect:/";
+        }
+        nactiProfil(model, clen);
+        int schovatDetaily = 1;
+        if(prihlasenyUzivatel.getRole().equals(ADMIN)){
+            schovatDetaily = 0;
+        }
+        model.addAttribute("schovatDetaily", schovatDetaily);
+        return "profil";
+    }
+
+    @GetMapping("/muj_profil")
     public String profil(Model model) {
         if (!jePrihlasenUzivatel()) {
             return "redirect:/";
         }
-        int pocetZprav;
-        if(prihlasenyUzivatel.getRole() == ROZHODCI){
-            pocetZprav = zpravaService.getPocetZpravByIdR(prihlasenyUzivatel.getId());
-        } else {
-            pocetZprav = zpravaService.getPocetZpravByIdDFA(prihlasenyUzivatel.getId());
-        }
-        model.addAttribute("clen", prihlasenyUzivatel);
-        model.addAttribute("pocetZprav", pocetZprav);
+        nactiProfil(model, prihlasenyUzivatel);
+        model.addAttribute("schovatDetaily", 0);
         return "profil";
     }
 
@@ -116,7 +187,8 @@ public class ClenController implements ErrorController {
             Clen authenticatedUser =
                     clenService.getClenByIdFacrAndHeslo(clen.getIdFacr(), clen.getHeslo());
             if (authenticatedUser != null) {
-                if (!clen.getRole().equals(authenticatedUser.getRole())) {
+                if (!clen.getRole().equals(authenticatedUser.getRole())
+                        && !authenticatedUser.getRole().equals(ADMIN)) {
                     br.rejectValue("idFacr", "error.user",
                             "Člen není klasifikován jako " + clen.getRole().toLowerCase());
                     model.addAttribute("roles", roles);
@@ -141,6 +213,9 @@ public class ClenController implements ErrorController {
         maRozpracovane = false;
         if (Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT)) {
             zpravyClena = zpravaService.getZpravyByIdDFA(prihlasenyUzivatel.getId());
+        } else if (Objects.equals(prihlasenyUzivatel.getRole(), ADMIN)) {
+            zpravyClena = new ArrayList<>();
+            maRozpracovane = false;
         } else {
             zpravyClena = zpravaService.getZpravyByIdRozhodci(prihlasenyUzivatel.getId());
         }

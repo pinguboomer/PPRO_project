@@ -68,6 +68,7 @@ const pridatKladOT = document.getElementById('pridatKladOT');
 const pridatZaporOT = document.getElementById('pridatZaporOT');
 const vlastnostiOTSelect = document.getElementById('vlastnostiOTSelect');
 const kladyZaporyOTDiv = document.getElementById('kladyZaporyOTDiv');
+const kladyZaporyOTDivFinal = document.getElementById('kladyZaporyOTDivFinal');
 
 const pridatKladFyzicka = document.getElementById('pridatKladFyzicka');
 const pridatZaporFyzicka = document.getElementById('pridatZaporFyzicka');
@@ -101,6 +102,7 @@ const kladyZaporyPohybAR2Div = document.getElementById('kladyZaporyPohybAR2Div')
 
 const kladyZaporyPFInputHidden = document.getElementById('kladyZaporyPFInputHidden');
 const kladyZaporyOTInputHidden = document.getElementById('kladyZaporyOTInputHidden');
+const kladyZaporyOTInputHiddenFinal = document.getElementById('kladyZaporyOTInputHiddenFinal');
 const kladyZaporyFyzickaInputHidden = document.getElementById('kladyZaporyFyzickaInputHidden');
 const kladyZaporySpolupraceInputHidden = document.getElementById('kladyZaporySpolupraceInputHidden');
 const kladyZaporyPFAR1InputHidden = document.getElementById('kladyZaporyPFAR1InputHidden');
@@ -111,30 +113,34 @@ const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohyb
 const zpravaStavInput = document.getElementById('zpravaStavInput');
 const odeslatBtn = document.getElementById('odeslatBtn');
 
-odeslatBtn.addEventListener('click', function () {
-    zpravaStavInput.value = 1;
-});
-
 document.addEventListener('DOMContentLoaded', function () {
-    if(document.getElementById('jeUlozeno').textContent === "true"){
+    if(document.getElementById('jeUlozeno') != null &&
+        document.getElementById('jeUlozeno').textContent === "true"){
         showFlashAnimation();
     }
+
     vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiFyzickaSelect, "Fyzicka", kladyZaporyFyzickaDiv,
         kladyZaporyFyzickaInputHidden);
     vytvorDivyPodleDatvVInputu(vlastnostiSpolupraceSelect, "Spoluprace", kladyZaporySpolupraceDiv,
          kladyZaporySpolupraceInputHidden);
-    pridejVlastnost(vlastnostiPFAR1Select, "PFARJedna", kladyZaporyPFAR1Div,
+    vytvorDivyPodleDatvVInputu(vlastnostiPFAR1Select, "PFARJedna", kladyZaporyPFAR1Div,
          kladyZaporyPFAR1InputHidden);
-    pridejVlastnost(vlastnostiPohybAR1Select, "PohybARJedna", kladyZaporyPohybAR1Div,
+    vytvorDivyPodleDatvVInputu(vlastnostiPohybAR1Select, "PohybARJedna", kladyZaporyPohybAR1Div,
         kladyZaporyPohybAR1InputHidden);
-    pridejVlastnost(vlastnostiPFAR2Select, "PFARDva", kladyZaporyPFAR2Div,
+    vytvorDivyPodleDatvVInputu(vlastnostiPFAR2Select, "PFARDva", kladyZaporyPFAR2Div,
         kladyZaporyPFAR2InputHidden);
-    pridejVlastnost(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
+    vytvorDivyPodleDatvVInputu(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
         kladyZaporyPohybAR2InputHidden);
-
 });
+
+if(odeslatBtn != null){
+    odeslatBtn.addEventListener('click', function () {
+        zpravaStavInput.value = 1;
+    });
+}
+
 
 pridatKladPF.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
@@ -317,7 +323,6 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHi
 
 }
 
-
 function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInputHidden) {
     // Rozdělíme vstupní řetězec podle čárky
     const inputVal = kladyZaporyInputHidden.value;
@@ -480,10 +485,10 @@ listaOstatni3.addEventListener('click', function () {
 });
 
 // polocas
-polocas1.addEventListener('input', function () {
+polocas1?.addEventListener('input', function () {
     checkValid(polocas1);
 });
-polocas2.addEventListener('input', function () {
+polocas2?.addEventListener('input', function () {
     checkValid(polocas2);
 });
 
@@ -511,7 +516,7 @@ polocas.addEventListener('input', function () {
     checkValidPolocasAndVysledekSkore();
 
 });
-vysledek.addEventListener('input', function () {
+vysledek?.addEventListener('input', function () {
     polocas.classList.remove('invalid-input');
     polocas.setCustomValidity("");
     checkValid(polocas);
@@ -673,13 +678,13 @@ const znamkaAR1 = document.getElementById('znamkaAR1');
 const znamkaAR2HCHRadek = document.getElementById('znamkaAR2HCHRadek');
 const znamkaAR2 = document.getElementById('znamkaAR2');
 
-znamkaR.addEventListener('input', function () {
+znamkaR?.addEventListener('input', function () {
     checkValidZnamka(znamkaR, znamkaRHCHRadek);
 });
-znamkaAR1.addEventListener('input', function () {
+znamkaAR1?.addEventListener('input', function () {
     checkValidZnamka(znamkaAR1, znamkaAR1HCHRadek);
 });
-znamkaAR2.addEventListener('input', function () {
+znamkaAR2?.addEventListener('input', function () {
     checkValidZnamka(znamkaAR2, znamkaAR2HCHRadek);
 });
 
@@ -745,10 +750,13 @@ window.onscroll = function () {
     // Podmínka pro přilepení nebo odlepení elementu
     if (scrollPosition > stickyPosition) {
         stickyElement.classList.add('sticky');
-        // Přidejte třídu 'sticky', která může obsahovat další stylování pro přilepený stav
     } else {
         stickyElement.classList.remove('sticky');
-        // Odeberte třídu 'sticky' při odlepení elementu
     }
 };
+
+function prejdiNaProfilClena(id) {
+    window.location.href = '/profil?id=' + document.getElementById(id).textContent;
+}
+
 

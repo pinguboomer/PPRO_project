@@ -40,7 +40,7 @@ public class ZpravaController {
 
     @GetMapping("/nova_zprava")
     public String novaZprava(Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+        if (!jePrihlasenUzivatel() || !(Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT))) {
             kompletniZprava = null;
             return "redirect:/";
         }
@@ -56,7 +56,7 @@ public class ZpravaController {
 
     @GetMapping("/nova_zprava/new")
     public String novaZpravaNew(Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+        if (!jePrihlasenUzivatel() || !Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT)) {
             kompletniZprava = null;
             return "redirect:/";
         }
@@ -71,7 +71,7 @@ public class ZpravaController {
     @PostMapping("/nova_zprava/vyhledejUtkani")
     public String vyhledejUtkani(@Valid @ModelAttribute("utkani") Utkani utkani,
                                  BindingResult br, Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+        if (!jePrihlasenUzivatel() || !Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT)) {
             kompletniZprava = null;
             return "redirect:/";
         }
@@ -216,7 +216,7 @@ public class ZpravaController {
     public String ulozZpravu(@Valid @ModelAttribute("kompletniZprava")
                              KompletniZprava kompletniZpravaModel,
                              BindingResult br, Model model) {
-        if (!jePrihlasenUzivatel() || prihlasenyUzivatel.getRole() == ROZHODCI) {
+        if (!jePrihlasenUzivatel() || !Objects.equals(prihlasenyUzivatel.getRole(), DELEGAT)) {
             kompletniZprava = null;
             return "redirect:/";
         }
@@ -249,7 +249,6 @@ public class ZpravaController {
             return "redirect:/posudky";
         }
         ulozeno = true;
-        //ridejAtributyDoModelu(model);
         return "redirect:/nova_zprava";
     }
 
@@ -269,7 +268,7 @@ public class ZpravaController {
                             hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                     hodnoceniVlastnostTemp[j] =
                             hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                    hv.idVlastnost, hv.typ);
+                                    hv.idVlastnost, hv.typ, kompletniZprava.r.getId());
                 }
                 hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
                 hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =
@@ -292,7 +291,7 @@ public class ZpravaController {
                         hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                 hodnoceniVlastnostTemp[j] =
                         hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                hv.idVlastnost, hv.typ);
+                                hv.idVlastnost, hv.typ, kompletniZprava.ar1.getId());
             }
             hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
             hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =
@@ -313,7 +312,7 @@ public class ZpravaController {
                         hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                 hodnoceniVlastnostTemp[j] =
                         hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                hv.idVlastnost, hv.typ);
+                                hv.idVlastnost, hv.typ, kompletniZprava.ar2.getId());
             }
             hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
             hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =

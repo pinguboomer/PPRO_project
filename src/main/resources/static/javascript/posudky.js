@@ -1,10 +1,106 @@
 document.addEventListener('DOMContentLoaded', function () {
     var rows = document.querySelectorAll('table tbody tr');
 
-    rows.forEach(function (row, index) {
-        row.addEventListener('click', function () {
-            var idUtkani = this.querySelector('td:first-child').innerText;
-            window.location.href = '/posudek?idUtkani=' + idUtkani;
+    rows.forEach(function (row, rowIndex) {
+        var cells = row.querySelectorAll('td');
+        if (row.classList.contains('clenove-row')) {
+            cells = row.querySelectorAll('td:not(:last-child)');
+        }
+
+        cells.forEach(function (cell, cellIndex) {
+            cell.addEventListener('click', function () {
+                if (row.classList.contains('clenove-row')) {
+                    var idClena =
+                        row.querySelector('td:first-child').innerText;
+                    window.location.href = '/profil?id=' + idClena;
+                    return;
+                }
+                if (row.classList.contains('sub-row')) {
+                    var idUtkani =
+                        row.previousElementSibling.querySelector('td:first-child').innerText;
+                    window.location.href = '/posudek?idUtkani=' + idUtkani;
+                    return;
+                }
+                var idUtkani = row.querySelector('td:first-child').innerText;
+                window.location.href = '/posudek?idUtkani=' + idUtkani;
+            });
         });
     });
 });
+
+function prejdiNaPosudkyClena(button) {
+    // Přesměrování na jinou stránku s využitím ID člena
+    window.location.href = '/posudkyClena?id=' + button.value;;
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('searchInput');
+    vyhledej(searchInput);
+});
+
+function vyhledej(searchInput){
+    var rows = document.querySelectorAll('tbody tr');
+
+    if(searchInput == null){
+        return;
+    }
+    searchInput.addEventListener('input', function() {
+        var searchTerm = searchInput.value.toLowerCase();
+
+        rows.forEach(function(row) {
+            var textContent = row.textContent.toLowerCase();
+
+            if (textContent.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('searchInputClenove');
+    vyhledej(searchInput);
+});
+
+function showResult(element, result) {
+    var result = element.getAttribute('rZnamka');
+    element.innerHTML = result;
+    element.style.color = "yellow";
+}
+
+function hideResult(element, result) {
+    var result = element.getAttribute('rId');
+    element.innerHTML = result;
+    element.style.color = "white";
+}
+
+function showAdditionalRow(element) {
+    if (element.classList.contains('sub-row')) {
+       // element.previousElementSibling.style.background = "black";
+        element.style.display = "table-row";
+        return;
+    }
+    var additionalRow = element.nextElementSibling;
+    additionalRow.style.display = "table-row";
+}
+
+function hideAdditionalRow(element) {
+    if (element.classList.contains('sub-row')) {
+      /*  if(element.previousElementSibling.classList.contains('even-row')){
+            element.previousElementSibling.style.background = "#22222C";
+        } else {
+            element.previousElementSibling.style.background = "#3f4a41";
+        }*/
+        element.style.display = "none";
+        return;
+    }
+    var additionalRow = element.nextElementSibling;
+    additionalRow.style.display = "none";
+}
+
+function vratSeNaPredchoziStranku() {
+    history.back();
+}

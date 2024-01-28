@@ -85,9 +85,13 @@
             <table>
                 <tbody>
                 <tr>
+                    <td id="idR" th:text="*{r.id}" style="display: none"></td>
                     <td>R:</td>
-                    <td><label th:width="auto" id="jmenoR"
+                    <td>
+                        <label th:width="auto" id="jmenoR"
                                th:id="jmenoR"
+                               class="posudek_rozhodci_label"
+                               onclick="prejdiNaProfilClena('idR')"
                                th:text="${(kompletniZprava.r.jmeno!= null &&
                                 kompletniZprava.r.prijmeni!= null) ?
                                 kompletniZprava.r.prijmeni + ' ' +
@@ -116,8 +120,11 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td id="idAr1" th:text="*{ar1.id}" style="display: none"></td>
                     <td>AR1:</td>
                     <td><label id="jmenoAR1" th:id="jmenoAR1"
+                               class="posudek_rozhodci_label"
+                               onclick="prejdiNaProfilClena('idAr1')"
                                th:text="${(kompletniZprava.ar1.jmeno!= null &&
                                 kompletniZprava.ar1.prijmeni!= null) ?
                                 kompletniZprava.ar1.prijmeni + ' ' +
@@ -146,9 +153,12 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td id="idAr2" th:text="*{ar2.id}" style="display: none"></td>
                     <td>AR2:</td>
                     <td><label id="jmenoAR2"
                                th:type="text" th:id="jmenoAR2"
+                               class="posudek_rozhodci_label"
+                               onclick="prejdiNaProfilClena('idAr2')"
                                th:text="${(kompletniZprava.ar2.jmeno!= null &&
                                 kompletniZprava.ar2.prijmeni!= null) ?
                                 kompletniZprava.ar2.prijmeni + ' ' +
@@ -177,8 +187,11 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td id="idDfa" th:text="*{dfa.id}" style="display: none"></td>
                     <td>DFA:</td>
                     <td><label id="jmenoDFA" th:id="jmenoDFA"
+                               class="posudek_rozhodci_label"
+                               onclick="prejdiNaProfilClena('idDfa')"
                                th:text="*{dfa.prijmeni + ' ' + dfa.jmeno}"></label></td>
                     <td th:text="*{dfa.idFacr}"></td>
                 </tr>
@@ -186,6 +199,7 @@
                     <td>TD:</td>
                     <td><label id="jmenoTD"
                                th:id="jmenoTD"
+
                                th:text="${(kompletniZprava.td.jmeno!= null &&
                                 kompletniZprava.td.prijmeni!= null) ?
                                 kompletniZprava.td.prijmeni + ' ' +

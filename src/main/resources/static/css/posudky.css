@@ -14,10 +14,76 @@ th {
     background-color: #3f4a41;
 }
 
-tr:nth-child(even) {
+tr:hover {
+    background-color: #000000;
+}
+
+.even-row {
+    background-color: #22222C;
+}
+
+.odd-row {
     background-color: #3f4a41;
 }
 
-tr:hover {
-    background-color: #000000; /* Zvýraznění při najetí myší */
+.sub-row {
+    background-color: #2d560b;
+    display: none;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid white;
 }
+
+.sub-row:hover {
+    background-color: #2d560b;
+}
+
+@media screen and (max-width: 600px) {
+    th, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    th, td:not(:last-child) {
+        border-bottom: 1px solid #dddddd;
+    }
+}
+
+.znamkaProfil {
+    margin: auto;
+}
+
+.znamkaProfil label:hover {
+    color: yellow;
+}
+
+.znamkaProfil label {
+    text-align: left;
+    cursor: pointer;
+}
+
+.expand-button {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+}
+
+.hidden-div {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.clenove-row {
+
+}
+
+.clenove-row tr:nth-child(even){
+    background-color: #3f4a41;
+}
+
+.clenove-row tr:hover {
+    background-color: #000000;
+}
+
+

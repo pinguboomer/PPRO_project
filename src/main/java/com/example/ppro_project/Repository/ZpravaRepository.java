@@ -30,8 +30,8 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "WHERE zprava.idDFA = :idDFA and zprava.stav = 0 order by zprava.id desc")
     List<Object[]> findPosudekByDFARozpracovane(@Param("idDFA") int idDFA);
 
-    @Query("SELECT distinct zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste," +
-            " clen.prijmeni, clen.jmeno, clen.idFacr, hodnoceni.roleR " +
+    @Query("SELECT distinct zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste, hodnoceni.roleR," +
+            " clen.idFacr, clen.prijmeni, clen.jmeno,  hodnoceni.znamka, hodnoceni.znamka2 " +
             "FROM Zprava zprava " +
             "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
             "JOIN Clen clen ON zprava.idR = clen.id or zprava.idAR1 = clen.id or zprava.idAR2 = clen.id " +
@@ -42,6 +42,21 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "WHERE (zprava.idR = :idR or zprava.idAR1 = :idR or zprava.idAR2 = :idR)" +
             " and zprava.stav = 1")
     List<Object[]> findPosudekByR(@Param("idR") int idR);
+
+    @Query("SELECT distinct zprava.idUtkani, zprava.vysledek, utkani.domaci, utkani.hoste, " +
+            " clen.idFacr, clen.prijmeni, clen.jmeno, hodnoceni.znamka, hodnoceni.znamka2," +
+            " clenDFA.idFacr, clenDFA.prijmeni, clenDFA.jmeno, " +
+            " clenAR1.idFacr, clenAR1.prijmeni, clenAR1.jmeno, " +
+            " clenAR2.idFacr, clenAR2.prijmeni, clenAR2.jmeno " +
+            "FROM Zprava zprava " +
+            "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
+            "JOIN Clen clen ON zprava.idR = clen.id " +
+            "JOIN Clen clenDFA ON zprava.idDFA = clenDFA.id " +
+            "LEFT JOIN Clen clenAR1 ON zprava.idAR1 = clenAR1.id " +
+            "LEFT JOIN Clen clenAR2 ON zprava.idAR2 = clenAR2.id " +
+            "LEFT JOIN Hodnoceni hodnoceni ON zprava.id = hodnoceni.idZprava and hodnoceni.roleR = 'R' " +
+            " WHERE zprava.stav = 1")
+    List<Object[]> findVsechnyPosudky();
 
     Zprava save(Zprava zprava);
 
