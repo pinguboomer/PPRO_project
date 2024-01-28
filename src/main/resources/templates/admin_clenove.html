@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SKFS – členové</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
+    <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
+    <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
+</head>
+<body>
+<div id="udajeHeader">
+    <a th:href="@{/menu}"><img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/></a>
+    <div>
+        <label th:text="${clen.jmeno + ' ' + clen.prijmeni}"></label>
+        <label th:text="${'ID: ' + clen.idFacr}"></label>
+        <label th:text="${'Role: ' + clen.role}"></label>
+    </div>
+    <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
+</div>
+<div class="profilWrapper">
+    <input style="margin: 10px" type="text" id="searchInputClenove"
+           placeholder="Hledat ID, jméno, příjmení, jednotku...">
+    <table class="clenove-row">
+        <thead>
+        <tr>
+            <th style="text-align: left">ID</th>
+            <th style="text-align: left">Příjmení</th>
+            <th style="text-align: left">Jméno</th>
+            <th>Jednotka</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="clen : ${clenove}" style="cursor: pointer;" class="clenove-row">
+            <td th:text="${clen.id}" style="text-align: left; display: none"></td>
+            <td th:text="${clen.idFacr}" style="text-align: left"></td>
+            <td th:text="${clen.prijmeni}" style="text-align: left"></td>
+            <td th:text="${clen.jmeno}" style="text-align: left"></td>
+            <td th:text="${clen.jednotka}" style="text-align: center"></td>
+            <td>
+                <button class="button-48" onclick="prejdiNaPosudkyClena(this)" th:value="${clen.id}">
+                    <span class="text">POSUDKY</span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
