@@ -62,8 +62,52 @@ function vyhledej(searchInput){
 
 document.addEventListener('DOMContentLoaded', function() {
     var searchInput = document.getElementById('searchInputClenove');
-    vyhledej(searchInput);
+    if(searchInput != null){
+        searchInput.addEventListener('input', function() {
+            var radioButtons = document.getElementsByName('jednotkaSkupina');
+            var vybranyRb = getVybranaMoznost(radioButtons)
+            filtrujTabulku(vybranyRb, tabulka);
+        });
+    }
+
+
+    //vyhledej(searchInput);
+
+    var radioButtons = document.getElementsByName('jednotkaSkupina');
+    var tabulka = document.getElementById('tabulkaClenu');
+
+    if(radioButtons != null && tabulka != null){
+        radioButtons.forEach(function (radioButton) {
+            radioButton.addEventListener('change', function () {
+                filtrujTabulku(this.value, tabulka);
+            });
+        });
+    }
+
 });
+
+function getVybranaMoznost(radioButtons) {
+    for (var i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].checked) {
+            return radioButtons[i].value;
+        }
+    }
+    return 'vse'; // Výchozí hodnota, pokud žádný radio button není vybrán
+}
+
+function filtrujTabulku(vybranaMoznost, tabulka) {
+    var radky
+        = tabulka.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    var hledanyText = document.getElementById('searchInputClenove').value.toLowerCase();
+    for (var i = 0; i < radky.length; i++) {
+        var jednotka = radky[i].getElementsByTagName('td')[4].textContent;
+        var radekText = radky[i].textContent.toLowerCase();
+        // Skrýt nebo zobrazit řádek podle vybrané možnosti
+        radky[i].style.display =
+            (jednotka === vybranaMoznost || vybranaMoznost === 'vse') &&
+            (radekText.includes(hledanyText) || hledanyText === '') ? '' : 'none';
+    }
+}
 
 function showResult(element, result) {
     var result = element.getAttribute('rZnamka');

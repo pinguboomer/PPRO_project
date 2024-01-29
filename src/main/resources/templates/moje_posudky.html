@@ -19,11 +19,11 @@
   <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
 </div>
 <div class="profilWrapper">
-  <label th:if="${clen.role == 'Admin'}" style="width: 100%; text-align: left; margin-left: 10px"
-         th:text="${clenPosudku.prijmeni + ' ' + clenPosudku.jmeno
-         + ' (' + clenPosudku.idFacr + ')' + ', ' + clenPosudku.role}"></label>
   <input style="margin: 10px" type="text" id="searchInput"
          placeholder="Hledat číslo zápasu, tým, jméno, příjmení, ID R...">
+  <label th:if="${clen.role == 'Admin'}" style="width: 100%; text-align: right; margin-left: 10px"
+         th:text="${clenPosudku.prijmeni + ' ' + clenPosudku.jmeno
+         + ' (' + clenPosudku.idFacr + ')' + ', ' + clenPosudku.role}"></label>
   <table class="clenove-row">
     <thead>
     <tr>

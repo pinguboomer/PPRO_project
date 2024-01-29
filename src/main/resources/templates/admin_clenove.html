@@ -21,7 +21,49 @@
 <div class="profilWrapper">
     <input style="margin: 10px" type="text" id="searchInputClenove"
            placeholder="Hledat ID, jméno, příjmení, jednotku...">
-    <table class="clenove-row">
+    <div style="display: flex; justify-content: space-between; width: 100%">
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="vse" checked>Vše
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="BE">BE
+        </label>
+
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="BN">BN
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="ME">ME
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="NB">NB
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="MB">MB
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="KL">KL
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="KO">KO
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="KH">KH
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="PB">PB
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="PV">PV
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="PZ">PZ
+        </label>
+        <label>
+            <input style="margin: auto" type="radio" name="jednotkaSkupina" value="RA">RA
+        </label>
+    </div>
+    <table class="clenove-row" id="tabulkaClenu">
         <thead>
         <tr>
             <th style="text-align: left">ID</th>

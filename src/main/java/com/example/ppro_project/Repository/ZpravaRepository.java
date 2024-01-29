@@ -47,7 +47,7 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             " clen.idFacr, clen.prijmeni, clen.jmeno, hodnoceni.znamka, hodnoceni.znamka2," +
             " clenDFA.idFacr, clenDFA.prijmeni, clenDFA.jmeno, " +
             " clenAR1.idFacr, clenAR1.prijmeni, clenAR1.jmeno, " +
-            " clenAR2.idFacr, clenAR2.prijmeni, clenAR2.jmeno " +
+            " clenAR2.idFacr, clenAR2.prijmeni, clenAR2.jmeno, zprava.id " +
             "FROM Zprava zprava " +
             "JOIN Utkani utkani ON zprava.idUtkani = utkani.idUtkani " +
             "JOIN Clen clen ON zprava.idR = clen.id " +
@@ -55,7 +55,7 @@ public interface ZpravaRepository extends JpaRepository<Zprava, Integer> {
             "LEFT JOIN Clen clenAR1 ON zprava.idAR1 = clenAR1.id " +
             "LEFT JOIN Clen clenAR2 ON zprava.idAR2 = clenAR2.id " +
             "LEFT JOIN Hodnoceni hodnoceni ON zprava.id = hodnoceni.idZprava and hodnoceni.roleR = 'R' " +
-            " WHERE zprava.stav = 1")
+            " WHERE zprava.stav = 1 ORDER BY zprava.id desc")
     List<Object[]> findVsechnyPosudky();
 
     Zprava save(Zprava zprava);
