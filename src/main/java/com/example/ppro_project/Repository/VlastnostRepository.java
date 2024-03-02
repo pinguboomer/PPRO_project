@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface VlastnostRepository extends JpaRepository<Vlastnost, Long> {
-    Optional<Vlastnost> findById(Long idVlastnost);
+public interface VlastnostRepository extends JpaRepository<Vlastnost, Integer> {
+    Optional<Vlastnost> findById(int idVlastnost);
 
     List<Vlastnost> findByKategorie(int kategorie);
 

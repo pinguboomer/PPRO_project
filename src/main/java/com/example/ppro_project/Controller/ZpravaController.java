@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import static com.example.ppro_project.Controller.SoutezController.soutezService
 import static com.example.ppro_project.Controller.UtkaniController.hledaneUtkani;
 import static com.example.ppro_project.Controller.UtkaniController.utkaniService;
 import static com.example.ppro_project.Controller.VlastnostController.*;
+import static com.example.ppro_project.PDF.WordConvertor.printParts;
 
 @Controller
 public class ZpravaController {
@@ -223,6 +225,10 @@ public class ZpravaController {
         if (kompletniZpravaModel.zprava == null) {
             return "nova_zprava";
         }
+        int stavZpravy = kompletniZpravaModel.zprava.stav;
+        if(stavZpravy == 2){
+            kompletniZpravaModel.zprava.stav = 0;
+        }
         int idZprava = kompletniZprava.zprava.getId();
         kompletniZprava.zprava = kompletniZpravaModel.zprava;
         kompletniZprava.zprava.setId(idZprava);
@@ -244,6 +250,15 @@ public class ZpravaController {
         dekodujHodnoceniPopis(kompletniZpravaModel);
         ulozVsechnyPopisy();
 
+        if(stavZpravy == 2){
+            try {
+                printParts();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ulozeno = true;
+            return "redirect:/nova_zprava";
+        }
         if(kompletniZprava.zprava.stav == 1){
             kompletniZprava = new KompletniZprava();
             return "redirect:/posudky";

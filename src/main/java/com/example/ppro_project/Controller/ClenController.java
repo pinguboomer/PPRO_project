@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import static com.example.ppro_project.Controller.UtkaniController.*;
 import static com.example.ppro_project.Controller.VlastnostController.vlastnostService;
 import static com.example.ppro_project.Controller.ZpravaController.kompletniZprava;
 import static com.example.ppro_project.Controller.ZpravaController.zpravaService;
+import static com.example.ppro_project.PDF.WordConvertor.printParts;
 
 @Controller
 public class ClenController implements ErrorController {

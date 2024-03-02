@@ -112,6 +112,7 @@ const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohyb
 
 const zpravaStavInput = document.getElementById('zpravaStavInput');
 const odeslatBtn = document.getElementById('odeslatBtn');
+const vytvoritDocxBtn = document.getElementById('vytvoritDocxBtn');
 
 document.addEventListener('DOMContentLoaded', function () {
     if(document.getElementById('jeUlozeno') != null &&
@@ -141,6 +142,11 @@ if(odeslatBtn != null){
     });
 }
 
+if(vytvoritDocxBtn != null){
+    vytvoritDocxBtn.addEventListener('click', function () {
+        zpravaStavInput.value = 2;
+    });
+}
 
 pridatKladPF.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);

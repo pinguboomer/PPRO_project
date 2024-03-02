@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VlastnostService {
@@ -17,6 +18,11 @@ public class VlastnostService {
     @Autowired
     public VlastnostService(VlastnostRepository vlastnostRepository) {
         this.vlastnostRepository = vlastnostRepository;
+    }
+
+    public Vlastnost getVlastnostiById(int idVlastnost) {
+        Optional<Vlastnost> vl = vlastnostRepository.findById(idVlastnost);
+        return vl.orElseGet(Vlastnost::new);
     }
 
     public List<Vlastnost> getVlastnostiByKategorie(int kategorie) {
