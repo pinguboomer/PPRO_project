@@ -15,4 +15,6 @@ public class Constants {
     public static int KATEGORIE_KOMENTAR = 5;
     public static int KATEGORIE_ARPF = 6;
     public static int KATEGORIE_ARPOHYB = 7;
+    public static int PLUS = 1;
+    public static int MINUS = 0;
 }

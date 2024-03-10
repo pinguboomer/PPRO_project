@@ -251,13 +251,9 @@ public class ZpravaController {
         ulozVsechnyPopisy();
 
         if(stavZpravy == 2){
-            try {
-                printParts();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            kompletniZprava.zprava.stav = 0;
             ulozeno = true;
-            return "redirect:/nova_zprava";
+            return "redirect:/generujDOCX";
         }
         if(kompletniZprava.zprava.stav == 1){
             kompletniZprava = new KompletniZprava();
@@ -313,6 +309,7 @@ public class ZpravaController {
                     kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputString;
         }
         kompletniZprava.hodnoceniAR1.hodnoceniPopisList = hodnoceniPopisTemp;
+        hodnoceniPopisTemp = new HodnoceniPopis[2];
         for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.length; i++) {
             hodnoceniPopisTemp[i] =
                     hodnoceniPopisService.save(kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i]);

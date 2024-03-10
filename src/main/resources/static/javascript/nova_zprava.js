@@ -113,6 +113,15 @@ const kladyZaporyPohybAR2InputHidden = document.getElementById('kladyZaporyPohyb
 const zpravaStavInput = document.getElementById('zpravaStavInput');
 const odeslatBtn = document.getElementById('odeslatBtn');
 const vytvoritDocxBtn = document.getElementById('vytvoritDocxBtn');
+const posudekVytvoritDocxBtn = document.getElementById('posudekVytvoritDocxBtn');
+const ulozitBtn = document.getElementById('ulozitBtn');
+
+if(posudekVytvoritDocxBtn != null) {
+    posudekVytvoritDocxBtn.addEventListener('click', function () {
+        window.location.href = '/generujDOCX';
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
     if(document.getElementById('jeUlozeno') != null &&
@@ -135,6 +144,12 @@ document.addEventListener('DOMContentLoaded', function () {
     vytvorDivyPodleDatvVInputu(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
         kladyZaporyPohybAR2InputHidden);
 });
+
+if(ulozitBtn != null){
+    ulozitBtn.addEventListener('click', function () {
+        zpravaStavInput.value = 0;
+    });
+}
 
 if(odeslatBtn != null){
     odeslatBtn.addEventListener('click', function () {
