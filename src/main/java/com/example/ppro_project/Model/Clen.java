@@ -75,6 +75,9 @@ public class Clen {
     @Column(name = "heslo")
     public String heslo;
 
+    @Transient
+    public String heslo2;
+
     @Column(name = "jmeno")
     public String jmeno;
 
@@ -143,5 +146,11 @@ public class Clen {
         this.idFacr = idFacr;
     }
 
+    public String getHeslo2() {
+        return heslo2;
+    }
 
+    public void setHeslo2(String heslo2) {
+        this.heslo2 = heslo2;
+    }
 }

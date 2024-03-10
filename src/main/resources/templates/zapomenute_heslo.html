@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SKFS – zapomenuté heslo</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
+    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+    <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
+</head>
+<body>
+<div class="centeredContentWrapper">
+    <img height="102" width="79" th:src="@{/css/img/logo-skfs.png}"/>
+    <h1>Zapomenuté heslo</h1>
+    <div class="formLogin">
+        <form method="POST" th:action="@{/resetuj_heslo}" th:object="${clen}">
+            <div class="radek">
+                <label th:for="id_Facr">Email:</label>
+                <input name="idFacr" type="email" th:id="emailClena" th:field="*{email}">
+            </div>
+            <span th:if="${#fields.hasErrors('idFacr')}" th:errors="*{idFacr}" style="color: white;"></span>
+            <div id="radioRadekLoginRow">
+                <div class="radioRadekLogin" th:each="g: ${roles}" th:field="*{role}">
+                    <input type="radio" th:name="role" th:value="${g}" th:id="${'radio_' + g}" th:checked="${g == roles[0]}">
+                    <label th:for="${'radio_' + g}" id="${'radio_' + g}" th:text="${g}"></label>
+                </div>
+            </div>
+            <div th:if="${errorMessage}" class="error-message" style="margin: auto; text-align: center">
+                <p th:text="${errorMessage}"></p>
+            </div>
+            <div class="radek">
+                <button class="button-48" onclick="vratSeNaLogin()" type="button">
+                    <span class="text">Zpět</span>
+                </button>
+                <button class="button-48" type="submit">
+                    <span class="text">Odeslat na email</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

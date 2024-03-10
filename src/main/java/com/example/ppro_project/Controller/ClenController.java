@@ -2,6 +2,7 @@ package com.example.ppro_project.Controller;
 
 import com.example.ppro_project.Model.*;
 import com.example.ppro_project.Service.ClenService;
+import com.example.ppro_project.Service.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.example.ppro_project.Constants.Constants.*;
+import static com.example.ppro_project.Controller.EmailController.emailService;
 import static com.example.ppro_project.Controller.HodnoceniController.hodnoceniService;
 import static com.example.ppro_project.Controller.VlastnostController.*;
 import static com.example.ppro_project.Controller.UtkaniController.*;
@@ -79,6 +81,21 @@ public class ClenController implements ErrorController {
         return "menu";
     }
 
+    @GetMapping("/zapomenute_heslo")
+    public String zapomenuteHeslo(Model model) {
+        model.addAttribute("clen", new Clen());
+        model.addAttribute("roles", roles);
+        return "zapomenute_heslo";
+    }
+    @GetMapping("/zmena_hesla")
+    public String zmenaHesla(Model model) {
+        if (!jePrihlasenUzivatel()) {
+            return "redirect:/";
+        }
+        model.addAttribute("clen", prihlasenyUzivatel);
+        return "zmena_hesla";
+    }
+
     private List<Clen> getCleny(String typClena){
         if(typClena.equals(DELEGAT)){
             return clenService.getDelegati();
@@ -136,6 +153,11 @@ public class ClenController implements ErrorController {
         } else if (Objects.equals(clen.getRole(), DELEGAT)) {
             pocetZprav = zpravaService.getPocetZpravByIdDFA(clen.getId());
         }
+        int jeOsobniProfil = 0;
+        if(clen.getId() == prihlasenyUzivatel.getId()){
+            jeOsobniProfil = 1;
+        }
+        model.addAttribute("jeOsobniProfil", jeOsobniProfil);
         model.addAttribute("clen", clen);
         model.addAttribute("pocetZprav", pocetZprav);
     }
@@ -172,6 +194,41 @@ public class ClenController implements ErrorController {
     public String odhlasit(Model model) {
         prihlasenyUzivatel = null;
         return "redirect:/";
+    }
+
+    @PostMapping("/nastav_heslo")
+    public String nastavHeslo(@ModelAttribute("clen") Clen clen,
+                              BindingResult br, Model model) {
+        if (clen.heslo == null || !clen.heslo.equals(clen.heslo2)) {
+            model.addAttribute("errorMessage", "Hesla se neshodují");
+            return "zmena_hesla";
+        }
+        prihlasenyUzivatel.heslo = clen.heslo;
+        clenService.updateClen(prihlasenyUzivatel);
+        model.addAttribute("errorMessage", "Heslo úspešně změněno");
+        return "zmena_hesla";
+    }
+
+    @PostMapping("/resetuj_heslo")
+    public String resetujHeslo(@ModelAttribute("clen") Clen clen,
+                              BindingResult br, Model model) {
+        model.addAttribute("roles", roles);
+        if (clen.email == null) {
+            model.addAttribute("errorMessage", "Vyplň email tvého účtu, na který se zašle heslo");
+            return "zapomenute_heslo";
+        }
+        Clen clen1 = clenService.getClenByEmailAndRole(clen.email, clen.role);
+        if(clen1 == null){
+            model.addAttribute("errorMessage", "Email v databázi nenalezen");
+            return "zapomenute_heslo";
+        }
+        String bodyEmailText = "Účet: \nID: " + clen1.idFacr + "\nRole: " + clen1.role + "\nHeslo: " +
+                clen1.heslo + "\n\n Heslo si můžete změnit po přihlášení v sekci 'Můj profil' a tlačítko " +
+                " 'Změnit heslo'.";
+
+        emailService.sendEmail(clen.email, "Zapomenuté heslo", bodyEmailText);
+        model.addAttribute("errorMessage", "Heslo zasláno na email " + clen1.email);
+        return "zapomenute_heslo";
     }
 
     @PostMapping("/login")

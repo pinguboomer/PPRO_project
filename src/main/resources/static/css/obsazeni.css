@@ -1,0 +1,166 @@
+.obsazeniWrapper {
+
+}
+#searchInputObsazeni {
+    width: 200px;
+}
+
+.obsazeniHlavicka {
+    /*border: 1px solid white;*/
+
+    justify-content: left;
+    display: flex;
+    width: 100%;
+    margin: 10px;
+
+}
+
+.obsazeniSoutez {
+}
+
+.obsazeniKolo {
+    width: auto;
+    text-align: left;
+    display: flex;
+    margin-left: 35px;
+}
+
+.obsazeniKolo label{
+    width: auto;
+    margin-right: 10px;
+}
+
+.obsazeniKolo select{
+    width: auto;
+    height: fit-content;
+}
+
+.obsazeniRadek {
+    text-align: center;
+    border: 1px solid yellow;
+}
+
+
+.obsazeniUtkani {
+    justify-content: left;
+    display: flex;
+}
+
+
+.obsazeniRozhodci {
+    justify-content: left;
+    display: flex;
+}
+
+.obsazeniR {
+    border: 1px solid orangered;
+}
+
+.radekPodrobnosti {
+    width: 100%;
+    display: flex;
+}
+
+.radekPodrobnosti label{
+    margin: 5px;
+    width: auto;
+}
+
+.obsazeniPodrobnostiPomocny {
+    display: block;
+    border: 1px solid goldenrod;
+    margin: auto 0 0 0;
+}
+
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px; /* initially hidden */
+    width: 400px;
+    height: 100%;
+    background-color: #414147;
+    transition: right 0.3s ease;
+    box-sizing: border-box;
+    z-index: 2;
+    overflow-y: auto; /* allow sidebar scrolling */
+}
+
+#toggleSidebar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+    background: none;
+    border: none;
+    color:white;
+    cursor: pointer;
+    transition: right 0.3s ease;
+}
+
+#toggleSidebar::before {
+    color:white;
+    content: '◄';
+}
+
+#toggleSidebar.arrow-right::before {
+    color:black;
+    content: '►';
+}
+
+#sidebarTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#sidebarTable th, #sidebarTable td {
+    border-bottom: 1px solid #ddd;
+}
+#sidebarTable th {
+    top: 55px;
+    position: sticky;
+    z-index:5;
+}
+
+
+#searchInputRozhodci {
+    width: 200px;
+}
+
+.stickyListaRozhodci {
+    top: 0;
+    position: sticky;
+    width: auto;
+    padding: 10px 10px 10px 10px;
+    background: #414147;
+    z-index:999;
+}
+
+.hidden {
+    transition: opacity 1s ease;
+    display: none;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+#infoSidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 400px); /* Šířka stránky mínus 400px */
+    height: auto;
+    background-color: #414147;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    display: none;
+    z-index: 9999; /* zajistí, aby lišta byla nad ostatními prvky */
+}
+
+#infoSidebar.active {
+    display: block;
+}

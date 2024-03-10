@@ -74,17 +74,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="clen : ${clenove}" style="cursor: pointer;" class="clenove-row">
+        <tr th:each="clen : ${clenove}" style="cursor: pointer;">
             <td th:text="${clen.id}" style="text-align: left; display: none"></td>
             <td th:text="${clen.idFacr}" style="text-align: left"></td>
             <td th:text="${clen.prijmeni}" style="text-align: left"></td>
             <td th:text="${clen.jmeno}" style="text-align: left"></td>
             <td th:text="${clen.jednotka}" style="text-align: center"></td>
-            <td>
-                <button class="button-48" onclick="prejdiNaPosudkyClena(this)" th:value="${clen.id}">
-                    <span class="text">POSUDKY</span>
-                </button>
-            </td>
         </tr>
         </tbody>
     </table>

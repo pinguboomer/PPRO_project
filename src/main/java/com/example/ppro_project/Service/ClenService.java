@@ -26,8 +26,24 @@ public class ClenService {
         return clenRepository.findByIdFacrAndRole(idFacr, role);
     }
 
+    public Clen getClenByEmailAndRole(String email, String role) {
+        List<Clen> clens = clenRepository.findByEmailAndRole(email, role);
+        if(clens != null && clens.size() > 0){
+            return clens.get(0);
+        }
+        return null;
+    }
+
     public Clen getClenByIdFacrAndHeslo(String idFacr, String heslo) {
         return clenRepository.findByIdFacrAndHeslo(idFacr, heslo);
+    }
+
+  //  public void updateHeslo(int id, String noveHeslo) {
+       // clenRepository.updateHeslo(id, noveHeslo);
+   // }
+
+    public void updateClen(Clen clen) {
+        clenRepository.save(clen);
     }
 
     public List<Clen> getRozhodci() {

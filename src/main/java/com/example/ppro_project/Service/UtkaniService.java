@@ -5,6 +5,8 @@ import com.example.ppro_project.Repository.UtkaniRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UtkaniService {
 
@@ -18,4 +20,10 @@ public class UtkaniService {
     public Utkani getUtkaniByIdUtkani(String idUtkani) {
         return utkaniRepository.findByIdUtkani(idUtkani);
     }
+
+    public List<Utkani> getVsechnaUtkani(String rok) {
+        return utkaniRepository.findUtkaniByRok(rok);
+    }
+
+
 }

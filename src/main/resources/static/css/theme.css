@@ -48,6 +48,12 @@ label {
     margin: 10px;
 }
 
+.radek a:hover {
+    text-decoration: underline;
+    transition: 0.5s;
+    color: deepskyblue;
+}
+
 .radioRadekLogin label {
     justify-content: center;
     text-align: center;

@@ -348,12 +348,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:field="*{hodnoceniR.hodnoceniPopisList[0].popis}"
                               th:id="popisPF" style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
                 <div class="radekKategorie" style="background: #3d3d48" th:id="listaR2">
@@ -393,12 +391,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisOT" th:field="*{hodnoceniR.hodnoceniPopisList[1].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
                 <div class="radekKategorie" th:id="listaR3" style="background: #3b444a">
@@ -437,12 +433,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                         <textarea th:id="popisFyzicka" th:field="*{hodnoceniR.hodnoceniPopisList[2].popis}"
                                   style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
                 <div class="radekKategorie" th:id="listaR4">
@@ -481,12 +475,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisSpoluprace" th:field="*{hodnoceniR.hodnoceniPopisList[3].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -542,12 +534,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPFAR1" th:field="*{hodnoceniAR1.hodnoceniPopisList[0].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
                 <div class="radekKategorie" style="background: #3f4a41" th:id="listaAR1_2">
@@ -586,12 +576,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPohybAR1" th:field="*{hodnoceniAR1.hodnoceniPopisList[1].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -649,12 +637,10 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPFAR2" th:field="*{hodnoceniAR2.hodnoceniPopisList[0].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
                 <div class="radekKategorie" style="background: #2d560b" th:id="listaAR2_2">
@@ -694,89 +680,85 @@
                             </div>
                         </div>
                     </div>
-                    <div style="display: none">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPohybAR2" th:field="*{hodnoceniAR2.hodnoceniPopisList[1].popis}"
                               style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="style_description"></div>
-            <div style="display: none">
-                <div class="sticky-element_rozhodci" style="top: 117px">
-                    <div class="radekKategorie" th:id="listaSituace">
-                        <div class="listaDiv"><label>Popis klíčových herních situací během utkání:</label></div>
-                        <div class="sipkaDivHlavni" th:id="sipkaSituace">
-                            <img th:src="@{/css/img/arrow.png}"/>
-                        </div>
+            <div class="sticky-element_rozhodci" style="top: 117px">
+                <div class="radekKategorie" th:id="listaSituace">
+                    <div class="listaDiv"><label>Popis klíčových herních situací během utkání:</label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaSituace">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div th:id="blokSituace">
-                    <div style="margin-left: 10px">Popis:</div>
-                    <div style="display: flex; margin: 5px 10px 5px 10px">
+            </div>
+            <div th:id="blokSituace">
+                <div style="margin-left: 10px">Popis:</div>
+                <div style="display: flex; margin: 5px 10px 5px 10px">
                 <textarea th:id="popisSituace" th:field="*{hodnoceniR.hodnoceniPopisList[4].popis}"
                           style="flex: 1"></textarea>
-                    </div>
                 </div>
+            </div>
 
-                <div class="style_description"></div>
-                <div class="sticky-element_rozhodci" style="top: 141px">
-                    <div class="radekKategorie" th:id="listaOstatni">
-                        <div class="listaDiv"><label>Ostatní:</label></div>
-                        <div class="sipkaDivHlavni" th:id="sipkaOstatni">
-                            <img th:src="@{/css/img/arrow.png}"/>
-                        </div>
+            <div class="style_description"></div>
+            <div class="sticky-element_rozhodci" style="top: 141px">
+                <div class="radekKategorie" th:id="listaOstatni">
+                    <div class="listaDiv"><label>Ostatní:</label></div>
+                    <div class="sipkaDivHlavni" th:id="sipkaOstatni">
+                        <img th:src="@{/css/img/arrow.png}"/>
                     </div>
                 </div>
-                <div th:id="blokOstatni">
-                    <div class="radekKategorie" th:id="listaOstatni1">
-                        <div class="listaDiv"><label>1) Pořadatelé:</label>
-                        </div>
-                        <div class="sipkaDiv" th:id="sipkaOstatni1">
-                            <img th:src="@{/css/img/arrow.png}"/>
-                        </div>
+            </div>
+            <div th:id="blokOstatni">
+                <div class="radekKategorie" th:id="listaOstatni1">
+                    <div class="listaDiv"><label>1) Pořadatelé:</label>
                     </div>
-                    <div th:id="blokOstatni1">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <div class="sipkaDiv" th:id="sipkaOstatni1">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokOstatni1">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
                     <textarea th:id="popisPoradatele" th:field="*{hodnoceniR.hodnoceniPopisList[5].popis}"
                               style="flex: 1"></textarea>
-                        </div>
-                    </div>
-                    <div class="radekKategorie" th:id="listaOstatni2">
-                        <div class="listaDiv"><label>2) Chování diváků:</label>
-                        </div>
-                        <div class="sipkaDiv" th:id="sipkaOstatni2">
-                            <img th:src="@{/css/img/arrow.png}"/>
-                        </div>
-                    </div>
-                    <div th:id="blokOstatni2">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisDivaci" th:field="*{hodnoceniR.hodnoceniPopisList[6].popis}"
-                              style="flex: 1"></textarea>
-                        </div>
-                    </div>
-                    <div class="radekKategorie" th:id="listaOstatni3">
-                        <div class="listaDiv"><label>3) Jiné:</label>
-                        </div>
-                        <div class="sipkaDiv" th:id="sipkaOstatni3">
-                            <img th:src="@{/css/img/arrow.png}"/>
-                        </div>
-                    </div>
-                    <div th:id="blokOstatni3">
-                        <div style="margin-left: 10px">Popis:</div>
-                        <div style="display: flex; margin: 5px 10px 5px 10px">
-                    <textarea th:id="popisJine" th:field="*{hodnoceniR.hodnoceniPopisList[7].popis}"
-                              style="flex: 1"></textarea>
-                        </div>
                     </div>
                 </div>
-                <div class="style_description"></div>
+                <div class="radekKategorie" th:id="listaOstatni2">
+                    <div class="listaDiv"><label>2) Chování diváků:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaOstatni2">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokOstatni2">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <textarea th:id="popisDivaci" th:field="*{hodnoceniR.hodnoceniPopisList[6].popis}"
+                              style="flex: 1"></textarea>
+                    </div>
+                </div>
+                <div class="radekKategorie" th:id="listaOstatni3">
+                    <div class="listaDiv"><label>3) Jiné:</label>
+                    </div>
+                    <div class="sipkaDiv" th:id="sipkaOstatni3">
+                        <img th:src="@{/css/img/arrow.png}"/>
+                    </div>
+                </div>
+                <div th:id="blokOstatni3">
+                    <div style="margin-left: 10px">Popis:</div>
+                    <div style="display: flex; margin: 5px 10px 5px 10px">
+                    <textarea th:id="popisJine" th:field="*{hodnoceniR.hodnoceniPopisList[7].popis}"
+                              style="flex: 1"></textarea>
+                    </div>
+                </div>
             </div>
+            <div class="style_description"></div>
             <div style="text-align: left" class="novaZprava">
                 <input th:field="*{zprava.stav}" style="display: none"
                        th:id="zpravaStavInput">

@@ -34,6 +34,11 @@
         <label>Email:</label>
         <label th:text="${clen.email} ?: ''"></label>
     </div>
+    <div class="infoProfilPolozka" th:if="${jeOsobniProfil == 1}">
+        <button class="button-48" onclick="presunNaZmenuHesla()">
+            <span class="text">Změnit heslo</span>
+        </button>
+    </div>
     <div class="infoProfilPolozka">
         <label>Telefon:</label>
         <label th:text="${clen.telefon} ?: ''"></label>

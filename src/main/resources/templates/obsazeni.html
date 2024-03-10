@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SKFS – obsazení</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
+    <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
+    <link rel="stylesheet" th:href="@{/css/obsazeni.css}"/>
+    <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
+    <script th:src="@{/javascript/obsazeni.js}" th:defer="defer"></script>
+</head>
+<body>
+<div id="udajeHeader">
+    <a th:href="@{/menu}"><img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/></a>
+    <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
+    <div class="logoutHeader">
+        <a th:href="@{/odhlasit}">
+            <div>
+                <img height="40" width="40" th:src="@{/css/img/logout_icon.png}"/>
+                <label>Odhlásit</label>
+            </div>
+        </a>
+    </div>
+</div>
+<button id="toggleSidebar" class="arrow-left">Zobrazit rozhodčí</button>
+<div id="sidebar">
+    <div class="stickyListaRozhodci">
+        <input type="text" id="searchInputRozhodci"
+               placeholder="Hledat jméno, ID, jednotku...">
+    </div>
+    <div style="padding: 0 10px 10px 10px;">
+        <table id="sidebarTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Jméno</th>
+                <th>Jednotka</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="clen : ${rozhodciList}" style="cursor: pointer;" class="clenove-row">
+                <td th:text="${clen.id}" style="text-align: left; display: none"></td>
+                <td th:text="${clen.idFacr}" style="text-align: left"></td>
+                <td th:text="${clen.prijmeni} + ' ' + ${clen.jmeno}" style="text-align: left"></td>
+                <td th:text="${clen.jednotka}" style="text-align: center"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="infoSidebar">
+    <div id="infoContent">
+        <!-- Obsah zobrazovaný v liště -->
+    </div>
+</div>
+<div class="obsazeniWrapper">
+    <div class="obsazeniHlavicka">
+        <div class="obsazeniSoutez">
+            <select th:id="vlastnostiOTSelect">
+                <option class="soutezeOption" th:each="soutez : ${soutezeList}"
+                        th:value="${soutez.zkratka}"
+                        th:text="${soutez.soutez}"></option>
+            </select>
+        </div>
+        <div class="obsazeniKolo">
+            <label>Kolo:</label>
+            <select th:id="koloObsazeni">
+                <option th:each="kolo : ${#numbers.sequence(1, 30)}"
+                        th:value="${kolo}" th:text="${kolo}"></option>
+            </select>
+        </div>
+        <div class="obsazeniKolo">
+            <input type="text" id="searchInputObsazeni"
+                   placeholder="Hledat číslo zápasu, tým,...">
+        </div>
+    </div>
+
+    <div class="obsazeniRadek">
+        <div class="obsazeniUtkani">
+            <div class="obsazeniIdUtkani">
+                <label>2023210A1A0804</label>
+            </div>
+            <div class="obsazeniDomaci">
+                <label>SK Doksy</label>
+            </div>
+            <div class="obsazeniHoste">
+                <label>TJ TATRAN SEDLČANY</label>
+            </div>
+            <div class="obsazeniDatum">
+                <label>6. 8. 2023</label>
+            </div>
+            <div class="obsazeniCas">
+                <label>16:30</label>
+            </div>
+        </div>
+        <div class="obsazeniRozhodci">
+            <div class="obsazeniPodrobnostiPomocny">
+                <div class="radekPodrobnosti">
+                    <label>Počet utkání toto kolo:</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>Naposled domácí:</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>Naposled hosté:</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>Naposled domácí (doma):</label>
+                </div>
+            </div>
+            <div class="obsazeniR">
+                <label>R:</label>
+                <label>František Brýl</label>
+                <input type="text">František Brýl</input>
+                <div class="radekPodrobnosti">
+                    <label>2</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                    <label>3x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>16. 8. 2023</label>
+                    <label>0x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                </div>
+            </div>
+            <div class="obsazeniAR1">
+                <label>AR1:</label>
+                <label>Otto Kovář</label>
+                <div class="radekPodrobnosti">
+                    <label>2</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                    <label>3x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>16. 8. 2023</label>
+                    <label>0x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                </div>
+            </div>
+            <div class="obsazeniAR2">
+                <label>AR2:</label>
+                <label>Vojtěch Nerad</label>
+                <div class="radekPodrobnosti">
+                    <label>2</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                    <label>3x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>16. 8. 2023</label>
+                    <label>0x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                </div>
+            </div>
+            <div class="obsazeniDFA">
+                <label>DFA:</label>
+                <label>Petr Blažej</label>
+                <div class="radekPodrobnosti">
+                    <label>2</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                    <label>3x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>16. 8. 2023</label>
+                    <label>0x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                </div>
+            </div>
+            <div class="obsazeniTD">
+                <label>TD:</label>
+                <label>Milan Macháček</label>
+                <div class="radekPodrobnosti">
+                    <label>2</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                    <label>3x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>16. 8. 2023</label>
+                    <label>0x tuto sézonu</label>
+                </div>
+                <div class="radekPodrobnosti">
+                    <label>6. 8. 2023</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

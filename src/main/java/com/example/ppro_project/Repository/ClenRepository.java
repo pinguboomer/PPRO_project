@@ -3,6 +3,7 @@ package com.example.ppro_project.Repository;
 import com.example.ppro_project.Model.Clen;
 import com.example.ppro_project.Model.Zprava;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,12 @@ public interface ClenRepository extends JpaRepository<Clen, Integer> {
     List<Clen> findByRole(String role);
     Clen findById(int id);
 
+  //  @Modifying
+  //  @Query("UPDATE Clen c SET c.heslo = :noveHeslo WHERE c.id = :id")
+  //  void updateHeslo(@Param("id") int id, @Param("noveHeslo") String noveHeslo);
+
     Clen findByIdFacrAndRole(String idFacr, String role);
+    List<Clen> findByEmailAndRole(String email, String role);
 
     @Query("SELECT z.idUtkani, h.znamka, h.znamka2, " +
             " c.prijmeni, z.idR, z.idAR1,z.idAR2,c.idFacr, h.roleR " +

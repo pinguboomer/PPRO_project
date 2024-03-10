@@ -148,3 +148,12 @@ function hideAdditionalRow(element) {
 function vratSeNaPredchoziStranku() {
     history.back();
 }
+
+function vratSeNaLogin() {
+    window.location.href = '/';
+}
+
+
+function presunNaZmenuHesla() {
+    window.location.href = '/zmena_hesla';
+}

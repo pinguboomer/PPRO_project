@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>SKFS – změna hesla</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/css/img/logo-skfs.png}">
+    <link rel="stylesheet" th:href="@{/css/theme.css}"/>
+    <link rel="stylesheet" th:href="@{/css/posudky.css}"/>
+    <script th:src="@{/javascript/posudky.js}" th:defer="defer"></script>
+</head>
+<body>
+<div id="udajeHeader">
+    <a th:href="@{/menu}"><img height="62" width="44" th:src="@{/css/img/logo-facr.png}"/></a>
+    <a th:href="@{/menu}"><img height="62" width="39" th:src="@{/css/img/logo-skfs.png}"/></a>
+    <div class="logoutHeader">
+        <a th:href="@{/odhlasit}">
+            <div>
+                <img height="40" width="40" th:src="@{/css/img/logout_icon.png}"/>
+                <label>Odhlásit</label>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="infoProfilWrapper">
+    <form method="POST" th:action="@{/nastav_heslo}" th:object="${clen}">
+        <div class="infoProfilPolozka">
+            <label>Nové heslo:</label>
+            <input style="width: 50%" name="password" type="password" th:field="*{heslo}">
+        </div>
+        <div class="infoProfilPolozka">
+            <label>Nové heslo znovu:</label>
+            <input  style="width: 50%" name="password" type="password" th:field="*{heslo2}">
+        </div>
+        <div th:if="${errorMessage}" class="error-message" style="margin: auto; text-align: center">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        <div class="infoProfilPolozka">
+            <button class="button-48" onclick="vratSeNaPredchoziStranku()" type="button">
+                <span class="text">Zpět</span>
+            </button>
+            <button class="button-48" type="submit">
+                <span class="text">Změnit</span>
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
