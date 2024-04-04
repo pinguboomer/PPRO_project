@@ -30,9 +30,10 @@ public class HodnoceniVlastnostService {
     public void vymazVsechnyPodleIdPopis(int idPopis) {
         hodnoceniVlastnostRepository.deleteByIdPopis(idPopis);
     }
-    public HodnoceniVlastnost save(int idPopis, int idVlastnost, int typ, int idClen) {
+    public HodnoceniVlastnost save(int idPopis, int idVlastnost, int typ,
+                                   String minuta, String situace, int idClen) {
 
-        HodnoceniVlastnost hv = new HodnoceniVlastnost(idPopis, idVlastnost, typ);
+        HodnoceniVlastnost hv = new HodnoceniVlastnost(idPopis, idVlastnost, typ, minuta, situace);
         hv.idClen = idClen;
         return hodnoceniVlastnostRepository.save(hv);
     }

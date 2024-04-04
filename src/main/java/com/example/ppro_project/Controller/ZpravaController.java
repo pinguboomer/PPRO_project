@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -171,6 +172,7 @@ public class ZpravaController {
                     }
                 }
                 kompletniZprava.hodnoceniR.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+                kompletniZprava.hodnoceniR.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToInput();
             }
             if (Objects.equals(hodnoceniVal.roleR, AR1)) {
                 if (i < 2) {
@@ -190,6 +192,7 @@ public class ZpravaController {
                     }
                 }
                 kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+                kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToInput();
             }
             if (Objects.equals(hodnoceniVal.roleR, AR2)) {
                 if (i < 2) {
@@ -209,10 +212,10 @@ public class ZpravaController {
                     }
                 }
                 kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].getHodnoceniVlastnostArrayToInputValue();
+                kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToInput();
             }
         }
     }
-
 
     @PostMapping("/nova_zprava/ulozit")
     public String ulozZpravu(@Valid @ModelAttribute("kompletniZprava")
@@ -271,6 +274,7 @@ public class ZpravaController {
             if (i < 4) {
                 HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
                 kompletniZprava.hodnoceniR.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+                kompletniZprava.hodnoceniR.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToArray();
                 hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
                 for (int j = 0;
                      j < kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
@@ -279,7 +283,7 @@ public class ZpravaController {
                             hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                     hodnoceniVlastnostTemp[j] =
                             hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                    hv.idVlastnost, hv.typ, kompletniZprava.r.getId());
+                                    hv.idVlastnost, hv.typ, hv.minuta, hv.situace, kompletniZprava.r.getId());
                 }
                 hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
                 hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =
@@ -294,6 +298,7 @@ public class ZpravaController {
 
             HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
             kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToArray();
             hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
             for (int j = 0;
                  j < kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
@@ -302,7 +307,7 @@ public class ZpravaController {
                         hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                 hodnoceniVlastnostTemp[j] =
                         hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                hv.idVlastnost, hv.typ, kompletniZprava.ar1.getId());
+                                hv.idVlastnost, hv.typ, hv.minuta, hv.situace, kompletniZprava.ar1.getId());
             }
             hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
             hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =
@@ -316,6 +321,7 @@ public class ZpravaController {
 
             HodnoceniVlastnost[] hodnoceniVlastnostTemp = new HodnoceniVlastnost[5];
             kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].dekodujInpuStringDoPoleVlastnosti();
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].setHodnoceniVlastnostMinutyASituaceToArray();
             hodnoceniVlastnostService.vymazVsechnyPodleIdPopis(hodnoceniPopisTemp[i].getId());
             for (int j = 0;
                  j < kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray.length;
@@ -324,7 +330,7 @@ public class ZpravaController {
                         hodnoceniPopisList[i].hodnoceniVlastnostArray[j];
                 hodnoceniVlastnostTemp[j] =
                         hodnoceniVlastnostService.save(hodnoceniPopisTemp[i].getId(),
-                                hv.idVlastnost, hv.typ, kompletniZprava.ar2.getId());
+                                hv.idVlastnost, hv.typ, hv.minuta, hv.situace, kompletniZprava.ar2.getId());
             }
             hodnoceniPopisTemp[i].hodnoceniVlastnostArray = hodnoceniVlastnostTemp;
             hodnoceniPopisTemp[i].hodnoceniVlastnostInputString =
@@ -343,6 +349,26 @@ public class ZpravaController {
                 kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputString;
             kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray =
                     kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5;
+            kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5 =
+                    kompletniZpravaModel.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5;
         }
         for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.length; i++) {
             kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].popis =
@@ -353,6 +379,26 @@ public class ZpravaController {
                     kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputString;
             kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray =
                     kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5;
+            kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5 =
+                    kompletniZpravaModel.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5;
         }
         for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.length; i++) {
             kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].popis =
@@ -363,6 +409,26 @@ public class ZpravaController {
                     kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputString;
             kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray =
                     kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty1;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace1;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty2;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace2;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty3;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace3;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty4;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace4;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringMinuty5;
+            kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5 =
+                    kompletniZpravaModel.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostInputStringSituace5;
         }
     }
 
