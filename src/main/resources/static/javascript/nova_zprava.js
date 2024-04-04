@@ -128,21 +128,65 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('jeUlozeno').textContent === "true"){
         showFlashAnimation();
     }
+    if(document.getElementById('poradateleChb') != null){
+        document.getElementById('poradateleChb').addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById('predatStkChb').checked = true
+            }
+        });
+    }
+    if(document.getElementById('divaciChb') != null){
+        document.getElementById('divaciChb').addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById('predatStkChb').checked = true
+            }
+        });
+    }
+    if(document.getElementById('konfrontaceChb') != null){
+        document.getElementById('konfrontaceChb').addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById('predatStkChb').checked = true
+            }
+        });
+    }
+    if(document.getElementById('ckChb') != null){
+        document.getElementById('ckChb').addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById('predatDkChb').checked = true
+            }
+        });
+    }
 
-    vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden);
-    vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden);
+    vytvorDivyPodleDatvVInputu(vlastnostiPFSelect, "PF", kladyZaporyPFDiv, kladyZaporyPFInputHidden,
+        'kladyZaporyPFInputHiddenMinuty',
+        'kladyZaporyPFInputHiddenSituace');
+    vytvorDivyPodleDatvVInputu(vlastnostiOTSelect, "OT", kladyZaporyOTDiv, kladyZaporyOTInputHidden,
+        'kladyZaporyOTInputHiddenMinuty',
+        'kladyZaporyOTInputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiFyzickaSelect, "Fyzicka", kladyZaporyFyzickaDiv,
-        kladyZaporyFyzickaInputHidden);
+        kladyZaporyFyzickaInputHidden,
+        'kladyZaporyFyzickaInputHiddenMinuty',
+        'kladyZaporyFyzickaInputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiSpolupraceSelect, "Spoluprace", kladyZaporySpolupraceDiv,
-         kladyZaporySpolupraceInputHidden);
+         kladyZaporySpolupraceInputHidden,
+        'kladyZaporySpolupraceInputHiddenMinuty',
+        'kladyZaporySpolupraceInputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiPFAR1Select, "PFARJedna", kladyZaporyPFAR1Div,
-         kladyZaporyPFAR1InputHidden);
+         kladyZaporyPFAR1InputHidden,
+        'kladyZaporyPFAR1InputHiddenMinuty',
+        'kladyZaporyPFAR1InputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiPohybAR1Select, "PohybARJedna", kladyZaporyPohybAR1Div,
-        kladyZaporyPohybAR1InputHidden);
+        kladyZaporyPohybAR1InputHidden,
+        'kladyZaporyPohybAR1InputHiddenMinuty',
+        'kladyZaporyPohybAR1InputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiPFAR2Select, "PFARDva", kladyZaporyPFAR2Div,
-        kladyZaporyPFAR2InputHidden);
+        kladyZaporyPFAR2InputHidden,
+        'kladyZaporyPFAR2InputHiddenMinuty',
+        'kladyZaporyPFAR2InputHiddenSituace');
     vytvorDivyPodleDatvVInputu(vlastnostiPohybAR2Select, "PFARDva", kladyZaporyPohybAR2Div,
-        kladyZaporyPohybAR2InputHidden);
+        kladyZaporyPohybAR2InputHidden,
+        'kladyZaporyPohybAR2InputHiddenMinuty',
+        'kladyZaporyPohybAR2InputHiddenSituace');
 });
 
 if(ulozitBtn != null){
@@ -164,79 +208,111 @@ if(vytvoritDocxBtn != null){
 }
 
 pridatKladPF.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
+    pridejVlastnost(true, vlastnostiPFSelect, kladyZaporyPFDiv, "PF",
+        kladyZaporyPFInputHidden, 'kladyZaporyPFInputHiddenMinuty',
+        'kladyZaporyPFInputHiddenSituace');
 });
 
 pridatZaporPF.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiPFSelect, kladyZaporyPFDiv, "PF", kladyZaporyPFInputHidden);
+    pridejVlastnost(false, vlastnostiPFSelect, kladyZaporyPFDiv, "PF",
+        kladyZaporyPFInputHidden, 'kladyZaporyPFInputHiddenMinuty',
+        'kladyZaporyPFInputHiddenSituace');
 });
 
 pridatKladOT.addEventListener('click', function () {
-    pridejVlastnost(true, vlastnostiOTSelect, kladyZaporyOTDiv, "OT", kladyZaporyOTInputHidden);
+    pridejVlastnost(true, vlastnostiOTSelect, kladyZaporyOTDiv, "OT",
+        kladyZaporyOTInputHidden, 'kladyZaporyOTInputHiddenMinuty',
+        'kladyZaporyOTInputHiddenSituace');
 });
 
 pridatZaporOT.addEventListener('click', function () {
-    pridejVlastnost(false, vlastnostiOTSelect, kladyZaporyOTDiv, "OT", kladyZaporyOTInputHidden);
+    pridejVlastnost(false, vlastnostiOTSelect, kladyZaporyOTDiv, "OT",
+        kladyZaporyOTInputHidden, 'kladyZaporyOTInputHiddenMinuty',
+        'kladyZaporyOTInputHiddenSituace');
 });
 
 pridatKladFyzicka.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv,
-        "Fyzicka", kladyZaporyFyzickaInputHidden);
+        "Fyzicka", kladyZaporyFyzickaInputHidden,
+        'kladyZaporyFyzickaInputHiddenMinuty',
+        'kladyZaporyFyzickaInputHiddenSituace');
 });
 
 pridatZaporFyzicka.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiFyzickaSelect, kladyZaporyFyzickaDiv,
-        "Fyzicka", kladyZaporyFyzickaInputHidden);
+        "Fyzicka", kladyZaporyFyzickaInputHidden,
+        'kladyZaporyFyzickaInputHiddenMinuty',
+        'kladyZaporyFyzickaInputHiddenSituace');
 });
 
 pridatKladSpoluprace.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv,
-        "Spoluprace", kladyZaporySpolupraceInputHidden);
+        "Spoluprace", kladyZaporySpolupraceInputHidden,
+        'kladyZaporySpolupraceInputHiddenMinuty',
+        'kladyZaporySpolupraceInputHiddenSituace');
 });
 
 pridatZaporSpoluprace.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiSpolupraceSelect, kladyZaporySpolupraceDiv,
-        "Spoluprace", kladyZaporySpolupraceInputHidden);
+        "Spoluprace", kladyZaporySpolupraceInputHidden,
+        'kladyZaporySpolupraceInputHiddenMinuty',
+        'kladyZaporySpolupraceInputHiddenSituace');
 });
 
 pridatKladPFAR1.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPFAR1Select, kladyZaporyPFAR1Div,
-        "PFARJedna", kladyZaporyPFAR1InputHidden);
+        "PFARJedna", kladyZaporyPFAR1InputHidden,
+           'kladyZaporyPFAR1InputHiddenMinuty',
+            'kladyZaporyPFAR1InputHiddenSituace');
 });
 
 pridatZaporPFAR1.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiPFAR1Select, kladyZaporyPFAR1Div,
-        "PFARJedna", kladyZaporyPFAR1InputHidden);
+        "PFARJedna", kladyZaporyPFAR1InputHidden,
+        'kladyZaporyPFAR1InputHiddenMinuty',
+        'kladyZaporyPFAR1InputHiddenSituace');
 });
 
 pridatKladPohybAR1.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div,
-        "PohybARJedna", kladyZaporyPohybAR1InputHidden);
+        "PohybARJedna", kladyZaporyPohybAR1InputHidden,
+        'kladyZaporyPohybAR1InputHiddenMinuty',
+        'kladyZaporyPohybAR1InputHiddenSituace');
 });
 
 pridatZaporPohybAR1.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiPohybAR1Select, kladyZaporyPohybAR1Div,
-        "PohybARJedna", kladyZaporyPohybAR1InputHidden);
+        "PohybARJedna", kladyZaporyPohybAR1InputHidden,
+        'kladyZaporyPohybAR1InputHiddenMinuty',
+        'kladyZaporyPohybAR1InputHiddenSituace');
 });
 
 pridatKladPFAR2.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPFAR2Select, kladyZaporyPFAR2Div,
-        "PFARDva", kladyZaporyPFAR2InputHidden);
+        "PFARDva", kladyZaporyPFAR2InputHidden,
+        'kladyZaporyPFAR2InputHiddenMinuty',
+        'kladyZaporyPFAR2InputHiddenSituace');
 });
 
 pridatZaporPFAR2.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiPFAR2Select, kladyZaporyPFAR2Div,
-        "PFARDva", kladyZaporyPFAR2InputHidden);
+        "PFARDva", kladyZaporyPFAR2InputHidden,
+        'kladyZaporyPFAR2InputHiddenMinuty',
+        'kladyZaporyPFAR2InputHiddenSituace');
 });
 
 pridatKladPohybAR2.addEventListener('click', function () {
     pridejVlastnost(true, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div,
-        "PohybARDva", kladyZaporyPohybAR2InputHidden);
+        "PohybARDva", kladyZaporyPohybAR2InputHidden,
+        'kladyZaporyPohybAR2InputHiddenMinuty',
+        'kladyZaporyPohybAR2InputHiddenSituace');
 });
 
 pridatZaporPohybAR2.addEventListener('click', function () {
     pridejVlastnost(false, vlastnostiPohybAR2Select, kladyZaporyPohybAR2Div,
-        "PohybARDva", kladyZaporyPohybAR2InputHidden);
+        "PohybARDva", kladyZaporyPohybAR2InputHidden,
+        'kladyZaporyPohybAR2InputHiddenMinuty',
+        'kladyZaporyPohybAR2InputHiddenSituace');
 });
 
 function vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden) {
@@ -266,7 +342,8 @@ function vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputH
     }
 }
 
-function odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden) {
+function odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden, kladyZaporyInputHiddenMinuty,
+                                 kladyZaporyInputHiddenSituace, index) {
     if (jeKlad) {
         kladyZaporyInputHidden.value =
             kladyZaporyInputHidden.value.replace(',' + idVlastnost + '+', '');
@@ -274,31 +351,62 @@ function odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden) {
         kladyZaporyInputHidden.value =
             kladyZaporyInputHidden.value.replace(',' + idVlastnost + '-', '');
     }
-
+    for (let i = index; i < 5; i++) {
+        var kladyZaporyInputHiddenMinutyIndex =
+            document.getElementById(kladyZaporyInputHiddenMinuty + i);
+        var kladyZaporyInputHiddenSituaceIndex =
+            document.getElementById(kladyZaporyInputHiddenSituace + i);
+        var kladyZaporyInputHiddenMinutyIndex2 =
+            document.getElementById(kladyZaporyInputHiddenMinuty + (i + 1));
+        var kladyZaporyInputHiddenSituaceIndex2 =
+            document.getElementById(kladyZaporyInputHiddenSituace + (i + 1));
+        kladyZaporyInputHiddenMinutyIndex.value = kladyZaporyInputHiddenMinutyIndex2.value;
+        kladyZaporyInputHiddenMinutyIndex2.value = "";
+        kladyZaporyInputHiddenSituaceIndex.value = kladyZaporyInputHiddenSituaceIndex2.value;
+        kladyZaporyInputHiddenSituaceIndex2.value = "";
+    }
 }
 
-function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHidden) {
+function zjistiIndexDivuMeziPotomkySIdVlastnost(parentElement, divElement) {
+    var childDivs = parentElement.children;
+    var index = -1;
+    for (var i = 0; i < childDivs.length; i++) {
+        if (childDivs[i].id.includes("_vlastnost")) {
+            index++;
+        }
+        if (childDivs[i] === divElement) {
+            break;
+        }
+    }
+    return index + 1;
+}
+
+function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHidden,
+                         kladyZaporyInputHiddenMinuty, kladyZaporyInputHiddenSituace) {
     var existingDivs =
         document.querySelectorAll('#' + kladyZaporyDiv.id + ' > div');
 
     var selectedOption = select[select.selectedIndex].text;
     // Vytvoření nového divu
+    var divTextAndImage = document.createElement('div');
     var div = document.createElement('div');
-    div.id = typ + select[select.selectedIndex].value;
+    div.id = typ + select[select.selectedIndex].value + "_vlastnost";
     div.value = select.value;
     var myDiv = document.getElementById(div.id);
     var pridat = true;
+    var index = existingDivs.length + 1;
     if (myDiv != null) {
         div = myDiv;
         pridat = false;
+        index = Array.prototype.indexOf.call(kladyZaporyDiv.children, div) + 1;
     }
     if (jeKlad) {
-        div.textContent = '+ ' + selectedOption;
+        divTextAndImage.textContent = '+ ' + selectedOption;
         div.style.background = "lightgreen";
         div.style.color = "black";
         div.style.border = "2px solid black"
     } else {
-        div.textContent = '- ' + selectedOption;
+        divTextAndImage.textContent = '- ' + selectedOption;
         div.style.background = "red";
         div.style.color = "white";
         div.style.border = "2px solid white"
@@ -308,8 +416,8 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHi
     div.style.paddingRight = "5px";
     div.style.margin = "10px";
     div.style.borderRadius = "25px";
-    div.style.justifyContent = "space-between";
-    div.style.display = "flex";
+    divTextAndImage.style.justifyContent = "space-between";
+    divTextAndImage.style.display = "flex";
     div.style.textAlign = "left";
     // Přidání divu pod element Select
     vypisDoInputuVlastnosti(select, jeKlad, existingDivs, kladyZaporyInputHidden);
@@ -331,20 +439,56 @@ function pridejVlastnost(jeKlad, select, kladyZaporyDiv, typ, kladyZaporyInputHi
         img.src = '/css/img/remove_icon.png';
     });
 
-    img.addEventListener('click', function (event) {
-        const idVlastnost = div.id.replace(/\D/g, '');
-        kladyZaporyDiv.removeChild(div);
-        odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden);
-    });
-
-    div.appendChild(img);
+    divTextAndImage.appendChild(img);
     if (pridat) {
-        kladyZaporyDiv.appendChild(div);
-    }
+        var divMinutaPopis = document.createElement('div');
+        divMinutaPopis.style.justifyContent = "space-between";
+        divMinutaPopis.style.display = "flex";
+        const minutaInput = document.createElement('input');
+        minutaInput.style.width = '50px';
+        minutaInput.style.height = '20px';
+        minutaInput.style.margin = 'auto';
+        minutaInput.placeholder = 'Minuta/y';
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = 'Popis situací...';
 
+        textarea.style.width = '100%';
+        textarea.style.margin = '10px';
+        textarea.style.maxWidth = '320px';
+        textarea.style.minWidth = '320px';
+        textarea.style.height = '50px';
+        textarea.style.minHeight = '40px';
+        divMinutaPopis.appendChild(minutaInput);
+        divMinutaPopis.appendChild(textarea);
+        div.appendChild(divTextAndImage);
+        div.appendChild(divMinutaPopis);
+        kladyZaporyDiv.appendChild(div);
+        minutaInput.addEventListener('input', function(event) {
+            index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+            var kladyZaporyInputHiddenMinutyIndex =
+                document.getElementById(kladyZaporyInputHiddenMinuty + index);
+            console.log(kladyZaporyInputHiddenMinuty + index);
+            kladyZaporyInputHiddenMinutyIndex.value = minutaInput.value;
+        });
+        textarea.addEventListener('input', function(event) {
+            index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+            var kladyZaporyInputHiddenSituaceIndex =
+                document.getElementById(kladyZaporyInputHiddenSituace + index);
+            console.log(kladyZaporyInputHiddenSituace + index);
+            kladyZaporyInputHiddenSituaceIndex.value = textarea.value;
+        });
+        img.addEventListener('click', function (event) {
+            const idVlastnost = div.id.replace(/\D/g, '');
+            index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+            kladyZaporyDiv.removeChild(div);
+            odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden, kladyZaporyInputHiddenMinuty,
+                kladyZaporyInputHiddenSituace, index);
+        });
+    }
 }
 
-function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInputHidden) {
+function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInputHidden,
+                                    kladyZaporyInputHiddenMinuty, kladyZaporyInputHiddenSituace) {
     // Rozdělíme vstupní řetězec podle čárky
     const inputVal = kladyZaporyInputHidden.value;
     let pridaneDivySoucet = 0;
@@ -362,8 +506,9 @@ function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInpu
         if (idVlastnost.length === 0 || isNaN(idVlastnost)) {
             continue;
         }
+        var divTextAndImage = document.createElement('div');
         let div = document.createElement('div');
-        div.id = typ + idVlastnost;
+        div.id = typ + idVlastnost + "_vlastnost";
         div.value = idVlastnost;
         let textContent = "";
         // Projdeme všechny <option> elementy v <select>
@@ -375,12 +520,12 @@ function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInpu
             }
         }
         if (jeKlad) {
-            div.textContent = '+ ' + textContent;
+            divTextAndImage.textContent = '+ ' + textContent;
             div.style.background = "lightgreen";
             div.style.color = "black";
             div.style.border = "2px solid black"
         } else {
-            div.textContent = '- ' + textContent;
+            divTextAndImage.textContent = '- ' + textContent;
             div.style.background = "red";
             div.style.color = "white";
             div.style.border = "2px solid white"
@@ -390,8 +535,8 @@ function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInpu
         div.style.paddingRight = "5px";
         div.style.margin = "10px";
         div.style.borderRadius = "25px";
-        div.style.justifyContent = "space-between";
-        div.style.display = "flex";
+        divTextAndImage.style.justifyContent = "space-between";
+        divTextAndImage.style.display = "flex";
         div.style.textAlign = "left";
         // Vytvoření obrázku
         const img = document.createElement('img');
@@ -408,19 +553,67 @@ function vytvorDivyPodleDatvVInputu(select, typ, kladyZaporyDiv, kladyZaporyInpu
             img.src = '/css/img/remove_icon.png';
         });
 
-        img.addEventListener('click', function (event) {
-
-            const idVlastnost = div.id.replace(/\D/g, '');
-            kladyZaporyDiv.removeChild(div);
-            odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden);
-        });
-
-
         pridaneDivySoucet++;
+
+        var divMinutaPopis = document.createElement('div');
+        divMinutaPopis.style.justifyContent = "space-between";
+        divMinutaPopis.style.display = "flex";
+        const minutaInput = document.createElement('input');
+        minutaInput.style.width = '50px';
+        minutaInput.style.height = '20px';
+        minutaInput.style.margin = 'auto';
+        minutaInput.placeholder = 'Minuta/y';
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = 'Popis situací...';
+
+        textarea.style.width = '100%';
+        textarea.style.margin = '10px';
+        textarea.style.maxWidth = '320px';
+        textarea.style.minWidth = '320px';
+        textarea.style.height = '50px';
+        textarea.style.minHeight = '40px';
+        divMinutaPopis.appendChild(minutaInput);
+        divMinutaPopis.appendChild(textarea);
+        textarea.readOnly = true;
+        minutaInput.readOnly = true;
+        var jeEditovatelny = false;
         if(document.title === 'SKFS – nový posudek'){
-            div.appendChild(img);
+            divTextAndImage.appendChild(img);
+            textarea.readOnly = false;
+            minutaInput.readOnly = false;
+            jeEditovatelny = true;
         }
+        div.appendChild(divTextAndImage);
+        div.appendChild(divMinutaPopis);
         kladyZaporyDiv.appendChild(div);
+        var index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+        var kladyZaporyInputHiddenMinutyIndex =
+            document.getElementById(kladyZaporyInputHiddenMinuty + index);
+        minutaInput.value = kladyZaporyInputHiddenMinutyIndex.value;
+        var kladyZaporyInputHiddenSituaceIndex =
+            document.getElementById(kladyZaporyInputHiddenSituace + index);
+        textarea.value = kladyZaporyInputHiddenSituaceIndex.value;
+        if(jeEditovatelny){
+            minutaInput.addEventListener('input', function(event) {
+                var index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+                var kladyZaporyInputHiddenMinutyIndex =
+                    document.getElementById(kladyZaporyInputHiddenMinuty + index);
+                kladyZaporyInputHiddenMinutyIndex.value = minutaInput.value;
+            });
+            textarea.addEventListener('input', function(event) {
+                var index = zjistiIndexDivuMeziPotomkySIdVlastnost(kladyZaporyDiv, div);
+                var kladyZaporyInputHiddenSituaceIndex =
+                    document.getElementById(kladyZaporyInputHiddenSituace + index);
+                kladyZaporyInputHiddenSituaceIndex.value = textarea.value;
+            });
+        }
+
+        img.addEventListener('click', function (event) {
+            const idVlastnost = div.id.replace(/\D/g, '');
+            var index = Array.prototype.indexOf.call(kladyZaporyDiv.children, div) + 1;
+            kladyZaporyDiv.removeChild(div);
+            odstranZInputuVlastnost(idVlastnost, jeKlad, kladyZaporyInputHidden, index);
+        });
         if (pridaneDivySoucet >= 5) {
             return;
         }

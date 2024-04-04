@@ -21,13 +21,21 @@ public class HodnoceniVlastnost {
     @Column(name = "idClen")
     public int idClen;
 
+    @Column(name = "minuta")
+    public String minuta;
+
+    @Column(name = "situace")
+    public String situace;
+
     public HodnoceniVlastnost(){
 
     }
-    public HodnoceniVlastnost(int idPopis, int idVlastnost, int typ) {
+    public HodnoceniVlastnost(int idPopis, int idVlastnost, int typ, String minuta, String situace) {
         this.idPopis = idPopis;
         this.idVlastnost = idVlastnost;
         this.typ = typ;
+        this.minuta = minuta;
+        this.situace = situace;
     }
 
     public int getId() {
@@ -69,5 +77,21 @@ public class HodnoceniVlastnost {
 
     public void setIdClen(int idClen) {
         this.idClen = idClen;
+    }
+
+    public String getMinuta() {
+        return minuta;
+    }
+
+    public void setMinuta(String minuta) {
+        this.minuta = minuta;
+    }
+
+    public String getSituace() {
+        return situace;
+    }
+
+    public void setSituace(String situace) {
+        this.situace = situace;
     }
 }

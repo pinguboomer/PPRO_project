@@ -444,3 +444,6 @@ table select{
     cursor: pointer;
     color: yellow;
 }
+.ostatniDiv:hover {
+    background-color: grey;
+}

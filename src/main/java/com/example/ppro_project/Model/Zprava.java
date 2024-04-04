@@ -38,6 +38,27 @@ public class Zprava {
     @Column(name = "polocas")
     public String polocas = "0:0";
 
+    @Column(name = "pk")
+    public boolean pk;
+    @Column(name = "ck")
+    public boolean ck;
+    @Column(name = "zaznam")
+    public boolean zaznam;
+    @Column(name = "poradatele")
+    public boolean poradatele;
+    @Column(name = "stk")
+    public boolean stk;
+    @Column(name = "dk")
+    public boolean dk;
+
+    @Column(name = "kr")
+    public boolean kr;
+    @Column(name = "divaci")
+    public boolean divaci;
+    @Column(name = "zraneni")
+    public boolean zraneni;
+    @Column(name = "konfrontace")
+    public boolean konfrontace;
 
     @Transient
     public int nastaveniPrvniPolocas = 0;
@@ -181,5 +202,85 @@ public class Zprava {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isPk() {
+        return pk;
+    }
+
+    public void setPk(boolean pk) {
+        this.pk = pk;
+    }
+
+    public boolean isCk() {
+        return ck;
+    }
+
+    public void setCk(boolean ck) {
+        this.ck = ck;
+    }
+
+    public boolean isZaznam() {
+        return zaznam;
+    }
+
+    public void setZaznam(boolean zaznam) {
+        this.zaznam = zaznam;
+    }
+
+    public boolean isPoradatele() {
+        return poradatele;
+    }
+
+    public void setPoradatele(boolean poradatele) {
+        this.poradatele = poradatele;
+    }
+
+    public boolean isStk() {
+        return stk;
+    }
+
+    public void setStk(boolean stk) {
+        this.stk = stk;
+    }
+
+    public boolean isDk() {
+        return dk;
+    }
+
+    public void setDk(boolean dk) {
+        this.dk = dk;
+    }
+
+    public boolean isKr() {
+        return kr;
+    }
+
+    public void setKr(boolean kr) {
+        this.kr = kr;
+    }
+
+    public boolean isDivaci() {
+        return divaci;
+    }
+
+    public void setDivaci(boolean divaci) {
+        this.divaci = divaci;
+    }
+
+    public boolean isZraneni() {
+        return zraneni;
+    }
+
+    public void setZraneni(boolean zraneni) {
+        this.zraneni = zraneni;
+    }
+
+    public boolean isKonfrontace() {
+        return konfrontace;
+    }
+
+    public void setKonfrontace(boolean konfrontace) {
+        this.konfrontace = konfrontace;
     }
 }
