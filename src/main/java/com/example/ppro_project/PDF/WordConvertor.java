@@ -4,6 +4,10 @@ import com.example.ppro_project.Model.Clen;
 import com.example.ppro_project.Model.HodnoceniPopis;
 import com.example.ppro_project.Model.Vlastnost;
 import org.apache.poi.xwpf.usermodel.*;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -30,26 +34,20 @@ public class WordConvertor {
     public static List<Vlastnost> vlastnostAR1Minus;
     public static List<Vlastnost> vlastnostAR2Plus;
     public static List<Vlastnost> vlastnostAR2Minus;
-    public static List<String> minuty;
-    public static List<String> situace;
-    public static String ostatniText;
 
     private static XWPFDocument getDocument() throws IOException {
         XWPFDocument doc = new XWPFDocument(
                 new FileInputStream(
-                        "C:\\Users\\fanda\\IdeaProjects\\PPRO_project\\src\\main\\resources\\static\\word\\zprava_template.docx"));
+                        "C:\\Users\\fanda\\IdeaProjects\\PPRO_project\\src\\main\\resources\\static\\word\\word_template.docx"));
         return doc;
     }
 
     public static XWPFDocument printParts() throws IOException {
         dekodujCleny();
         dekodujVlastnosti();
-        dekodujOstatni();
         XWPFDocument doc = getDocument();
         List<IBodyElement> bodyElements = doc.getBodyElements();
         String aktualniTypR = "";
-        nastavRadkySituace(bodyElements);
-        bodyElements = doc.getBodyElements();
         for (IBodyElement bodyElement : bodyElements) {
             if (bodyElement instanceof XWPFTable) {
                 XWPFTable table = (XWPFTable) bodyElement;
@@ -59,15 +57,14 @@ public class WordConvertor {
                     int indexCells = 0;
 
                     for (XWPFTableCell tableCell : tableCells) {
-                        System.out.println("recurs text cell PRED: {} " + tableCell.getText());
                         if (tableCell.getText().contains("_text")) {
                             prepisTableCell(tableCell);
+                        } else if (tableCell.getText().contains("ROZHODČÍ")) {
+                            aktualniTypR = R;
                         } else if (tableCell.getText().contains("ASISTENT ROZHODČÍHO 1")) {
                             aktualniTypR = AR1;
                         } else if (tableCell.getText().contains("ASISTENT ROZHODČÍHO 2")) {
                             aktualniTypR = AR2;
-                        } else if (tableCell.getText().contains("ROZHODČÍ")) {
-                            aktualniTypR = R;
                         }
                         System.out.println("recurs text cell: {} " + tableCell.getText());
                         dekodujZnamku(tableCells, indexCells, tableCell, aktualniTypR);
@@ -78,78 +75,13 @@ public class WordConvertor {
                 XWPFParagraph paragraph = (XWPFParagraph) bodyElement;
                 System.out.println("paragraph " + paragraph.getText());
                 if (paragraph.getText().contains("jmeno_prijmeni_dfa_text")) {
-                    for (int i = paragraph.getRuns().size() - 1; i >= 0; i--) {
-                        paragraph.removeRun(i);
-                    }
-                    XWPFRun newRun = paragraph.createRun();
-                    newRun.setText(dfa.jmeno + " " + dfa.prijmeni);
+
+                    //tableCell.setText(dfa.jmeno + " " + dfa.prijmeni);
                 }
             }
         }
         return doc;
         //saveDocument(doc);
-    }
-
-    private static void dekodujOstatni() {
-        ostatniText = "";
-        if(kompletniZprava.hodnoceniR != null && kompletniZprava.hodnoceniR.hodnoceniPopisList != null){
-            if(kompletniZprava.hodnoceniR.hodnoceniPopisList.length > 5 &&
-                    kompletniZprava.hodnoceniR.hodnoceniPopisList[5].popis.length() > 0){
-                ostatniText = "Pořadatelé: " + kompletniZprava.hodnoceniR.hodnoceniPopisList[5].popis;
-            }
-            if(kompletniZprava.hodnoceniR.hodnoceniPopisList.length > 6 &&
-                    kompletniZprava.hodnoceniR.hodnoceniPopisList[6].popis.length() > 0){
-                ostatniText += "\nDiváci: " + kompletniZprava.hodnoceniR.hodnoceniPopisList[6].popis;
-            }
-            if(kompletniZprava.hodnoceniR.hodnoceniPopisList.length > 7 &&
-                    kompletniZprava.hodnoceniR.hodnoceniPopisList[7].popis.length() > 0){
-                ostatniText += "\nJiné: " + kompletniZprava.hodnoceniR.hodnoceniPopisList[7].popis;
-            }
-        }
-    }
-
-    private static void nastavRadkySituace(List<IBodyElement> bodyElements) {
-        if (situace.size() > 4) {
-            for (IBodyElement bodyElement : bodyElements) {
-                if (bodyElement instanceof XWPFTable) {
-                    XWPFTable table = (XWPFTable) bodyElement;
-                    List<XWPFTableRow> rows = table.getRows();
-                    boolean spravnaTable = false;
-                    for (XWPFTableRow row : rows) {
-                        List<XWPFTableCell> tableCells = row.getTableCells();
-
-                        for (XWPFTableCell tableCell : tableCells) {
-                            if (tableCell.getText().contains("situace_5_text")) {
-                                spravnaTable = true;
-                            }
-                        }
-                    }
-                    if (spravnaTable) {
-                        for (int i = 4; i < situace.size(); i++) {
-                            if (i == 4) {
-                                XWPFTableRow row = table.getRow(table.getRows().size() - 1);
-                                XWPFTableCell cellMinuta = row.getCell(0);
-                                XWPFTableCell cellSituace = row.getCell(1);
-                                cellMinuta.setText(minuty.get(i));
-                                cellSituace.setText(situace.get(i));
-                                continue;
-                            }
-                            table.addRow(table.getRow(table.getRows().size() - 1),
-                                    table.getRows().size() - 1);
-                            XWPFTableRow row = table.getRow(table.getRows().size() - 1);
-                            XWPFTableCell cellMinuta = row.getCell(0);
-                            XWPFTableCell cellSituace = row.getCell(1);
-                            if (cellMinuta != null && cellSituace != null) {
-                                cellMinuta.setText(minuty.get(i));
-                                cellSituace.setText(situace.get(i));
-                            }
-
-                        }
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     private static void dekodujZnamku(List<XWPFTableCell> tableCells,
@@ -208,60 +140,6 @@ public class WordConvertor {
         vlastnostAR1Minus = dekodujVlastnostiHodnoceni(kompletniZprava.hodnoceniAR1.hodnoceniPopisList, MINUS);
         vlastnostAR2Plus = dekodujVlastnostiHodnoceni(kompletniZprava.hodnoceniAR2.hodnoceniPopisList, PLUS);
         vlastnostAR2Minus = dekodujVlastnostiHodnoceni(kompletniZprava.hodnoceniAR2.hodnoceniPopisList, MINUS);
-        dekodujMinutyASituace();
-    }
-
-    private static void dekodujMinutyASituace() {
-        minuty = new ArrayList<>();
-        situace = new ArrayList<>();
-        for (int i = 0; i < kompletniZprava.hodnoceniR.hodnoceniPopisList.length; i++) {
-            if (kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray == null) {
-                continue;
-            }
-            for (int j = 0; j
-                    < kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray.length; j++) {
-                String minuta =
-                        kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].minuta;
-                String situaceStr =
-                        kompletniZprava.hodnoceniR.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].situace;
-                if (situaceStr != null && situaceStr.length() > 0) {
-                    minuty.add(minuta);
-                    situace.add(situaceStr);
-                }
-            }
-        }
-        for (int i = 0; i < kompletniZprava.hodnoceniAR1.hodnoceniPopisList.length; i++) {
-            if (kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray == null) {
-                continue;
-            }
-            for (int j = 0; j
-                    < kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray.length; j++) {
-                String minuta =
-                        kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].minuta;
-                String situaceStr =
-                        kompletniZprava.hodnoceniAR1.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].situace;
-                if (situaceStr != null && situaceStr.length() > 0) {
-                    minuty.add(minuta);
-                    situace.add(situaceStr);
-                }
-            }
-        }
-        for (int i = 0; i < kompletniZprava.hodnoceniAR2.hodnoceniPopisList.length; i++) {
-            if (kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray == null) {
-                continue;
-            }
-            for (int j = 0; j
-                    < kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray.length; j++) {
-                String minuta =
-                        kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].minuta;
-                String situaceStr =
-                        kompletniZprava.hodnoceniAR2.hodnoceniPopisList[i].hodnoceniVlastnostArray[j].situace;
-                if (situaceStr != null && situaceStr.length() > 0) {
-                    minuty.add(minuta);
-                    situace.add(situaceStr);
-                }
-            }
-        }
     }
 
     private static List<Vlastnost> dekodujVlastnostiHodnoceni(HodnoceniPopis[] hodnoceniPopisList,
@@ -305,19 +183,13 @@ public class WordConvertor {
 
     private static void prepisTableCell(XWPFTableCell tableCell) {
         if (tableCell.getText().contains("kolo_text")) {
-            tableCell.setText((kompletniZprava.utkani.kolo) + ".");
+            tableCell.setText(String.valueOf(kompletniZprava.utkani.kolo));
         } else if (tableCell.getText().contains("zacatek_utkani_text")) {
             tableCell.setText(kompletniZprava.utkani.datum.getHours()
                     + ":" + kompletniZprava.utkani.minutyDvojciferne());
-        } else if (tableCell.getText().contains("soutez_text")) {
-            tableCell.setText(kompletniZprava.soutez.soutez);
-        } else if (tableCell.getText().contains("datum_text")) {
-            tableCell.setText(kompletniZprava.utkani.datum.getDay()
-                    + ". " + kompletniZprava.utkani.datum.getMonth() + ". " +
-                    (kompletniZprava.utkani.datum.getYear() + 1900));
         } else if (tableCell.getText().contains("idutkani_text")) {
             tableCell.setText(kompletniZprava.utkani.idUtkani);
-        } else if (tableCell.getText().contains("doba_hry_text")) {
+        } else if (tableCell.getText().contains("doba_hry_1_text")) {
             tableCell.setText(kompletniZprava.zprava.dobaHryPrvniPolocas
                     + "/" + kompletniZprava.zprava.dobaHryDruhyPolocas);
         } else if (tableCell.getText().contains("doba_hry_2_text")) {
@@ -336,37 +208,6 @@ public class WordConvertor {
             tableCell.setText(r.jmeno);
         } else if (tableCell.getText().contains("idfacr_r_text")) {
             tableCell.setText(r.idFacr);
-        } else if (tableCell.getText().contains("znamka_r_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniR.znamka);
-        } else if (tableCell.getText().contains("znamka_r_2_text")) {
-            if (kompletniZprava.hodnoceniR.znamka2 != null) {
-                tableCell.setText(kompletniZprava.hodnoceniR.znamka2);
-            } else {
-                tableCell.setText("");
-            }
-        } else if (tableCell.getText().contains("obtiznost_r_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniR.obtiznost);
-        } else if (tableCell.getText().contains("znamka_ar1_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniAR1.znamka);
-        } else if (tableCell.getText().contains("znamka_ar1_2_text")) {
-            if (kompletniZprava.hodnoceniAR1.znamka2 != null) {
-                tableCell.setText(kompletniZprava.hodnoceniAR1.znamka2);
-            } else {
-                tableCell.setText("");
-            }
-        } else if (tableCell.getText().contains("obtiznost_ar1_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniAR1.obtiznost);
-        } else if (tableCell.getText().contains("znamka_ar2_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniAR2.znamka);
-        } else if (tableCell.getText().contains("znamka_ar2_2_text")) {
-            if (kompletniZprava.hodnoceniAR2.znamka2 != null) {
-                tableCell.setText(kompletniZprava.hodnoceniAR2.znamka2);
-            } else {
-                tableCell.setText("");
-            }
-        } else if (tableCell.getText().contains("obtiznost_ar2_text")) {
-            tableCell.setText(kompletniZprava.hodnoceniAR2.obtiznost);
-
         } else if (tableCell.getText().contains("prijmeni_ar1_text")) {
             tableCell.setText(ar1.prijmeni);
         } else if (tableCell.getText().contains("jmeno_ar1_text")) {
@@ -419,131 +260,6 @@ public class WordConvertor {
             vyplnVlastnostToCell(tableCell, vlastnostAR2Minus, 1, AR2);
         } else if (tableCell.getText().contains("vlastnosti_ar2_minus_dalsi_text")) {
             vyplnVlastnostToCell(tableCell, vlastnostAR2Minus, 2, AR2);
-        } else if (tableCell.getText().contains("minuta_1_text")) {
-            String minuta = "";
-            if (situace.size() > 0) {
-                minuta = minuty.get(0);
-            }
-            tableCell.setText(minuta);
-        } else if (tableCell.getText().contains("situace_1_text")) {
-            String situaceStr = "";
-            if (situace.size() > 0) {
-                situaceStr = situace.get(0);
-            }
-            tableCell.setText(situaceStr);
-        } else if (tableCell.getText().contains("minuta_2_text")) {
-            String minuta = "";
-            if (situace.size() > 1) {
-                minuta = minuty.get(1);
-            }
-            tableCell.setText(minuta);
-        } else if (tableCell.getText().contains("situace_2_text")) {
-            String situaceStr = "";
-            if (situace.size() > 1) {
-                situaceStr = situace.get(1);
-            }
-            tableCell.setText(situaceStr);
-        } else if (tableCell.getText().contains("minuta_3_text")) {
-            String minuta = "";
-            if (situace.size() > 2) {
-                minuta = minuty.get(2);
-            }
-            tableCell.setText(minuta);
-        } else if (tableCell.getText().contains("situace_3_text")) {
-            String situaceStr = "";
-            if (situace.size() > 2) {
-                situaceStr = situace.get(2);
-            }
-            tableCell.setText(situaceStr);
-        } else if (tableCell.getText().contains("minuta_4_text")) {
-            String minuta = "";
-            if (situace.size() > 3) {
-                minuta = minuty.get(3);
-            }
-            tableCell.setText(minuta);
-        } else if (tableCell.getText().contains("situace_4_text")) {
-            String situaceStr = "";
-            if (situace.size() > 3) {
-                situaceStr = situace.get(3);
-            }
-            tableCell.setText(situaceStr);
-        }else if (tableCell.getText().contains("minuta_5_text")) {
-            String minuta = "";
-            if (situace.size() > 4) {
-                minuta = minuty.get(4);
-            }
-            tableCell.setText(minuta);
-        } else if (tableCell.getText().contains("situace_5_text")) {
-            String situaceStr = "";
-            if (situace.size() > 4) {
-                situaceStr = situace.get(4);
-            }
-            tableCell.setText(situaceStr);
-        }
-        else if (tableCell.getText().contains("pk_text")) {
-            String temp = "NE";
-            if (kompletniZprava.zprava.pk) {
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        }
-        else if (tableCell.getText().contains("ck_text")) {
-            String temp = "NE";
-            if (kompletniZprava.zprava.ck) {
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        }
-        else if (tableCell.getText().contains("zaznam_text")) {
-            String temp = "NE";
-            if (kompletniZprava.zprava.zaznam) {
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("poradatele_text")) {
-            String temp = "NE";
-            if (kompletniZprava.zprava.poradatele) {
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("stk_text")) {
-            String temp = "NE";
-            if(kompletniZprava.zprava.stk){
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("dk_text")) {
-            String temp = "NE";
-            if(kompletniZprava.zprava.dk){
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("kr_text")) {
-            String temp = "NE";
-            if(kompletniZprava.zprava.kr){
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("divaci_text")) {
-            String temp = "NE";
-            if(kompletniZprava.zprava.divaci){
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("zraneni_text")) {
-            String temp = "NE";
-            if(kompletniZprava.zprava.zraneni){
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("konfrontace_text")) {
-            String temp = "NE";
-            if (kompletniZprava.zprava.konfrontace) {
-                temp = "ANO";
-            }
-            tableCell.setText(temp);
-        } else if (tableCell.getText().contains("ostatni_text")) {
-            tableCell.setText(ostatniText);
         }
     }
 
